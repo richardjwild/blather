@@ -22,6 +22,7 @@ public class BlatherApplicationShould {
     private Output output;
 
     private CommandReader commandReader = new CommandReader();
+    private AppController appController = new AppController();
 
     @Test
     public void display_a_users_posted_messages() {
@@ -30,7 +31,7 @@ public class BlatherApplicationShould {
                 .thenReturn("Alice")
                 .thenReturn("Quit");
 
-        Blather blather = new Blather(commandReader);
+        Blather blather = new Blather(appController, commandReader);
         blather.eventLoop();
 
         InOrder inOrder = inOrder(output);

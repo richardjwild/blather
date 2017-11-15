@@ -5,9 +5,11 @@ import com.github.richardjwild.blather.io.CommandReader;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -18,22 +20,35 @@ public class BlatherShould {
     private CommandReader commandReader;
 
     @Mock
-    private Command command;
+    private Command command1, command2, command3;
+
+    @Mock
+    private AppController appController;
 
     private Blather blather;
 
     @Before
     public void initialize() {
-        blather = new Blather(commandReader);
+        blather = new Blather(appController, commandReader);
     }
 
     @Test
-    public void execute_the_next_command() {
-        when(commandReader.readNextCommand()).thenReturn(command);
+    public void execute_commands_until_it_receives_the_quit_command() {
+        when(commandReader.readNextCommand())
+                .thenReturn(command1)
+                .thenReturn(command2)
+                .thenReturn(command3);
+        when(appController.applicationState())
+                .thenReturn(ApplicationState.RUNNING)
+                .thenReturn(ApplicationState.RUNNING)
+                .thenReturn(ApplicationState.STOPPED);
 
         blather.eventLoop();
 
-        verify(command).execute();
+        InOrder inOrder = inOrder(command1, command2, command3);
+        inOrder.verify(command1).execute();
+        inOrder.verify(command2).execute();
+        inOrder.verify(command3).execute();
     }
 
 }
