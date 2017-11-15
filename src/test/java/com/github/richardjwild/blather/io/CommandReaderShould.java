@@ -18,8 +18,8 @@ import static org.mockito.Mockito.when;
 public class CommandReaderShould {
 
     private static final String INPUT_LINE = "input line of text";
-    private static final User RECIPIENT = new User();
     private static final String MESSAGE = "message";
+    private static final User RECIPIENT = new User(), SUBJECT = new User();
 
     @Mock
     private CommandFactory commandFactory;
@@ -29,6 +29,9 @@ public class CommandReaderShould {
 
     @Mock
     private InputParser inputParser;
+
+    @Mock
+    private Command command;
 
     private CommandReader commandReader;
 
@@ -41,12 +44,11 @@ public class CommandReaderShould {
     @Test
     public void read_a_quit_command() {
         when(inputParser.readVerb(INPUT_LINE)).thenReturn(BlatherVerb.QUIT);
-        Command quitCommand = new QuitCommand();
-        when(commandFactory.makeQuitCommand()).thenReturn(quitCommand);
+        when(commandFactory.makeQuitCommand()).thenReturn(command);
 
         Command actualCommand = commandReader.readNextCommand();
 
-        assertThat(actualCommand).isSameAs(quitCommand);
+        assertThat(actualCommand).isSameAs(command);
     }
 
     @Test
@@ -54,12 +56,22 @@ public class CommandReaderShould {
         when(inputParser.readVerb(INPUT_LINE)).thenReturn(BlatherVerb.POST);
         when(inputParser.readRecipient(INPUT_LINE)).thenReturn(RECIPIENT);
         when(inputParser.readMessage(INPUT_LINE)).thenReturn(MESSAGE);
-        PostCommand postCommand = new PostCommand();
-        when(commandFactory.makePostCommand(RECIPIENT, MESSAGE)).thenReturn(postCommand);
+        when(commandFactory.makePostCommand(RECIPIENT, MESSAGE)).thenReturn(command);
 
         Command actualCommand = commandReader.readNextCommand();
 
-        assertThat(actualCommand).isSameAs(postCommand);
+        assertThat(actualCommand).isSameAs(command);
+    }
+
+    @Test
+    public void read_a_read_command() {
+        when(inputParser.readVerb(INPUT_LINE)).thenReturn(BlatherVerb.READ);
+        when(inputParser.readSubject(INPUT_LINE)).thenReturn(SUBJECT);
+        when(commandFactory.makeReadCommand(SUBJECT)).thenReturn(command);
+
+        Command actualCommand = commandReader.readNextCommand();
+
+        assertThat(actualCommand).isSameAs(command);
     }
 
 }

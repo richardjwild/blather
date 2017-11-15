@@ -10,4 +10,8 @@ public class CommandFactory {
     public Command makePostCommand(User recipient, String message) {
         return null;
     }
+
+    public Command makeReadCommand(User subject) {
+        return null;
+    }
 }

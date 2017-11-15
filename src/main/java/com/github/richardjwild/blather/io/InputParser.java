@@ -15,4 +15,8 @@ public class InputParser {
     public String readMessage(String inputLine) {
         return null;
     }
+
+    public User readSubject(String inputLine) {
+        return null;
+    }
 }

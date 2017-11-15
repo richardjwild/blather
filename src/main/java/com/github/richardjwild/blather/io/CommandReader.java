@@ -21,6 +21,8 @@ public class CommandReader {
         switch (inputParser.readVerb(inputLine)) {
             case POST:
                 return makePostCommand(inputLine);
+            case READ:
+                return makeReadCommand(inputLine);
             default:
                 return commandFactory.makeQuitCommand();
         }
@@ -30,5 +32,10 @@ public class CommandReader {
         User recipient = inputParser.readRecipient(inputLine);
         String message = inputParser.readMessage(inputLine);
         return commandFactory.makePostCommand(recipient, message);
+    }
+
+    private Command makeReadCommand(String inputLine) {
+        User subject = inputParser.readSubject(inputLine);
+        return commandFactory.makeReadCommand(subject);
     }
 }
