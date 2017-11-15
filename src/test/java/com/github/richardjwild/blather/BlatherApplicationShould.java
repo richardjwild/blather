@@ -1,7 +1,9 @@
 package com.github.richardjwild.blather;
 
+import com.github.richardjwild.blather.command.CommandFactory;
 import com.github.richardjwild.blather.io.CommandReader;
 import com.github.richardjwild.blather.io.Input;
+import com.github.richardjwild.blather.io.InputParser;
 import com.github.richardjwild.blather.io.Output;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,7 +23,9 @@ public class BlatherApplicationShould {
     @Mock
     private Output output;
 
-    private CommandReader commandReader = new CommandReader();
+    private InputParser inputParser = new InputParser();
+    private CommandFactory commandFactory = new CommandFactory();
+    private CommandReader commandReader = new CommandReader(input, inputParser, commandFactory);
     private AppController appController = new AppController();
 
     @Test
