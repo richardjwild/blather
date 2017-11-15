@@ -23,6 +23,8 @@ public class CommandReader {
                 return makePostCommand(inputLine);
             case READ:
                 return makeReadCommand(inputLine);
+            case FOLLOW:
+                return makeFollowCommand(inputLine);
             default:
                 return commandFactory.makeQuitCommand();
         }
@@ -37,5 +39,10 @@ public class CommandReader {
     private Command makeReadCommand(String inputLine) {
         User subject = inputParser.readSubject(inputLine);
         return commandFactory.makeReadCommand(subject);
+    }
+
+    private Command makeFollowCommand(String inputLine) {
+        User subject = inputParser.readFollowSubject(inputLine);
+        return commandFactory.makeFollowCommand(subject);
     }
 }

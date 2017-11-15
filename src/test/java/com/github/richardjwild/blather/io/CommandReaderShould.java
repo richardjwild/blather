@@ -74,4 +74,15 @@ public class CommandReaderShould {
         assertThat(actualCommand).isSameAs(command);
     }
 
+    @Test
+    public void read_a_follow_command() {
+        when(inputParser.readVerb(INPUT_LINE)).thenReturn(BlatherVerb.FOLLOW);
+        when(inputParser.readFollowSubject(INPUT_LINE)).thenReturn(SUBJECT);
+        when(commandFactory.makeFollowCommand(SUBJECT)).thenReturn(command);
+
+        Command actualCommand = commandReader.readNextCommand();
+
+        assertThat(actualCommand).isSameAs(command);
+    }
+
 }

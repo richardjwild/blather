@@ -19,4 +19,8 @@ public class InputParser {
     public User readSubject(String inputLine) {
         return null;
     }
+
+    public User readFollowSubject(String inputLine) {
+        return null;
+    }
 }

@@ -14,4 +14,8 @@ public class CommandFactory {
     public Command makeReadCommand(User subject) {
         return null;
     }
+
+    public Command makeFollowCommand(User subject) {
+        return null;
+    }
 }
