@@ -26,3 +26,5 @@ jobs:
           key: v1-dependencies-{{ checksum "build.gradle" }}
         
       - run: gradle test
+
+      - run: sh src/test/resources/test-end-to-end.sh
