@@ -2,6 +2,7 @@ package com.github.richardjwild.blather.io;
 
 import com.github.richardjwild.blather.command.Command;
 import com.github.richardjwild.blather.command.CommandFactory;
+import com.github.richardjwild.blather.user.User;
 
 public class CommandReader {
 
@@ -17,7 +18,17 @@ public class CommandReader {
 
     public Command readNextCommand() {
         String inputLine = input.readLine();
-        BlatherVerb verb = inputParser.readVerb(inputLine);
-        return commandFactory.makeQuitCommand();
+        switch (inputParser.readVerb(inputLine)) {
+            case POST:
+                return makePostCommand(inputLine);
+            default:
+                return commandFactory.makeQuitCommand();
+        }
+    }
+
+    private Command makePostCommand(String inputLine) {
+        User recipient = inputParser.readRecipient(inputLine);
+        String message = inputParser.readMessage(inputLine);
+        return commandFactory.makePostCommand(recipient, message);
     }
 }
