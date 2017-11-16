@@ -4,7 +4,7 @@ import com.github.richardjwild.blather.user.User;
 
 public class CommandFactory {
     public Command makeQuitCommand() {
-        return null;
+        return new QuitCommand();
     }
 
     public Command makePostCommand(User user, User recipient, String message) {
