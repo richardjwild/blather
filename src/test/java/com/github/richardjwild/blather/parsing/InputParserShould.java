@@ -64,12 +64,12 @@ public class InputParserShould {
     }
 
     @Test
-    public void read_a_follow_command_user() {
+    public void read_a_follow_command_actor() {
         String user = "a_user";
         String followCommand = format("%s follows subject", user);
         when(userRepository.findByName(user)).thenReturn(USER);
 
-        User actualUser = inputParser.commandActor(followCommand);
+        User actualUser = inputParser.followCommandActor(followCommand);
 
         assertThat(actualUser).isSameAs(USER);
     }

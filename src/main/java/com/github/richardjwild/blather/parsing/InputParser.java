@@ -30,6 +30,11 @@ public class InputParser {
         return userRepository.findByName(subject);
     }
 
+    User followCommandActor(String inputLine) {
+        String actor = deconstruct(inputLine).followActor;
+        return userRepository.findByName(actor);
+    }
+
     User followCommandSubject(String line) {
         String subject = deconstruct(line).followSubject;
         return userRepository.findByName(subject);
@@ -38,11 +43,6 @@ public class InputParser {
     User wallCommandSubject(String line) {
         String subject = deconstruct(line).wallSubject;
         return userRepository.findByName(subject);
-    }
-
-    User commandActor(String line) {
-        String actor = deconstruct(line).actor;
-        return userRepository.findByName(actor);
     }
 
     private InputCommand deconstruct(String line) {

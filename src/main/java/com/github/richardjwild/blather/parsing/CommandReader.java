@@ -40,20 +40,18 @@ public class CommandReader {
     }
 
     private Command makeReadCommand(String inputLine) {
-        User actor = inputParser.commandActor(inputLine);
         User subject = inputParser.readCommandSubject(inputLine);
-        return commandFactory.makeReadCommand(actor);
+        return commandFactory.makeReadCommand(subject);
     }
 
     private Command makeFollowCommand(String inputLine) {
-        User actor = inputParser.commandActor(inputLine);
+        User follower = inputParser.followCommandActor(inputLine);
         User subject = inputParser.followCommandSubject(inputLine);
-        return commandFactory.makeFollowCommand(actor, subject);
+        return commandFactory.makeFollowCommand(follower, subject);
     }
 
     private Command makeWallCommand(String inputLine) {
-        User actor = inputParser.commandActor(inputLine);
         User subject = inputParser.wallCommandSubject(inputLine);
-        return commandFactory.makeWallCommand(actor);
+        return commandFactory.makeWallCommand(subject);
     }
 }
