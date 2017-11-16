@@ -54,6 +54,6 @@ public class CommandReader {
     private Command makeWallCommand(String inputLine) {
         User actor = inputParser.commandActor(inputLine);
         User subject = inputParser.wallCommandSubject(inputLine);
-        return commandFactory.makeWallCommand(actor, subject);
+        return commandFactory.makeWallCommand(actor);
     }
 }

@@ -89,7 +89,7 @@ public class CommandReaderShould {
     public void read_a_wall_command() {
         when(inputParser.verb(INPUT_LINE)).thenReturn(BlatherVerb.WALL);
         when(inputParser.wallCommandSubject(INPUT_LINE)).thenReturn(SUBJECT);
-        when(commandFactory.makeWallCommand(USER, SUBJECT)).thenReturn(command);
+        when(commandFactory.makeWallCommand(USER)).thenReturn(command);
 
         Command actualCommand = commandReader.readNextCommand();
 

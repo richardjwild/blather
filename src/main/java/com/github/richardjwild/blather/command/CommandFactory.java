@@ -16,11 +16,11 @@ public class CommandFactory {
         return new ReadCommand(subject);
     }
 
-    public Command makeFollowCommand(User actor, User subject) {
-        return new FollowCommand(actor, subject);
+    public Command makeFollowCommand(User follower, User subject) {
+        return new FollowCommand(follower, subject);
     }
 
-    public Command makeWallCommand(User user, User subject) {
-        return null;
+    public Command makeWallCommand(User subject) {
+        return new WallCommand(subject);
     }
 }

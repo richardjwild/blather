@@ -5,13 +5,11 @@ import com.github.richardjwild.blather.datatransfer.User;
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
 
-public class FollowCommand implements Command {
+public class WallCommand implements Command {
 
-    private final User follower;
     private final User subject;
 
-    public FollowCommand(User follower, User subject) {
-        this.follower = follower;
+    public WallCommand(User subject) {
         this.subject = subject;
     }
 
