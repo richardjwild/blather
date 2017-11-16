@@ -9,7 +9,7 @@ public class QuitCommand implements Command {
 
     private final AppController appController;
 
-    public QuitCommand(AppController appController) {
+    QuitCommand(AppController appController) {
         this.appController = appController;
     }
 
