@@ -85,4 +85,15 @@ public class CommandReaderShould {
         assertThat(actualCommand).isSameAs(command);
     }
 
+    @Test
+    public void read_a_wall_command() {
+        when(inputParser.readVerb(INPUT_LINE)).thenReturn(BlatherVerb.WALL);
+        when(inputParser.readWallSubject(INPUT_LINE)).thenReturn(SUBJECT);
+        when(commandFactory.makeWallCommand(SUBJECT)).thenReturn(command);
+
+        Command actualCommand = commandReader.readNextCommand();
+
+        assertThat(actualCommand).isSameAs(command);
+    }
+
 }

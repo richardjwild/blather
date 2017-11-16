@@ -18,4 +18,8 @@ public class CommandFactory {
     public Command makeFollowCommand(User subject) {
         return null;
     }
+
+    public Command makeWallCommand(User subject) {
+        return null;
+    }
 }

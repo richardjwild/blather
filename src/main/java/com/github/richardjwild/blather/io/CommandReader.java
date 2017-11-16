@@ -25,6 +25,8 @@ public class CommandReader {
                 return makeReadCommand(inputLine);
             case FOLLOW:
                 return makeFollowCommand(inputLine);
+            case WALL:
+                return makeWallCommand(inputLine);
             default:
                 return commandFactory.makeQuitCommand();
         }
@@ -44,5 +46,10 @@ public class CommandReader {
     private Command makeFollowCommand(String inputLine) {
         User subject = inputParser.readFollowSubject(inputLine);
         return commandFactory.makeFollowCommand(subject);
+    }
+
+    private Command makeWallCommand(String inputLine) {
+        User subject = inputParser.readWallSubject(inputLine);
+        return commandFactory.makeWallCommand(subject);
     }
 }

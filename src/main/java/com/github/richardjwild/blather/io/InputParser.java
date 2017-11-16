@@ -23,4 +23,8 @@ public class InputParser {
     public User readFollowSubject(String inputLine) {
         return null;
     }
+
+    public User readWallSubject(String inputLine) {
+        return null;
+    }
 }

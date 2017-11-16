@@ -1,5 +1,5 @@
 package com.github.richardjwild.blather.io;
 
 public enum BlatherVerb {
-    POST, READ, FOLLOW, QUIT
+    POST, READ, FOLLOW, WALL, QUIT
 }
