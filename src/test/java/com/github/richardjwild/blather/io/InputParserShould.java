@@ -31,7 +31,7 @@ public class InputParserShould {
 
     @Test
     public void reads_a_read_command_verb() {
-        String subject = "nameofperson";
+        String subject = "subject_to_read";
         String readCommand = format("%s", subject);
 
         BlatherVerb verb = inputParser.readVerb(readCommand);
@@ -41,7 +41,7 @@ public class InputParserShould {
 
     @Test
     public void read_a_read_command_subject() {
-        String subject = "nameofperson";
+        String subject = "subject_to_read";
         String readCommand = format("%s", subject);
         when(userRepository.findByName(subject)).thenReturn(SUBJECT);
 
@@ -52,7 +52,7 @@ public class InputParserShould {
 
     @Test
     public void read_a_follow_command_verb() {
-        String followCommand = "someone follows someoneelse";
+        String followCommand = "user follows subject";
 
         BlatherVerb verb = inputParser.readVerb(followCommand);
 
@@ -61,8 +61,8 @@ public class InputParserShould {
 
     @Test
     public void read_a_follow_command_user() {
-        String user = "user";
-        String followCommand = format("%s follows someoneelse", user);
+        String user = "a_user";
+        String followCommand = format("%s follows subject", user);
         when(userRepository.findByName(user)).thenReturn(USER);
 
         User actualUser = inputParser.readUser(followCommand);
@@ -72,8 +72,8 @@ public class InputParserShould {
 
     @Test
     public void read_a_follow_command_subject() {
-        String subject = "subject";
-        String followCommand = format("someone follows %s", subject);
+        String subject = "a_subject";
+        String followCommand = format("user follows %s", subject);
         when(userRepository.findByName(subject)).thenReturn(SUBJECT);
 
         User actualSubject = inputParser.readFollowSubject(followCommand);
