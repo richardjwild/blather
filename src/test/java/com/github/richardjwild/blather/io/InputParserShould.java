@@ -10,6 +10,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import static com.github.richardjwild.blather.io.BlatherVerb.FOLLOW;
 import static com.github.richardjwild.blather.io.BlatherVerb.POST;
+import static com.github.richardjwild.blather.io.BlatherVerb.QUIT;
 import static java.lang.String.format;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Matchers.any;
@@ -114,6 +115,13 @@ public class InputParserShould {
         String actualMessage = inputParser.readPostMessage(postCommand);
 
         assertThat(actualMessage).isEqualTo(message);
+    }
+
+    @Test
+    public void read_a_quit_command() {
+        BlatherVerb verb = inputParser.readVerb("Quit");
+
+        assertThat(verb).isEqualTo(QUIT);
     }
 
 }

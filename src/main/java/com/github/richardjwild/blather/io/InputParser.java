@@ -7,9 +7,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.github.richardjwild.blather.io.BlatherVerb.FOLLOW;
-import static com.github.richardjwild.blather.io.BlatherVerb.POST;
+import static com.github.richardjwild.blather.io.BlatherVerb.*;
 import static java.util.Arrays.stream;
+import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.joining;
 
 public class InputParser {
@@ -19,6 +19,7 @@ public class InputParser {
     static {
         VERBS.put("follows", FOLLOW);
         VERBS.put("->", POST);
+        VERBS.put("Quit", QUIT);
     }
 
     private final UserRepository userRepository;
@@ -28,10 +29,13 @@ public class InputParser {
     }
 
     public BlatherVerb readVerb(String line) {
+        String verbText = verbTextFrom(line);
+        return ofNullable(VERBS.get(verbText)).orElse(READ);
+    }
+
+    private String verbTextFrom(String line) {
         String[] words = line.split(" ");
-        if (words.length == 1)
-            return BlatherVerb.READ;
-        return VERBS.get(words[1]);
+        return words.length == 1 ? words[0] : words[1];
     }
 
     public User readPostRecipient(String line) {
