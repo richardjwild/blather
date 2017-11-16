@@ -12,7 +12,10 @@ public class InputParser {
     }
 
     public BlatherVerb readVerb(String line) {
-        return BlatherVerb.READ;
+        String[] words = line.split(" ");
+        if (words.length == 1)
+            return BlatherVerb.READ;
+        return BlatherVerb.FOLLOW;
     }
 
     public User readRecipient(String line) {
