@@ -12,7 +12,7 @@ public class InputParser {
     }
 
     public BlatherVerb readVerb(String line) {
-        return null;
+        return BlatherVerb.READ;
     }
 
     public User readRecipient(String line) {
