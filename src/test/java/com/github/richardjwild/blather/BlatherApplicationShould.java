@@ -34,7 +34,7 @@ public class BlatherApplicationShould {
         AppController appController = new AppController();
         CommandFactory commandFactory = new CommandFactory(appController);
         CommandReader commandReader = new CommandReader(input, inputParser, commandFactory);
-        blather = new Blather(appController, commandReader);
+        blather = new Blather(appController, commandReader, output);
     }
 
     @Test
@@ -44,9 +44,10 @@ public class BlatherApplicationShould {
                 .thenReturn("Alice")
                 .thenReturn("quit");
 
-        blather.eventLoop();
+        blather.runApplication();
 
         InOrder inOrder = inOrder(output);
+        inOrder.verify(output).writeLine("Welcome to Blather");
         inOrder.verify(output).writeLine("My first message (0 seconds ago)");
         inOrder.verify(output).writeLine("Bye!");
     }
