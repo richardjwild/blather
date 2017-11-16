@@ -8,6 +8,8 @@ import static com.github.richardjwild.blather.ApplicationState.RUNNING;
 
 public class Blather {
 
+    public static final String WELCOME_MESSAGE = "Welcome to Blather";
+
     public static void main(String[] args) {
         Blather blather = ApplicationBuilder.build();
         blather.runApplication();
@@ -24,8 +26,12 @@ public class Blather {
     }
 
     void runApplication() {
-        output.writeLine("Welcome to Blather");
+        printWelcomeMessage();
         eventLoop();
+    }
+
+    private void printWelcomeMessage() {
+        output.writeLine(WELCOME_MESSAGE);
     }
 
     private void eventLoop() {

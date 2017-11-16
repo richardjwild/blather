@@ -36,7 +36,7 @@ public class BlatherApplicationShould {
         AppController appController = new AppController();
         MessageRepository messageRepository = new MessageRepository();
         Clock clock = new Clock();
-        CommandFactory commandFactory = new CommandFactory(appController, messageRepository, clock);
+        CommandFactory commandFactory = new CommandFactory(appController, messageRepository, clock, output);
         CommandReader commandReader = new CommandReader(input, inputParser, commandFactory);
         blather = new Blather(appController, commandReader, output);
     }

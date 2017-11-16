@@ -3,6 +3,7 @@ package com.github.richardjwild.blather.command;
 import com.github.richardjwild.blather.AppController;
 import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.User;
+import com.github.richardjwild.blather.io.Output;
 import com.github.richardjwild.blather.time.Clock;
 
 public class CommandFactory {
@@ -10,11 +11,13 @@ public class CommandFactory {
     private final AppController appController;
     private MessageRepository messageRepository;
     private Clock clock;
+    private Output output;
 
-    public CommandFactory(AppController appController, MessageRepository messageRepository, Clock clock) {
+    public CommandFactory(AppController appController, MessageRepository messageRepository, Clock clock, Output output) {
         this.appController = appController;
         this.messageRepository = messageRepository;
         this.clock = clock;
+        this.output = output;
     }
 
     public Command makeQuitCommand() {
@@ -26,7 +29,7 @@ public class CommandFactory {
     }
 
     public Command makeReadCommand(User subject) {
-        return new ReadCommand(subject);
+        return new ReadCommand(subject, messageRepository, output);
     }
 
     public Command makeFollowCommand(User follower, User subject) {

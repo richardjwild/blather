@@ -19,6 +19,10 @@ public class CommandReader {
 
     public Command readNextCommand() {
         String inputLine = input.readLine();
+        return buildCommandFrom(inputLine);
+    }
+
+    private Command buildCommandFrom(String inputLine) {
         switch (inputParser.verb(inputLine)) {
             case POST:
                 return makePostCommand(inputLine);

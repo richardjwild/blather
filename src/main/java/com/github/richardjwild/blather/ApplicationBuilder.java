@@ -19,9 +19,9 @@ public class ApplicationBuilder {
         AppController appController = new AppController();
         MessageRepository messageRepository = new MessageRepository();
         Clock clock = new Clock();
-        CommandFactory commandFactory = new CommandFactory(appController, messageRepository, clock);
         Input input = new ConsoleInput();
         Output output = new ConsoleOutput();
+        CommandFactory commandFactory = new CommandFactory(appController, messageRepository, clock, output);
         CommandReader commandReader = new CommandReader(input, inputParser, commandFactory);
         return new Blather(appController, commandReader, output);
     }
