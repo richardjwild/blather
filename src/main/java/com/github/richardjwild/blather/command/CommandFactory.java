@@ -3,6 +3,7 @@ package com.github.richardjwild.blather.command;
 import com.github.richardjwild.blather.datatransfer.User;
 
 public class CommandFactory {
+
     public Command makeQuitCommand() {
         return new QuitCommand();
     }
@@ -15,8 +16,8 @@ public class CommandFactory {
         return new ReadCommand(subject);
     }
 
-    public Command makeFollowCommand(User user, User subject) {
-        return null;
+    public Command makeFollowCommand(User actor, User subject) {
+        return new FollowCommand(actor, subject);
     }
 
     public Command makeWallCommand(User user, User subject) {
