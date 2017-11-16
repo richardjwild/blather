@@ -5,6 +5,8 @@ import com.github.richardjwild.blather.io.CommandReader;
 import com.github.richardjwild.blather.io.Input;
 import com.github.richardjwild.blather.io.InputParser;
 import com.github.richardjwild.blather.io.Output;
+import com.github.richardjwild.blather.repo.UserRepository;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
@@ -23,10 +25,17 @@ public class BlatherApplicationShould {
     @Mock
     private Output output;
 
-    private InputParser inputParser = new InputParser();
-    private CommandFactory commandFactory = new CommandFactory();
-    private CommandReader commandReader = new CommandReader(input, inputParser, commandFactory);
-    private AppController appController = new AppController();
+    private Blather blather;
+
+    @Before
+    public void initialize() {
+        UserRepository userRepository = new UserRepository();
+        InputParser inputParser = new InputParser(userRepository);
+        CommandFactory commandFactory = new CommandFactory();
+        CommandReader commandReader = new CommandReader(input, inputParser, commandFactory);
+        AppController appController = new AppController();
+        blather = new Blather(appController, commandReader);
+    }
 
     @Test
     public void display_a_users_posted_messages() {
@@ -35,7 +44,6 @@ public class BlatherApplicationShould {
                 .thenReturn("Alice")
                 .thenReturn("Quit");
 
-        Blather blather = new Blather(appController, commandReader);
         blather.eventLoop();
 
         InOrder inOrder = inOrder(output);
