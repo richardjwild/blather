@@ -47,7 +47,7 @@ public class BlatherApplicationShould {
         blather.eventLoop();
 
         InOrder inOrder = inOrder(output);
-        inOrder.verify(output).writeLine("My first message");
+        inOrder.verify(output).writeLine("My first message (0 seconds ago)");
         inOrder.verify(output).writeLine("Bye!");
     }
 }
