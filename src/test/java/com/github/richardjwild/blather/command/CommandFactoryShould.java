@@ -8,6 +8,7 @@ import static org.fest.assertions.Assertions.assertThat;
 public class CommandFactoryShould {
 
     private static final User RECIPIENT = new User();
+    private static final User SUBJECT = new User();
     private static final String MESSAGE = "a message";
 
     private final CommandFactory commandFactory = new CommandFactory();
@@ -24,6 +25,15 @@ public class CommandFactoryShould {
         PostCommand expectedCommand = new PostCommand(RECIPIENT, MESSAGE);
 
         Command command = commandFactory.makePostCommand(RECIPIENT, MESSAGE);
+
+        assertThat(command).isEqualTo(expectedCommand);
+    }
+
+    @Test
+    public void make_a_read_command() {
+        ReadCommand expectedCommand = new ReadCommand(SUBJECT);
+
+        Command command = commandFactory.makeReadCommand(SUBJECT);
 
         assertThat(command).isEqualTo(expectedCommand);
     }

@@ -67,7 +67,7 @@ public class CommandReaderShould {
     public void read_a_read_command() {
         when(inputParser.verb(INPUT_LINE)).thenReturn(BlatherVerb.READ);
         when(inputParser.readCommandSubject(INPUT_LINE)).thenReturn(SUBJECT);
-        when(commandFactory.makeReadCommand(USER, SUBJECT)).thenReturn(command);
+        when(commandFactory.makeReadCommand(USER)).thenReturn(command);
 
         Command actualCommand = commandReader.readNextCommand();
 

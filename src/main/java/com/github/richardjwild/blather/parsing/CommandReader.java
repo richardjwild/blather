@@ -42,7 +42,7 @@ public class CommandReader {
     private Command makeReadCommand(String inputLine) {
         User actor = inputParser.commandActor(inputLine);
         User subject = inputParser.readCommandSubject(inputLine);
-        return commandFactory.makeReadCommand(actor, subject);
+        return commandFactory.makeReadCommand(actor);
     }
 
     private Command makeFollowCommand(String inputLine) {

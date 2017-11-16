@@ -11,8 +11,8 @@ public class CommandFactory {
         return new PostCommand(recipient, message);
     }
 
-    public Command makeReadCommand(User user, User subject) {
-        return null;
+    public Command makeReadCommand(User subject) {
+        return new ReadCommand(subject);
     }
 
     public Command makeFollowCommand(User user, User subject) {
