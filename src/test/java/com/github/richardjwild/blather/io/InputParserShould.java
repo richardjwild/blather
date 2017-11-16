@@ -8,9 +8,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static com.github.richardjwild.blather.io.BlatherVerb.FOLLOW;
-import static com.github.richardjwild.blather.io.BlatherVerb.POST;
-import static com.github.richardjwild.blather.io.BlatherVerb.QUIT;
+import static com.github.richardjwild.blather.io.BlatherVerb.*;
 import static java.lang.String.format;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Matchers.any;
@@ -118,10 +116,18 @@ public class InputParserShould {
     }
 
     @Test
+    public void read_a_wall_command_verb() {
+        String wallCommand = "subject wall";
+
+        BlatherVerb verb = inputParser.readVerb(wallCommand);
+
+        assertThat(verb).isEqualTo(WALL);
+    }
+
+    @Test
     public void read_a_quit_command() {
         BlatherVerb verb = inputParser.readVerb("Quit");
 
         assertThat(verb).isEqualTo(QUIT);
     }
-
 }

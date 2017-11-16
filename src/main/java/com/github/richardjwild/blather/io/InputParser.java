@@ -3,7 +3,6 @@ package com.github.richardjwild.blather.io;
 import com.github.richardjwild.blather.repo.UserRepository;
 import com.github.richardjwild.blather.user.User;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +18,7 @@ public class InputParser {
     static {
         VERBS.put("follows", FOLLOW);
         VERBS.put("->", POST);
+        VERBS.put("wall", WALL);
         VERBS.put("Quit", QUIT);
     }
 
