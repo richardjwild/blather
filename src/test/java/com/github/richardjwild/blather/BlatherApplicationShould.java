@@ -31,9 +31,9 @@ public class BlatherApplicationShould {
     public void initialize() {
         UserRepository userRepository = new UserRepository();
         InputParser inputParser = new InputParser(userRepository);
-        CommandFactory commandFactory = new CommandFactory();
-        CommandReader commandReader = new CommandReader(input, inputParser, commandFactory);
         AppController appController = new AppController();
+        CommandFactory commandFactory = new CommandFactory(appController);
+        CommandReader commandReader = new CommandReader(input, inputParser, commandFactory);
         blather = new Blather(appController, commandReader);
     }
 

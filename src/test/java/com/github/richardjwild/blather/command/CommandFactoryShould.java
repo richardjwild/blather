@@ -1,22 +1,38 @@
 package com.github.richardjwild.blather.command;
 
+import com.github.richardjwild.blather.AppController;
 import com.github.richardjwild.blather.datatransfer.User;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.fest.assertions.Assertions.assertThat;
 
+@RunWith(MockitoJUnitRunner.class)
 public class CommandFactoryShould {
 
     private static final User RECIPIENT = new User(), SUBJECT = new User(), FOLLOWER = new User();
     private static final String MESSAGE = "a message";
 
-    private final CommandFactory commandFactory = new CommandFactory();
+    private CommandFactory commandFactory;
+
+    @Mock
+    private AppController appController;
+
+    @Before
+    public void initialize() {
+        commandFactory = new CommandFactory(appController);
+    }
 
     @Test
     public void make_a_quit_command() {
+        QuitCommand expectedCommand = new QuitCommand(appController);
+
         Command command = commandFactory.makeQuitCommand();
 
-        assertThat(command).isInstanceOf(QuitCommand.class);
+        assertThat(command).isEqualTo(expectedCommand);
     }
 
     @Test

@@ -1,11 +1,18 @@
 package com.github.richardjwild.blather.command;
 
+import com.github.richardjwild.blather.AppController;
 import com.github.richardjwild.blather.datatransfer.User;
 
 public class CommandFactory {
 
+    private final AppController appController;
+
+    public CommandFactory(AppController appController) {
+        this.appController = appController;
+    }
+
     public Command makeQuitCommand() {
-        return new QuitCommand();
+        return new QuitCommand(appController);
     }
 
     public Command makePostCommand(User recipient, String message) {
