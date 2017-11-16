@@ -22,7 +22,7 @@ public class ApplicationBuilder {
         Clock clock = new Clock();
         Input input = new ConsoleInput();
         Output output = new ConsoleOutput();
-        TimestampFormatter timestampFormatter = new TimestampFormatter();
+        TimestampFormatter timestampFormatter = new TimestampFormatter(clock);
         CommandFactory commandFactory = new CommandFactory(appController, messageRepository, clock, timestampFormatter, output);
         CommandReader commandReader = new CommandReader(input, inputParser, commandFactory);
         return new Blather(appController, commandReader, output);
