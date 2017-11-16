@@ -34,18 +34,22 @@ public class InputParser {
     }
 
     private String verbTextFrom(String line) {
-        String[] words = line.split(" ");
+        String[] words = words(line);
         return words.length == 1 ? words[0] : words[1];
     }
 
+    private String[] words(String line) {
+        return line.split(" ");
+    }
+
     public User readPostRecipient(String line) {
-        String[] words = line.split(" ");
-        return userRepository.findByName(words[0]);
+        return userRepository.findByName(words(line)[0]);
     }
 
     public String readPostMessage(String line) {
-        String[] words = line.split(" ");
-        return stream(words).skip(2).collect(joining(" "));
+        return stream(words(line))
+                .skip(2)
+                .collect(joining(" "));
     }
 
     public User readSubject(String line) {
@@ -53,7 +57,7 @@ public class InputParser {
     }
 
     public User readFollowSubject(String line) {
-        String user = line.split(" ")[2];
+        String user = words(line)[2];
         return userRepository.findByName(user);
     }
 
@@ -62,7 +66,7 @@ public class InputParser {
     }
 
     public User readUser(String line) {
-        String user = line.split(" ")[0];
+        String user = words(line)[0];
         return userRepository.findByName(user);
     }
 }
