@@ -62,7 +62,8 @@ public class InputParser {
     }
 
     public User readWallSubject(String line) {
-        return null;
+        String subject = words(line)[0];
+        return userRepository.findByName(subject);
     }
 
     public User readUser(String line) {

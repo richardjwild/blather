@@ -125,6 +125,17 @@ public class InputParserShould {
     }
 
     @Test
+    public void read_a_wall_command_subject() {
+        String subject = "a_subject";
+        String wallCommand = format("%s wall", subject);
+        when(userRepository.findByName(subject)).thenReturn(SUBJECT);
+
+        User actualSubject = inputParser.readWallSubject(wallCommand);
+
+        assertThat(actualSubject).isSameAs(SUBJECT);
+    }
+
+    @Test
     public void read_a_quit_command() {
         BlatherVerb verb = inputParser.readVerb("quit");
 
