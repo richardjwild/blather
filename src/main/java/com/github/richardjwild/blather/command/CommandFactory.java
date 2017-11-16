@@ -7,8 +7,8 @@ public class CommandFactory {
         return new QuitCommand();
     }
 
-    public Command makePostCommand(User user, User recipient, String message) {
-        return null;
+    public Command makePostCommand(User recipient, String message) {
+        return new PostCommand(recipient, message);
     }
 
     public Command makeReadCommand(User user, User subject) {
