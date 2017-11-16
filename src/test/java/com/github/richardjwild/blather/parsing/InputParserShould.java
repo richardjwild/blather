@@ -1,5 +1,7 @@
-package com.github.richardjwild.blather.io;
+package com.github.richardjwild.blather.parsing;
 
+import com.github.richardjwild.blather.parsing.BlatherVerb;
+import com.github.richardjwild.blather.parsing.InputParser;
 import com.github.richardjwild.blather.repo.UserRepository;
 import com.github.richardjwild.blather.user.User;
 import org.junit.Before;
@@ -8,7 +10,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static com.github.richardjwild.blather.io.BlatherVerb.*;
+import static com.github.richardjwild.blather.parsing.BlatherVerb.*;
 import static java.lang.String.format;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Matchers.any;

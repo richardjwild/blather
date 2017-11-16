@@ -1,7 +1,7 @@
 package com.github.richardjwild.blather;
 
 import com.github.richardjwild.blather.command.Command;
-import com.github.richardjwild.blather.io.CommandReader;
+import com.github.richardjwild.blather.parsing.CommandReader;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

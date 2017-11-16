@@ -1,4 +1,4 @@
-package com.github.richardjwild.blather.io;
+package com.github.richardjwild.blather.parsing;
 
 import com.github.richardjwild.blather.repo.UserRepository;
 import com.github.richardjwild.blather.user.User;

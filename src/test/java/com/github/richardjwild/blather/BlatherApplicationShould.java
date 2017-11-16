@@ -1,9 +1,9 @@
 package com.github.richardjwild.blather;
 
 import com.github.richardjwild.blather.command.CommandFactory;
-import com.github.richardjwild.blather.io.CommandReader;
+import com.github.richardjwild.blather.parsing.CommandReader;
 import com.github.richardjwild.blather.io.Input;
-import com.github.richardjwild.blather.io.InputParser;
+import com.github.richardjwild.blather.parsing.InputParser;
 import com.github.richardjwild.blather.io.Output;
 import com.github.richardjwild.blather.repo.UserRepository;
 import org.junit.Before;

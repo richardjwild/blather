@@ -1,4 +1,4 @@
-package com.github.richardjwild.blather.io;
+package com.github.richardjwild.blather.parsing;
 
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.joining;
