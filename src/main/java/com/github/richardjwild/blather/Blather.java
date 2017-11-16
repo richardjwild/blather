@@ -28,6 +28,7 @@ public class Blather {
     void runApplication() {
         printWelcomeMessage();
         eventLoop();
+        printGoodbyeMessage();
     }
 
     private void printWelcomeMessage() {
@@ -39,6 +40,10 @@ public class Blather {
             Command command = commandReader.readNextCommand();
             command.execute();
         } while (appIsRunning());
+    }
+
+    private void printGoodbyeMessage() {
+        output.writeLine("Bye!");
     }
 
     private boolean appIsRunning() {
