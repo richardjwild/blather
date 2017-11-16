@@ -19,7 +19,7 @@ public class InputParser {
         VERBS.put("follows", FOLLOW);
         VERBS.put("->", POST);
         VERBS.put("wall", WALL);
-        VERBS.put("Quit", QUIT);
+        VERBS.put("quit", QUIT);
     }
 
     private final UserRepository userRepository;

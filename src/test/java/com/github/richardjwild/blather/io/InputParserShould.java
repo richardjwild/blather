@@ -126,7 +126,7 @@ public class InputParserShould {
 
     @Test
     public void read_a_quit_command() {
-        BlatherVerb verb = inputParser.readVerb("Quit");
+        BlatherVerb verb = inputParser.readVerb("quit");
 
         assertThat(verb).isEqualTo(QUIT);
     }

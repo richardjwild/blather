@@ -42,7 +42,7 @@ public class BlatherApplicationShould {
         when(input.readLine())
                 .thenReturn("Alice -> My first message")
                 .thenReturn("Alice")
-                .thenReturn("Quit");
+                .thenReturn("quit");
 
         blather.eventLoop();
 
