@@ -1,7 +1,7 @@
 package com.github.richardjwild.blather.parsing;
 
-import com.github.richardjwild.blather.repo.UserRepository;
-import com.github.richardjwild.blather.user.User;
+import com.github.richardjwild.blather.datatransfer.UserRepository;
+import com.github.richardjwild.blather.datatransfer.User;
 
 public class InputParser {
 

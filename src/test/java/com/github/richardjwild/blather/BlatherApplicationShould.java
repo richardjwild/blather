@@ -5,7 +5,7 @@ import com.github.richardjwild.blather.parsing.CommandReader;
 import com.github.richardjwild.blather.io.Input;
 import com.github.richardjwild.blather.parsing.InputParser;
 import com.github.richardjwild.blather.io.Output;
-import com.github.richardjwild.blather.repo.UserRepository;
+import com.github.richardjwild.blather.datatransfer.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

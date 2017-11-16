@@ -1,6 +1,6 @@
 package com.github.richardjwild.blather.command;
 
-import com.github.richardjwild.blather.user.User;
+import com.github.richardjwild.blather.datatransfer.User;
 
 public class CommandFactory {
     public Command makeQuitCommand() {

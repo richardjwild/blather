@@ -1,9 +1,7 @@
 package com.github.richardjwild.blather.parsing;
 
-import com.github.richardjwild.blather.parsing.BlatherVerb;
-import com.github.richardjwild.blather.parsing.InputParser;
-import com.github.richardjwild.blather.repo.UserRepository;
-import com.github.richardjwild.blather.user.User;
+import com.github.richardjwild.blather.datatransfer.UserRepository;
+import com.github.richardjwild.blather.datatransfer.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
