@@ -10,6 +10,7 @@ import com.github.richardjwild.blather.io.Output;
 import com.github.richardjwild.blather.parsing.CommandReader;
 import com.github.richardjwild.blather.parsing.InputParser;
 import com.github.richardjwild.blather.time.Clock;
+import com.github.richardjwild.blather.time.TimestampFormatter;
 
 public class ApplicationBuilder {
 
@@ -21,7 +22,8 @@ public class ApplicationBuilder {
         Clock clock = new Clock();
         Input input = new ConsoleInput();
         Output output = new ConsoleOutput();
-        CommandFactory commandFactory = new CommandFactory(appController, messageRepository, clock, output);
+        TimestampFormatter timestampFormatter = new TimestampFormatter();
+        CommandFactory commandFactory = new CommandFactory(appController, messageRepository, clock, timestampFormatter, output);
         CommandReader commandReader = new CommandReader(input, inputParser, commandFactory);
         return new Blather(appController, commandReader, output);
     }

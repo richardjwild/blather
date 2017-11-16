@@ -5,6 +5,7 @@ import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.User;
 import com.github.richardjwild.blather.io.Output;
 import com.github.richardjwild.blather.time.Clock;
+import com.github.richardjwild.blather.time.TimestampFormatter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,11 +32,14 @@ public class CommandFactoryShould {
     private Clock clock;
 
     @Mock
+    private TimestampFormatter timestampFormatter;
+
+    @Mock
     private Output output;
 
     @Before
     public void initialize() {
-        commandFactory = new CommandFactory(appController, messageRepository, clock, output);
+        commandFactory = new CommandFactory(appController, messageRepository, clock, timestampFormatter, output);
     }
 
     @Test
@@ -58,7 +62,7 @@ public class CommandFactoryShould {
 
     @Test
     public void make_a_read_command() {
-        ReadCommand expectedCommand = new ReadCommand(SUBJECT, messageRepository, output);
+        ReadCommand expectedCommand = new ReadCommand(SUBJECT, messageRepository, timestampFormatter, output);
 
         Command command = commandFactory.makeReadCommand(SUBJECT);
 

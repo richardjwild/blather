@@ -8,6 +8,7 @@ import com.github.richardjwild.blather.parsing.InputParser;
 import com.github.richardjwild.blather.io.Output;
 import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.time.Clock;
+import com.github.richardjwild.blather.time.TimestampFormatter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,7 +37,8 @@ public class BlatherApplicationShould {
         AppController appController = new AppController();
         MessageRepository messageRepository = new MessageRepository();
         Clock clock = new Clock();
-        CommandFactory commandFactory = new CommandFactory(appController, messageRepository, clock, output);
+        TimestampFormatter timestampFormatter = new TimestampFormatter();
+        CommandFactory commandFactory = new CommandFactory(appController, messageRepository, clock, timestampFormatter, output);
         CommandReader commandReader = new CommandReader(input, inputParser, commandFactory);
         blather = new Blather(appController, commandReader, output);
     }
