@@ -52,15 +52,22 @@ public class InputParserShould {
 
     @Test
     public void read_a_follow_command_verb() {
-        String user = "user";
-        String subject = "subject";
-        String followCommand = format("%s follows %s", user, subject);
-        when(userRepository.findByName(user)).thenReturn(USER);
-        when(userRepository.findByName(subject)).thenReturn(SUBJECT);
+        String followCommand = "someone follows someoneelse";
 
         BlatherVerb verb = inputParser.readVerb(followCommand);
 
         assertThat(verb).isEqualTo(FOLLOW);
+    }
+
+    @Test
+    public void read_a_follow_command_user() {
+        String user = "user";
+        String followCommand = format("%s follows someoneelse", user);
+        when(userRepository.findByName(user)).thenReturn(USER);
+
+        User actualUser = inputParser.readUser(followCommand);
+
+        assertThat(actualUser).isEqualTo(USER);
     }
 
 }

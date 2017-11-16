@@ -39,6 +39,7 @@ public class InputParser {
     }
 
     public User readUser(String line) {
-        return null;
+        String user = line.split(" ")[0];
+        return userRepository.findByName(user);
     }
 }
