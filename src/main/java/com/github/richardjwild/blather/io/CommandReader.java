@@ -34,7 +34,7 @@ public class CommandReader {
 
     private Command makePostCommand(String inputLine) {
         User user = inputParser.readUser(inputLine);
-        User recipient = inputParser.readRecipient(inputLine);
+        User recipient = inputParser.readPostRecipient(inputLine);
         String message = inputParser.readMessage(inputLine);
         return commandFactory.makePostCommand(user, recipient, message);
     }

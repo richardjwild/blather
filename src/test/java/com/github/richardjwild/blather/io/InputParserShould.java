@@ -18,7 +18,11 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class InputParserShould {
 
-    private static final User USER = new User(), SUBJECT = new User(), DUMMY_USER = new User();
+    private static final User
+            USER = new User(),
+            RECIPIENT = new User(),
+            SUBJECT = new User(),
+            DUMMY_USER = new User();
 
     @Mock
     private UserRepository userRepository;
@@ -89,6 +93,17 @@ public class InputParserShould {
         BlatherVerb verb = inputParser.readVerb(postCommand);
 
         assertThat(verb).isEqualTo(POST);
+    }
+
+    @Test
+    public void read_a_post_command_recipient() {
+        String recipient = "a_recipient";
+        String postCommand = format("%s -> message goes here", recipient);
+        when(userRepository.findByName(recipient)).thenReturn(RECIPIENT);
+
+        User actualRecipient = inputParser.readPostRecipient(postCommand);
+
+        assertThat(actualRecipient).isSameAs(RECIPIENT);
     }
 
 }

@@ -2,8 +2,6 @@ package com.github.richardjwild.blather.io;
 
 import com.github.richardjwild.blather.command.Command;
 import com.github.richardjwild.blather.command.CommandFactory;
-import com.github.richardjwild.blather.command.PostCommand;
-import com.github.richardjwild.blather.command.QuitCommand;
 import com.github.richardjwild.blather.user.User;
 import org.junit.Before;
 import org.junit.Test;
@@ -55,7 +53,7 @@ public class CommandReaderShould {
     @Test
     public void read_a_post_command() {
         when(inputParser.readVerb(INPUT_LINE)).thenReturn(BlatherVerb.POST);
-        when(inputParser.readRecipient(INPUT_LINE)).thenReturn(RECIPIENT);
+        when(inputParser.readPostRecipient(INPUT_LINE)).thenReturn(RECIPIENT);
         when(inputParser.readMessage(INPUT_LINE)).thenReturn(MESSAGE);
         when(commandFactory.makePostCommand(USER, RECIPIENT, MESSAGE)).thenReturn(command);
 

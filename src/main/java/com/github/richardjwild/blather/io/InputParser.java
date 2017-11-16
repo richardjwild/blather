@@ -31,8 +31,9 @@ public class InputParser {
         return VERBS.get(words[1]);
     }
 
-    public User readRecipient(String line) {
-        return null;
+    public User readPostRecipient(String line) {
+        String[] words = line.split(" ");
+        return userRepository.findByName(words[0]);
     }
 
     public String readMessage(String line) {
