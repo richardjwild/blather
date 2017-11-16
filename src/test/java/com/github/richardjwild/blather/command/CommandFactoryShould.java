@@ -1,7 +1,9 @@
 package com.github.richardjwild.blather.command;
 
 import com.github.richardjwild.blather.AppController;
+import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.User;
+import com.github.richardjwild.blather.time.Clock;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,9 +23,15 @@ public class CommandFactoryShould {
     @Mock
     private AppController appController;
 
+    @Mock
+    private MessageRepository messageRepository;
+
+    @Mock
+    private Clock clock;
+
     @Before
     public void initialize() {
-        commandFactory = new CommandFactory(appController);
+        commandFactory = new CommandFactory(appController, messageRepository, clock);
     }
 
     @Test
@@ -37,7 +45,7 @@ public class CommandFactoryShould {
 
     @Test
     public void make_a_post_command() {
-        PostCommand expectedCommand = new PostCommand(RECIPIENT, MESSAGE);
+        PostCommand expectedCommand = new PostCommand(RECIPIENT, MESSAGE, messageRepository, clock);
 
         Command command = commandFactory.makePostCommand(RECIPIENT, MESSAGE);
 
