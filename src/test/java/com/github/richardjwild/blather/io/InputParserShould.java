@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static com.github.richardjwild.blather.io.BlatherVerb.FOLLOW;
+import static com.github.richardjwild.blather.io.BlatherVerb.POST;
 import static java.lang.String.format;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Matchers.any;
@@ -79,6 +80,15 @@ public class InputParserShould {
         User actualSubject = inputParser.readFollowSubject(followCommand);
 
         assertThat(actualSubject).isSameAs(SUBJECT);
+    }
+
+    @Test
+    public void read_a_post_command_verb() {
+        String postCommand = "recipient -> message";
+
+        BlatherVerb verb = inputParser.readVerb(postCommand);
+
+        assertThat(verb).isEqualTo(POST);
     }
 
 }

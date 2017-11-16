@@ -3,7 +3,20 @@ package com.github.richardjwild.blather.io;
 import com.github.richardjwild.blather.repo.UserRepository;
 import com.github.richardjwild.blather.user.User;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.github.richardjwild.blather.io.BlatherVerb.FOLLOW;
+import static com.github.richardjwild.blather.io.BlatherVerb.POST;
+
 public class InputParser {
+
+    private static final Map<String, BlatherVerb> VERBS = new HashMap<>();
+
+    static {
+        VERBS.put("follows", FOLLOW);
+        VERBS.put("->", POST);
+    }
 
     private final UserRepository userRepository;
 
@@ -15,7 +28,7 @@ public class InputParser {
         String[] words = line.split(" ");
         if (words.length == 1)
             return BlatherVerb.READ;
-        return BlatherVerb.FOLLOW;
+        return VERBS.get(words[1]);
     }
 
     public User readRecipient(String line) {
