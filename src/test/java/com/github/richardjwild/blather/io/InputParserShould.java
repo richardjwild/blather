@@ -106,4 +106,14 @@ public class InputParserShould {
         assertThat(actualRecipient).isSameAs(RECIPIENT);
     }
 
+    @Test
+    public void read_a_post_command_message() {
+        String message = "this is a message";
+        String postCommand = format("recipient -> %s", message);
+
+        String actualMessage = inputParser.readPostMessage(postCommand);
+
+        assertThat(actualMessage).isEqualTo(message);
+    }
+
 }

@@ -3,11 +3,14 @@ package com.github.richardjwild.blather.io;
 import com.github.richardjwild.blather.repo.UserRepository;
 import com.github.richardjwild.blather.user.User;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.github.richardjwild.blather.io.BlatherVerb.FOLLOW;
 import static com.github.richardjwild.blather.io.BlatherVerb.POST;
+import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.joining;
 
 public class InputParser {
 
@@ -36,8 +39,9 @@ public class InputParser {
         return userRepository.findByName(words[0]);
     }
 
-    public String readMessage(String line) {
-        return null;
+    public String readPostMessage(String line) {
+        String[] words = line.split(" ");
+        return stream(words).skip(2).collect(joining(" "));
     }
 
     public User readSubject(String line) {
