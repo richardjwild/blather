@@ -19,7 +19,7 @@ public class CommandReaderShould {
 
     private static final String INPUT_LINE = "input line of text";
     private static final String MESSAGE = "message";
-    private static final User RECIPIENT = new User(), SUBJECT = new User();
+    private static final User USER = new User(), RECIPIENT = new User(), SUBJECT = new User();
 
     @Mock
     private CommandFactory commandFactory;
@@ -39,6 +39,7 @@ public class CommandReaderShould {
     public void initialize() {
         commandReader = new CommandReader(input, inputParser, commandFactory);
         when(input.readLine()).thenReturn(INPUT_LINE);
+        when(inputParser.readUser(INPUT_LINE)).thenReturn(USER);
     }
 
     @Test
@@ -56,7 +57,7 @@ public class CommandReaderShould {
         when(inputParser.readVerb(INPUT_LINE)).thenReturn(BlatherVerb.POST);
         when(inputParser.readRecipient(INPUT_LINE)).thenReturn(RECIPIENT);
         when(inputParser.readMessage(INPUT_LINE)).thenReturn(MESSAGE);
-        when(commandFactory.makePostCommand(RECIPIENT, MESSAGE)).thenReturn(command);
+        when(commandFactory.makePostCommand(USER, RECIPIENT, MESSAGE)).thenReturn(command);
 
         Command actualCommand = commandReader.readNextCommand();
 
@@ -67,7 +68,7 @@ public class CommandReaderShould {
     public void read_a_read_command() {
         when(inputParser.readVerb(INPUT_LINE)).thenReturn(BlatherVerb.READ);
         when(inputParser.readSubject(INPUT_LINE)).thenReturn(SUBJECT);
-        when(commandFactory.makeReadCommand(SUBJECT)).thenReturn(command);
+        when(commandFactory.makeReadCommand(USER, SUBJECT)).thenReturn(command);
 
         Command actualCommand = commandReader.readNextCommand();
 
@@ -78,7 +79,7 @@ public class CommandReaderShould {
     public void read_a_follow_command() {
         when(inputParser.readVerb(INPUT_LINE)).thenReturn(BlatherVerb.FOLLOW);
         when(inputParser.readFollowSubject(INPUT_LINE)).thenReturn(SUBJECT);
-        when(commandFactory.makeFollowCommand(SUBJECT)).thenReturn(command);
+        when(commandFactory.makeFollowCommand(USER, SUBJECT)).thenReturn(command);
 
         Command actualCommand = commandReader.readNextCommand();
 
@@ -89,7 +90,7 @@ public class CommandReaderShould {
     public void read_a_wall_command() {
         when(inputParser.readVerb(INPUT_LINE)).thenReturn(BlatherVerb.WALL);
         when(inputParser.readWallSubject(INPUT_LINE)).thenReturn(SUBJECT);
-        when(commandFactory.makeWallCommand(SUBJECT)).thenReturn(command);
+        when(commandFactory.makeWallCommand(USER, SUBJECT)).thenReturn(command);
 
         Command actualCommand = commandReader.readNextCommand();
 

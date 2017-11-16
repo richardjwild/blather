@@ -34,4 +34,8 @@ public class InputParser {
     public User readWallSubject(String line) {
         return null;
     }
+
+    public User readUser(String line) {
+        return null;
+    }
 }

@@ -7,19 +7,19 @@ public class CommandFactory {
         return null;
     }
 
-    public Command makePostCommand(User recipient, String message) {
+    public Command makePostCommand(User user, User recipient, String message) {
         return null;
     }
 
-    public Command makeReadCommand(User subject) {
+    public Command makeReadCommand(User user, User subject) {
         return null;
     }
 
-    public Command makeFollowCommand(User subject) {
+    public Command makeFollowCommand(User user, User subject) {
         return null;
     }
 
-    public Command makeWallCommand(User subject) {
+    public Command makeWallCommand(User user, User subject) {
         return null;
     }
 }

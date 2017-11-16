@@ -33,23 +33,27 @@ public class CommandReader {
     }
 
     private Command makePostCommand(String inputLine) {
+        User user = inputParser.readUser(inputLine);
         User recipient = inputParser.readRecipient(inputLine);
         String message = inputParser.readMessage(inputLine);
-        return commandFactory.makePostCommand(recipient, message);
+        return commandFactory.makePostCommand(user, recipient, message);
     }
 
     private Command makeReadCommand(String inputLine) {
+        User user = inputParser.readUser(inputLine);
         User subject = inputParser.readSubject(inputLine);
-        return commandFactory.makeReadCommand(subject);
+        return commandFactory.makeReadCommand(user, subject);
     }
 
     private Command makeFollowCommand(String inputLine) {
+        User user = inputParser.readUser(inputLine);
         User subject = inputParser.readFollowSubject(inputLine);
-        return commandFactory.makeFollowCommand(subject);
+        return commandFactory.makeFollowCommand(user, subject);
     }
 
     private Command makeWallCommand(String inputLine) {
+        User user = inputParser.readUser(inputLine);
         User subject = inputParser.readWallSubject(inputLine);
-        return commandFactory.makeWallCommand(subject);
+        return commandFactory.makeWallCommand(user, subject);
     }
 }
