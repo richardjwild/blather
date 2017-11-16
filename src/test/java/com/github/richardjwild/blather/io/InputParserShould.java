@@ -67,7 +67,18 @@ public class InputParserShould {
 
         User actualUser = inputParser.readUser(followCommand);
 
-        assertThat(actualUser).isEqualTo(USER);
+        assertThat(actualUser).isSameAs(USER);
+    }
+
+    @Test
+    public void read_a_follow_command_subject() {
+        String subject = "subject";
+        String followCommand = format("someone follows %s", subject);
+        when(userRepository.findByName(subject)).thenReturn(SUBJECT);
+
+        User actualSubject = inputParser.readFollowSubject(followCommand);
+
+        assertThat(actualSubject).isSameAs(SUBJECT);
     }
 
 }

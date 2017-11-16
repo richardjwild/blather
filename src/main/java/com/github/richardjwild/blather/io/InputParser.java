@@ -31,7 +31,8 @@ public class InputParser {
     }
 
     public User readFollowSubject(String line) {
-        return null;
+        String user = line.split(" ")[2];
+        return userRepository.findByName(user);
     }
 
     public User readWallSubject(String line) {
