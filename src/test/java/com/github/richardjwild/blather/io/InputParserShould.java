@@ -38,7 +38,7 @@ public class InputParserShould {
         String subject = "subject_to_read";
         String readCommand = format("%s", subject);
 
-        BlatherVerb verb = inputParser.readVerb(readCommand);
+        BlatherVerb verb = inputParser.verb(readCommand);
 
         assertThat(verb).isEqualTo(BlatherVerb.READ);
     }
@@ -49,7 +49,7 @@ public class InputParserShould {
         String readCommand = format("%s", subject);
         when(userRepository.findByName(subject)).thenReturn(SUBJECT);
 
-        User actualSubject = inputParser.readSubject(readCommand);
+        User actualSubject = inputParser.readCommandSubject(readCommand);
 
         assertThat(actualSubject).isSameAs(SUBJECT);
     }
@@ -58,7 +58,7 @@ public class InputParserShould {
     public void read_a_follow_command_verb() {
         String followCommand = "user follows subject";
 
-        BlatherVerb verb = inputParser.readVerb(followCommand);
+        BlatherVerb verb = inputParser.verb(followCommand);
 
         assertThat(verb).isEqualTo(FOLLOW);
     }
@@ -69,7 +69,7 @@ public class InputParserShould {
         String followCommand = format("%s follows subject", user);
         when(userRepository.findByName(user)).thenReturn(USER);
 
-        User actualUser = inputParser.readUser(followCommand);
+        User actualUser = inputParser.commandActor(followCommand);
 
         assertThat(actualUser).isSameAs(USER);
     }
@@ -80,7 +80,7 @@ public class InputParserShould {
         String followCommand = format("user follows %s", subject);
         when(userRepository.findByName(subject)).thenReturn(SUBJECT);
 
-        User actualSubject = inputParser.readFollowSubject(followCommand);
+        User actualSubject = inputParser.followCommandSubject(followCommand);
 
         assertThat(actualSubject).isSameAs(SUBJECT);
     }
@@ -89,7 +89,7 @@ public class InputParserShould {
     public void read_a_post_command_verb() {
         String postCommand = "recipient -> message";
 
-        BlatherVerb verb = inputParser.readVerb(postCommand);
+        BlatherVerb verb = inputParser.verb(postCommand);
 
         assertThat(verb).isEqualTo(POST);
     }
@@ -100,7 +100,7 @@ public class InputParserShould {
         String postCommand = format("%s -> message goes here", recipient);
         when(userRepository.findByName(recipient)).thenReturn(RECIPIENT);
 
-        User actualRecipient = inputParser.readPostRecipient(postCommand);
+        User actualRecipient = inputParser.postCommandRecipient(postCommand);
 
         assertThat(actualRecipient).isSameAs(RECIPIENT);
     }
@@ -110,7 +110,7 @@ public class InputParserShould {
         String message = "this is a message";
         String postCommand = format("recipient -> %s", message);
 
-        String actualMessage = inputParser.readPostMessage(postCommand);
+        String actualMessage = inputParser.postCommandMessage(postCommand);
 
         assertThat(actualMessage).isEqualTo(message);
     }
@@ -119,7 +119,7 @@ public class InputParserShould {
     public void read_a_wall_command_verb() {
         String wallCommand = "subject wall";
 
-        BlatherVerb verb = inputParser.readVerb(wallCommand);
+        BlatherVerb verb = inputParser.verb(wallCommand);
 
         assertThat(verb).isEqualTo(WALL);
     }
@@ -130,14 +130,14 @@ public class InputParserShould {
         String wallCommand = format("%s wall", subject);
         when(userRepository.findByName(subject)).thenReturn(SUBJECT);
 
-        User actualSubject = inputParser.readWallSubject(wallCommand);
+        User actualSubject = inputParser.wallCommandSubject(wallCommand);
 
         assertThat(actualSubject).isSameAs(SUBJECT);
     }
 
     @Test
     public void read_a_quit_command() {
-        BlatherVerb verb = inputParser.readVerb("quit");
+        BlatherVerb verb = inputParser.verb("quit");
 
         assertThat(verb).isEqualTo(QUIT);
     }

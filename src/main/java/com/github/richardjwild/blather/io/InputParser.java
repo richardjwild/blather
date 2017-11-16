@@ -3,24 +3,7 @@ package com.github.richardjwild.blather.io;
 import com.github.richardjwild.blather.repo.UserRepository;
 import com.github.richardjwild.blather.user.User;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static com.github.richardjwild.blather.io.BlatherVerb.*;
-import static java.util.Arrays.stream;
-import static java.util.Optional.ofNullable;
-import static java.util.stream.Collectors.joining;
-
 public class InputParser {
-
-    private static final Map<String, BlatherVerb> VERBS = new HashMap<>();
-
-    static {
-        VERBS.put("follows", FOLLOW);
-        VERBS.put("->", POST);
-        VERBS.put("wall", WALL);
-        VERBS.put("quit", QUIT);
-    }
 
     private final UserRepository userRepository;
 
@@ -28,46 +11,41 @@ public class InputParser {
         this.userRepository = userRepository;
     }
 
-    public BlatherVerb readVerb(String line) {
-        String verbText = verbTextFrom(line);
-        return ofNullable(VERBS.get(verbText)).orElse(READ);
+    BlatherVerb verb(String line) {
+        String verbText = deconstruct(line).verb;
+        return BlatherVerb.fromText(verbText);
     }
 
-    private String verbTextFrom(String line) {
-        String[] words = words(line);
-        return words.length == 1 ? words[0] : words[1];
+    User postCommandRecipient(String line) {
+        String postRecipient = deconstruct(line).postRecipient;
+        return userRepository.findByName(postRecipient);
     }
 
-    private String[] words(String line) {
-        return line.split(" ");
+    String postCommandMessage(String line) {
+        return deconstruct(line).postMessage;
     }
 
-    public User readPostRecipient(String line) {
-        return userRepository.findByName(words(line)[0]);
-    }
-
-    public String readPostMessage(String line) {
-        return stream(words(line))
-                .skip(2)
-                .collect(joining(" "));
-    }
-
-    public User readSubject(String line) {
-        return userRepository.findByName(line);
-    }
-
-    public User readFollowSubject(String line) {
-        String user = words(line)[2];
-        return userRepository.findByName(user);
-    }
-
-    public User readWallSubject(String line) {
-        String subject = words(line)[0];
+    User readCommandSubject(String line) {
+        String subject = deconstruct(line).readSubject;
         return userRepository.findByName(subject);
     }
 
-    public User readUser(String line) {
-        String user = words(line)[0];
-        return userRepository.findByName(user);
+    User followCommandSubject(String line) {
+        String subject = deconstruct(line).followSubject;
+        return userRepository.findByName(subject);
+    }
+
+    User wallCommandSubject(String line) {
+        String subject = deconstruct(line).wallSubject;
+        return userRepository.findByName(subject);
+    }
+
+    User commandActor(String line) {
+        String actor = deconstruct(line).actor;
+        return userRepository.findByName(actor);
+    }
+
+    private InputCommand deconstruct(String line) {
+        return new InputCommand(line);
     }
 }

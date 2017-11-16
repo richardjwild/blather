@@ -18,7 +18,7 @@ public class CommandReader {
 
     public Command readNextCommand() {
         String inputLine = input.readLine();
-        switch (inputParser.readVerb(inputLine)) {
+        switch (inputParser.verb(inputLine)) {
             case POST:
                 return makePostCommand(inputLine);
             case READ:
@@ -33,27 +33,27 @@ public class CommandReader {
     }
 
     private Command makePostCommand(String inputLine) {
-        User user = inputParser.readUser(inputLine);
-        User recipient = inputParser.readPostRecipient(inputLine);
-        String message = inputParser.readPostMessage(inputLine);
-        return commandFactory.makePostCommand(user, recipient, message);
+        User actor = inputParser.commandActor(inputLine);
+        User recipient = inputParser.postCommandRecipient(inputLine);
+        String message = inputParser.postCommandMessage(inputLine);
+        return commandFactory.makePostCommand(actor, recipient, message);
     }
 
     private Command makeReadCommand(String inputLine) {
-        User user = inputParser.readUser(inputLine);
-        User subject = inputParser.readSubject(inputLine);
-        return commandFactory.makeReadCommand(user, subject);
+        User actor = inputParser.commandActor(inputLine);
+        User subject = inputParser.readCommandSubject(inputLine);
+        return commandFactory.makeReadCommand(actor, subject);
     }
 
     private Command makeFollowCommand(String inputLine) {
-        User user = inputParser.readUser(inputLine);
-        User subject = inputParser.readFollowSubject(inputLine);
-        return commandFactory.makeFollowCommand(user, subject);
+        User actor = inputParser.commandActor(inputLine);
+        User subject = inputParser.followCommandSubject(inputLine);
+        return commandFactory.makeFollowCommand(actor, subject);
     }
 
     private Command makeWallCommand(String inputLine) {
-        User user = inputParser.readUser(inputLine);
-        User subject = inputParser.readWallSubject(inputLine);
-        return commandFactory.makeWallCommand(user, subject);
+        User actor = inputParser.commandActor(inputLine);
+        User subject = inputParser.wallCommandSubject(inputLine);
+        return commandFactory.makeWallCommand(actor, subject);
     }
 }
