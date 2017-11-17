@@ -1,5 +1,7 @@
 package com.github.richardjwild.blather;
 
+import com.github.richardjwild.blather.application.Controller;
+import com.github.richardjwild.blather.application.EventLoop;
 import com.github.richardjwild.blather.command.CommandFactory;
 import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.parsing.CommandReader;
@@ -34,13 +36,14 @@ public class BlatherApplicationShould {
     public void initialize() {
         UserRepository userRepository = new UserRepository();
         InputParser inputParser = new InputParser(userRepository);
-        AppController appController = new AppController();
+        Controller controller = new Controller();
         MessageRepository messageRepository = new MessageRepository();
         Clock clock = new Clock();
         TimestampFormatter timestampFormatter = new TimestampFormatter(clock);
-        CommandFactory commandFactory = new CommandFactory(appController, messageRepository, clock, timestampFormatter, output);
+        CommandFactory commandFactory = new CommandFactory(controller, messageRepository, clock, timestampFormatter, output);
         CommandReader commandReader = new CommandReader(input, inputParser, commandFactory);
-        blather = new Blather(appController, commandReader, output);
+        EventLoop eventLoop = new EventLoop(commandReader, controller);
+        blather = new Blather(eventLoop, output);
     }
 
     @Test

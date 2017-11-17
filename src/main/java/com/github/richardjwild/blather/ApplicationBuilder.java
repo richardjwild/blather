@@ -1,5 +1,7 @@
 package com.github.richardjwild.blather;
 
+import com.github.richardjwild.blather.application.Controller;
+import com.github.richardjwild.blather.application.EventLoop;
 import com.github.richardjwild.blather.command.CommandFactory;
 import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.UserRepository;
@@ -17,14 +19,15 @@ public class ApplicationBuilder {
     static Blather build() {
         UserRepository userRepository = new UserRepository();
         InputParser inputParser = new InputParser(userRepository);
-        AppController appController = new AppController();
+        Controller controller = new Controller();
         MessageRepository messageRepository = new MessageRepository();
         Clock clock = new Clock();
         Input input = new ConsoleInput();
         Output output = new ConsoleOutput();
         TimestampFormatter timestampFormatter = new TimestampFormatter(clock);
-        CommandFactory commandFactory = new CommandFactory(appController, messageRepository, clock, timestampFormatter, output);
+        CommandFactory commandFactory = new CommandFactory(controller, messageRepository, clock, timestampFormatter, output);
         CommandReader commandReader = new CommandReader(input, inputParser, commandFactory);
-        return new Blather(appController, commandReader, output);
+        EventLoop eventLoop = new EventLoop(commandReader, controller);
+        return new Blather(eventLoop, output);
     }
 }

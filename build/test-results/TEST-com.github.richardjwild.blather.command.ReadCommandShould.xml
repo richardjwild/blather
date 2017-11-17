@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.github.richardjwild.blather.command.ReadCommandShould" tests="2" skipped="0" failures="0" errors="0" timestamp="2017-11-17T08:02:20" hostname="richiesmac" time="0.003">
+  <properties/>
+  <testcase name="affix_messages_with_a_timestamp" classname="com.github.richardjwild.blather.command.ReadCommandShould" time="0.002"/>
+  <testcase name="print_all_messages_posted_to_a_specified_user" classname="com.github.richardjwild.blather.command.ReadCommandShould" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

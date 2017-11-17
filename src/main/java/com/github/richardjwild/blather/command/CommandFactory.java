@@ -1,6 +1,6 @@
 package com.github.richardjwild.blather.command;
 
-import com.github.richardjwild.blather.AppController;
+import com.github.richardjwild.blather.application.Controller;
 import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.User;
 import com.github.richardjwild.blather.io.Output;
@@ -9,14 +9,14 @@ import com.github.richardjwild.blather.time.TimestampFormatter;
 
 public class CommandFactory {
 
-    private final AppController appController;
+    private final Controller controller;
     private MessageRepository messageRepository;
     private Clock clock;
     private Output output;
     private TimestampFormatter timestampFormatter;
 
-    public CommandFactory(AppController appController, MessageRepository messageRepository, Clock clock, TimestampFormatter timestampFormatter, Output output) {
-        this.appController = appController;
+    public CommandFactory(Controller controller, MessageRepository messageRepository, Clock clock, TimestampFormatter timestampFormatter, Output output) {
+        this.controller = controller;
         this.messageRepository = messageRepository;
         this.clock = clock;
         this.timestampFormatter = timestampFormatter;
@@ -24,7 +24,7 @@ public class CommandFactory {
     }
 
     public Command makeQuitCommand() {
-        return new QuitCommand(appController);
+        return new QuitCommand(controller);
     }
 
     public Command makePostCommand(User recipient, String message) {

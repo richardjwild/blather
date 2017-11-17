@@ -1,6 +1,6 @@
 package com.github.richardjwild.blather.command;
 
-import com.github.richardjwild.blather.AppController;
+import com.github.richardjwild.blather.application.Controller;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -12,14 +12,14 @@ import static org.mockito.Mockito.verify;
 public class QuitCommandShould {
 
     @Mock
-    private AppController appController;
+    private Controller controller;
 
     @Test
     public void stop_the_application() {
-        QuitCommand command = new QuitCommand(appController);
+        QuitCommand command = new QuitCommand(controller);
 
         command.execute();
 
-        verify(appController).stop();
+        verify(controller).stop();
     }
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.github.richardjwild.blather.BlatherApplicationShould" tests="1" skipped="0" failures="0" errors="0" timestamp="2017-11-17T08:02:20" hostname="richiesmac" time="0.077">
+  <properties/>
+  <testcase name="display_a_users_posted_messages" classname="com.github.richardjwild.blather.BlatherApplicationShould" time="0.077"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

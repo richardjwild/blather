@@ -1,7 +1,10 @@
 #!/bin/bash
 
-EXPECTED="Welcome to Blather"
-ACTUAL=`java -cp build/libs/blather.jar com.github.richardjwild.blather.Blather`
+EXPECTED="Welcome to Blather
+Bye!"
+
+ACTUAL=`echo quit | java -cp build/libs/blather.jar com.github.richardjwild.blather.Blather`
+
 if [ $? -ne 0 ]; then
     echo "Test failed! Error running Blather executable"
     exit 1

@@ -1,21 +1,21 @@
 package com.github.richardjwild.blather.command;
 
-import com.github.richardjwild.blather.AppController;
+import com.github.richardjwild.blather.application.Controller;
 
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
 
 public class QuitCommand implements Command {
 
-    private final AppController appController;
+    private final Controller controller;
 
-    QuitCommand(AppController appController) {
-        this.appController = appController;
+    QuitCommand(Controller controller) {
+        this.controller = controller;
     }
 
     @Override
     public void execute() {
-        appController.stop();
+        controller.stop();
     }
 
     @Override

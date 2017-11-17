@@ -1,6 +1,6 @@
 package com.github.richardjwild.blather.command;
 
-import com.github.richardjwild.blather.AppController;
+import com.github.richardjwild.blather.application.Controller;
 import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.User;
 import com.github.richardjwild.blather.io.Output;
@@ -23,7 +23,7 @@ public class CommandFactoryShould {
     private CommandFactory commandFactory;
 
     @Mock
-    private AppController appController;
+    private Controller controller;
 
     @Mock
     private MessageRepository messageRepository;
@@ -39,12 +39,12 @@ public class CommandFactoryShould {
 
     @Before
     public void initialize() {
-        commandFactory = new CommandFactory(appController, messageRepository, clock, timestampFormatter, output);
+        commandFactory = new CommandFactory(controller, messageRepository, clock, timestampFormatter, output);
     }
 
     @Test
     public void make_a_quit_command() {
-        QuitCommand expectedCommand = new QuitCommand(appController);
+        QuitCommand expectedCommand = new QuitCommand(controller);
 
         Command command = commandFactory.makeQuitCommand();
 
