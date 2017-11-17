@@ -2,7 +2,6 @@ package com.github.richardjwild.blather.command;
 
 import com.github.richardjwild.blather.application.Controller;
 import com.github.richardjwild.blather.datatransfer.MessageRepository;
-import com.github.richardjwild.blather.datatransfer.User;
 import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Output;
 import com.github.richardjwild.blather.time.Clock;
@@ -30,19 +29,19 @@ public class CommandFactory {
         return new QuitCommand(controller);
     }
 
-    public Command makePostCommand(User recipient, String message) {
+    public Command makePostCommand(String recipient, String message) {
         return new PostCommand(recipient, message, messageRepository, userRepository, clock);
     }
 
-    public Command makeReadCommand(User subject) {
-        return new ReadCommand(subject, messageRepository, timestampFormatter, output);
+    public Command makeReadCommand(String subject) {
+        return new ReadCommand(subject, messageRepository, userRepository, timestampFormatter, output);
     }
 
-    public Command makeFollowCommand(User follower, User subject) {
+    public Command makeFollowCommand(String follower, String subject) {
         return new FollowCommand(follower, subject);
     }
 
-    public Command makeWallCommand(User subject) {
+    public Command makeWallCommand(String subject) {
         return new WallCommand(subject);
     }
 }

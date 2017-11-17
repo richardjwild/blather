@@ -1,14 +1,8 @@
 package com.github.richardjwild.blather.parsing;
 
-import com.github.richardjwild.blather.datatransfer.UserRepository;
-import com.github.richardjwild.blather.datatransfer.User;
-
 public class InputParser {
 
-    private final UserRepository userRepository;
-
-    public InputParser(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public InputParser() {
     }
 
     BlatherVerb verb(String line) {
@@ -16,33 +10,28 @@ public class InputParser {
         return BlatherVerb.fromText(verbText);
     }
 
-    User postCommandRecipient(String line) {
-        String postRecipient = deconstruct(line).postRecipient;
-        return userRepository.find(postRecipient).orElse(new User(postRecipient));
+    String postCommandRecipient(String line) {
+        return deconstruct(line).postRecipient;
     }
 
     String postCommandMessage(String line) {
         return deconstruct(line).postMessage;
     }
 
-    User readCommandSubject(String line) {
-        String subject = deconstruct(line).readSubject;
-        return userRepository.find(subject).orElse(null);
+    String readCommandSubject(String line) {
+        return deconstruct(line).readSubject;
     }
 
-    User followCommandActor(String inputLine) {
-        String actor = deconstruct(inputLine).followActor;
-        return userRepository.find(actor).orElse(null);
+    String followCommandActor(String inputLine) {
+        return deconstruct(inputLine).followActor;
     }
 
-    User followCommandSubject(String line) {
-        String subject = deconstruct(line).followSubject;
-        return userRepository.find(subject).orElse(null);
+    String followCommandSubject(String line) {
+        return deconstruct(line).followSubject;
     }
 
-    User wallCommandSubject(String line) {
-        String subject = deconstruct(line).wallSubject;
-        return userRepository.find(subject).orElse(null);
+    String wallCommandSubject(String line) {
+        return deconstruct(line).wallSubject;
     }
 
     private InputCommand deconstruct(String line) {

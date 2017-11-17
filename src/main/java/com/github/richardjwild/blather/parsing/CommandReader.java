@@ -3,7 +3,6 @@ package com.github.richardjwild.blather.parsing;
 import com.github.richardjwild.blather.command.Command;
 import com.github.richardjwild.blather.command.CommandFactory;
 import com.github.richardjwild.blather.io.Input;
-import com.github.richardjwild.blather.datatransfer.User;
 
 public class CommandReader {
 
@@ -38,24 +37,24 @@ public class CommandReader {
     }
 
     private Command makePostCommand(String inputLine) {
-        User recipient = inputParser.postCommandRecipient(inputLine);
+        String recipient = inputParser.postCommandRecipient(inputLine);
         String message = inputParser.postCommandMessage(inputLine);
         return commandFactory.makePostCommand(recipient, message);
     }
 
     private Command makeReadCommand(String inputLine) {
-        User subject = inputParser.readCommandSubject(inputLine);
+        String subject = inputParser.readCommandSubject(inputLine);
         return commandFactory.makeReadCommand(subject);
     }
 
     private Command makeFollowCommand(String inputLine) {
-        User follower = inputParser.followCommandActor(inputLine);
-        User subject = inputParser.followCommandSubject(inputLine);
+        String follower = inputParser.followCommandActor(inputLine);
+        String subject = inputParser.followCommandSubject(inputLine);
         return commandFactory.makeFollowCommand(follower, subject);
     }
 
     private Command makeWallCommand(String inputLine) {
-        User subject = inputParser.wallCommandSubject(inputLine);
+        String subject = inputParser.wallCommandSubject(inputLine);
         return commandFactory.makeWallCommand(subject);
     }
 }

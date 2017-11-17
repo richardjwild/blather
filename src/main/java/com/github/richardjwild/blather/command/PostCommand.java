@@ -13,13 +13,13 @@ import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCod
 
 public class PostCommand implements Command {
 
-    private final User recipient;
+    private final String recipient;
     private final String messageText;
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
     private final Clock clock;
 
-    PostCommand(User recipient, String messageText, MessageRepository messageRepository, UserRepository userRepository, Clock clock) {
+    PostCommand(String recipient, String messageText, MessageRepository messageRepository, UserRepository userRepository, Clock clock) {
         this.recipient = recipient;
         this.messageText = messageText;
         this.messageRepository = messageRepository;
@@ -29,14 +29,24 @@ public class PostCommand implements Command {
 
     @Override
     public void execute() {
-        Instant timestamp = clock.now();
-        Message message = buildMessage(timestamp);
+        Message message = buildMessage();
         messageRepository.postMessage(message);
-        userRepository.save(recipient);
     }
 
-    private Message buildMessage(Instant timestamp) {
-        return new Message(recipient, messageText, timestamp);
+    private Message buildMessage() {
+        User recipientUser = getOrCreateUser();
+        Instant timestamp = clock.now();
+        return new Message(recipientUser, messageText, timestamp);
+    }
+
+    private User getOrCreateUser() {
+        return userRepository.find(recipient).orElseGet(this::createUser);
+    }
+
+    private User createUser() {
+        User newUser = new User(recipient);
+        userRepository.save(newUser);
+        return newUser;
     }
 
     @Override

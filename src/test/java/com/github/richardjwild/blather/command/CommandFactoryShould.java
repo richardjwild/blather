@@ -18,9 +18,9 @@ import static org.fest.assertions.Assertions.assertThat;
 @RunWith(MockitoJUnitRunner.class)
 public class CommandFactoryShould {
 
-    private static final User RECIPIENT = new User("recipient");
-    private static final User SUBJECT = new User("subject");
-    private static final User FOLLOWER = new User("follower");
+    private static final String RECIPIENT = "recipient";
+    private static final String SUBJECT = "subject";
+    private static final String FOLLOWER = "follower";
     private static final String MESSAGE = "a message";
 
     private CommandFactory commandFactory;
@@ -68,7 +68,7 @@ public class CommandFactoryShould {
 
     @Test
     public void make_a_read_command() {
-        ReadCommand expectedCommand = new ReadCommand(SUBJECT, messageRepository, timestampFormatter, output);
+        ReadCommand expectedCommand = new ReadCommand(SUBJECT, messageRepository, userRepository, timestampFormatter, output);
 
         Command command = commandFactory.makeReadCommand(SUBJECT);
 

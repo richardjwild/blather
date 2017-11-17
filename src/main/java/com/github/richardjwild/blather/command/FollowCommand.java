@@ -1,16 +1,14 @@
 package com.github.richardjwild.blather.command;
 
-import com.github.richardjwild.blather.datatransfer.User;
-
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
 
 public class FollowCommand implements Command {
 
-    private final User follower;
-    private final User subject;
+    private final String follower;
+    private final String subject;
 
-    public FollowCommand(User follower, User subject) {
+    public FollowCommand(String follower, String subject) {
         this.follower = follower;
         this.subject = subject;
     }

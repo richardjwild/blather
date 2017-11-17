@@ -3,7 +3,6 @@ package com.github.richardjwild.blather.parsing;
 import com.github.richardjwild.blather.command.Command;
 import com.github.richardjwild.blather.command.CommandFactory;
 import com.github.richardjwild.blather.io.Input;
-import com.github.richardjwild.blather.datatransfer.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,10 +17,9 @@ public class CommandReaderShould {
 
     private static final String INPUT_LINE = "input line of text";
     private static final String MESSAGE = "message";
-    private static final User USER = new User("user");
-    private static final User RECIPIENT = new User("recipient");
-    private static final User SUBJECT = new User("subject");
-    private static final User FOLLOWER = new User("follower");
+    private static final String RECIPIENT = "recipient";
+    private static final String SUBJECT = "subject";
+    private static final String FOLLOWER = "follower";
 
     @Mock
     private CommandFactory commandFactory;

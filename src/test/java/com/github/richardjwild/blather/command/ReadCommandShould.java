@@ -3,6 +3,7 @@ package com.github.richardjwild.blather.command;
 import com.github.richardjwild.blather.datatransfer.Message;
 import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.User;
+import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Output;
 import com.github.richardjwild.blather.time.TimestampFormatter;
 import org.junit.Test;
@@ -12,9 +13,12 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.time.Instant;
-import java.util.Collections;
 
+import static java.time.Instant.now;
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static org.mockito.Matchers.endsWith;
 import static org.mockito.Matchers.startsWith;
 import static org.mockito.Mockito.*;
@@ -22,7 +26,7 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class ReadCommandShould {
 
-    private static final User SUBJECT = new User("subject");
+    private static final User USER = new User("user");
     private static final String FORMATTED_TIMESTAMP = "message timestamp";
 
     @Mock
@@ -34,33 +38,46 @@ public class ReadCommandShould {
     @Mock
     private TimestampFormatter timestampFormatter;
 
+    @Mock
+    private UserRepository userRepository;
+
     @Test
     public void print_all_messages_posted_to_a_specified_user() {
-        String messageText1 = "message one";
-        String messageText2 = "message two";
-        Message message1 = new Message(SUBJECT, messageText1, Instant.now());
-        Message message2 = new Message(SUBJECT, messageText2, Instant.now());
-        when(messageRepository.allMessagesPostedTo(SUBJECT)).thenReturn(asList(message1, message2));
-        ReadCommand command = new ReadCommand(SUBJECT, messageRepository, timestampFormatter, output);
+        Message message1 = new Message(USER, "message one", now());
+        Message message2 = new Message(USER, "message two", now());
+        when(userRepository.find("user")).thenReturn(of(USER));
+        when(messageRepository.allMessagesPostedTo(USER)).thenReturn(asList(message1, message2));
+        ReadCommand command = new ReadCommand("user", messageRepository, userRepository, timestampFormatter, output);
 
         command.execute();
 
         InOrder inOrder = inOrder(output);
-        inOrder.verify(output).writeLine(startsWith(messageText1));
-        inOrder.verify(output).writeLine(startsWith(messageText2));
+        inOrder.verify(output).writeLine(startsWith("message one"));
+        inOrder.verify(output).writeLine(startsWith("message two"));
     }
 
     @Test
     public void affix_messages_with_a_timestamp() {
-        Instant timestamp = Instant.now();
-        Message message = new Message(SUBJECT, "", timestamp);
-        when(messageRepository.allMessagesPostedTo(SUBJECT)).thenReturn(Collections.singletonList(message));
+        Instant timestamp = now();
+        Message message = new Message(USER, "message", timestamp);
+        when(userRepository.find("user")).thenReturn(of(USER));
+        when(messageRepository.allMessagesPostedTo(USER)).thenReturn(singletonList(message));
         when(timestampFormatter.format(timestamp)).thenReturn(FORMATTED_TIMESTAMP);
-        ReadCommand command = new ReadCommand(SUBJECT, messageRepository, timestampFormatter, output);
+        ReadCommand command = new ReadCommand("user", messageRepository, userRepository, timestampFormatter, output);
 
         command.execute();
 
         verify(output).writeLine(endsWith(" " + FORMATTED_TIMESTAMP));
+    }
+
+    @Test
+    public void print_nothing_if_user_not_found() {
+        when(userRepository.find("user")).thenReturn(empty());
+        ReadCommand command = new ReadCommand("user", messageRepository, userRepository, timestampFormatter, output);
+
+        command.execute();
+
+        verify(output, never()).writeLine(anyString());
     }
 
 }

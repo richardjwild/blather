@@ -1,15 +1,13 @@
 package com.github.richardjwild.blather.command;
 
-import com.github.richardjwild.blather.datatransfer.User;
-
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
 
 public class WallCommand implements Command {
 
-    private final User subject;
+    private final String subject;
 
-    public WallCommand(User subject) {
+    public WallCommand(String subject) {
         this.subject = subject;
     }
 

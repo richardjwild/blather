@@ -35,7 +35,7 @@ public class BlatherApplicationShould {
     @Before
     public void initialize() {
         UserRepository userRepository = new UserRepository();
-        InputParser inputParser = new InputParser(userRepository);
+        InputParser inputParser = new InputParser();
         Controller controller = new Controller();
         MessageRepository messageRepository = new MessageRepository();
         Clock clock = new Clock();
