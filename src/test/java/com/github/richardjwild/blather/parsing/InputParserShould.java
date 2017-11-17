@@ -10,6 +10,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import static com.github.richardjwild.blather.parsing.BlatherVerb.*;
 import static java.lang.String.format;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
@@ -18,10 +20,10 @@ import static org.mockito.Mockito.when;
 public class InputParserShould {
 
     private static final User
-            USER = new User(),
-            RECIPIENT = new User(),
-            SUBJECT = new User(),
-            DUMMY_USER = new User();
+            USER = new User("user"),
+            RECIPIENT = new User("recipient"),
+            SUBJECT = new User("subject"),
+            DUMMY_USER = new User("dummy");
 
     @Mock
     private UserRepository userRepository;
@@ -30,7 +32,7 @@ public class InputParserShould {
     @Before
     public void initialize() {
         inputParser = new InputParser(userRepository);
-        when(userRepository.findByName(any())).thenReturn(DUMMY_USER);
+        when(userRepository.find(any())).thenReturn(of(DUMMY_USER));
     }
 
     @Test
@@ -47,7 +49,7 @@ public class InputParserShould {
     public void read_a_read_command_subject() {
         String subject = "subject_to_read";
         String readCommand = format("%s", subject);
-        when(userRepository.findByName(subject)).thenReturn(SUBJECT);
+        when(userRepository.find(subject)).thenReturn(of(SUBJECT));
 
         User actualSubject = inputParser.readCommandSubject(readCommand);
 
@@ -67,7 +69,7 @@ public class InputParserShould {
     public void read_a_follow_command_actor() {
         String user = "a_user";
         String followCommand = format("%s follows subject", user);
-        when(userRepository.findByName(user)).thenReturn(USER);
+        when(userRepository.find(user)).thenReturn(of(USER));
 
         User actualUser = inputParser.followCommandActor(followCommand);
 
@@ -78,7 +80,7 @@ public class InputParserShould {
     public void read_a_follow_command_subject() {
         String subject = "a_subject";
         String followCommand = format("user follows %s", subject);
-        when(userRepository.findByName(subject)).thenReturn(SUBJECT);
+        when(userRepository.find(subject)).thenReturn(of(SUBJECT));
 
         User actualSubject = inputParser.followCommandSubject(followCommand);
 
@@ -95,14 +97,25 @@ public class InputParserShould {
     }
 
     @Test
-    public void read_a_post_command_recipient() {
+    public void read_a_post_command_recipient_that_is_already_known() {
         String recipient = "a_recipient";
         String postCommand = format("%s -> message goes here", recipient);
-        when(userRepository.findByName(recipient)).thenReturn(RECIPIENT);
+        when(userRepository.find(recipient)).thenReturn(of(RECIPIENT));
 
         User actualRecipient = inputParser.postCommandRecipient(postCommand);
 
         assertThat(actualRecipient).isSameAs(RECIPIENT);
+    }
+
+    @Test
+    public void read_a_post_command_recipient_that_is_new() {
+        String recipient = "a_recipient";
+        String postCommand = format("%s -> message goes here", recipient);
+        when(userRepository.find(recipient)).thenReturn(empty());
+
+        User actualRecipient = inputParser.postCommandRecipient(postCommand);
+
+        assertThat(actualRecipient).isEqualTo(new User(recipient));
     }
 
     @Test
@@ -128,7 +141,7 @@ public class InputParserShould {
     public void read_a_wall_command_subject() {
         String subject = "a_subject";
         String wallCommand = format("%s wall", subject);
-        when(userRepository.findByName(subject)).thenReturn(SUBJECT);
+        when(userRepository.find(subject)).thenReturn(of(SUBJECT));
 
         User actualSubject = inputParser.wallCommandSubject(wallCommand);
 

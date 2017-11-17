@@ -3,6 +3,7 @@ package com.github.richardjwild.blather.command;
 import com.github.richardjwild.blather.datatransfer.Message;
 import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.User;
+import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.time.Clock;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +19,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class PostCommandShould {
 
-    private static final User RECIPIENT = new User();
+    private static final User RECIPIENT = new User("recipient");
     private static final String MESSAGE_TEXT = "message text";
     private static final Instant TIMESTAMP = Instant.now();
 
@@ -28,15 +29,19 @@ public class PostCommandShould {
     @Mock
     private Clock clock;
 
+    @Mock
+    private UserRepository userRepository;
+
     @Test
     public void post_a_new_message_to_the_repository() {
         when(clock.now()).thenReturn(TIMESTAMP);
-        PostCommand postCommand = new PostCommand(RECIPIENT, MESSAGE_TEXT, messageRepository, clock);
+        PostCommand postCommand = new PostCommand(RECIPIENT, MESSAGE_TEXT, messageRepository, userRepository, clock);
 
         postCommand.execute();
 
         Message expectedMessage = new Message(RECIPIENT, MESSAGE_TEXT, TIMESTAMP);
         verify(messageRepository).postMessage(expectedMessage);
+        verify(userRepository).save(RECIPIENT);
     }
 
 }

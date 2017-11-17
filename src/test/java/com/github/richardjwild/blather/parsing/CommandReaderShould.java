@@ -18,10 +18,10 @@ public class CommandReaderShould {
 
     private static final String INPUT_LINE = "input line of text";
     private static final String MESSAGE = "message";
-    private static final User USER = new User();
-    private static final User RECIPIENT = new User();
-    private static final User SUBJECT = new User();
-    private static final User FOLLOWER = new User();
+    private static final User USER = new User("user");
+    private static final User RECIPIENT = new User("recipient");
+    private static final User SUBJECT = new User("subject");
+    private static final User FOLLOWER = new User("follower");
 
     @Mock
     private CommandFactory commandFactory;

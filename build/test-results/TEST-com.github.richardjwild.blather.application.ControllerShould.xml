@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.github.richardjwild.blather.application.ControllerShould" tests="2" skipped="0" failures="0" errors="0" timestamp="2017-11-17T08:02:20" hostname="richiesmac" time="0.001">
-  <properties/>
-  <testcase name="initially_return_application_state_running" classname="com.github.richardjwild.blather.application.ControllerShould" time="0.0"/>
-  <testcase name="return_application_state_stopped_after_stop_command_issued" classname="com.github.richardjwild.blather.application.ControllerShould" time="0.0"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

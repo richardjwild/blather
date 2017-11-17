@@ -18,7 +18,7 @@ public class InputParser {
 
     User postCommandRecipient(String line) {
         String postRecipient = deconstruct(line).postRecipient;
-        return userRepository.findByName(postRecipient);
+        return userRepository.find(postRecipient).orElse(new User(postRecipient));
     }
 
     String postCommandMessage(String line) {
@@ -27,22 +27,22 @@ public class InputParser {
 
     User readCommandSubject(String line) {
         String subject = deconstruct(line).readSubject;
-        return userRepository.findByName(subject);
+        return userRepository.find(subject).orElse(null);
     }
 
     User followCommandActor(String inputLine) {
         String actor = deconstruct(inputLine).followActor;
-        return userRepository.findByName(actor);
+        return userRepository.find(actor).orElse(null);
     }
 
     User followCommandSubject(String line) {
         String subject = deconstruct(line).followSubject;
-        return userRepository.findByName(subject);
+        return userRepository.find(subject).orElse(null);
     }
 
     User wallCommandSubject(String line) {
         String subject = deconstruct(line).wallSubject;
-        return userRepository.findByName(subject);
+        return userRepository.find(subject).orElse(null);
     }
 
     private InputCommand deconstruct(String line) {

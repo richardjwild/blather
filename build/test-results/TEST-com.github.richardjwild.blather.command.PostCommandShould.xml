@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.github.richardjwild.blather.command.PostCommandShould" tests="1" skipped="0" failures="0" errors="0" timestamp="2017-11-17T08:02:20" hostname="richiesmac" time="0.005">
-  <properties/>
-  <testcase name="post_a_new_message_to_the_repository" classname="com.github.richardjwild.blather.command.PostCommandShould" time="0.005"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

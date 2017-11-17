@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.github.richardjwild.blather.application.EventLoopShould" tests="1" skipped="0" failures="0" errors="0" timestamp="2017-11-17T08:02:20" hostname="richiesmac" time="0.001">
-  <properties/>
-  <testcase name="execute_commands_until_it_receives_the_quit_command" classname="com.github.richardjwild.blather.application.EventLoopShould" time="0.001"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

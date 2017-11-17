@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.github.richardjwild.blather.command.QuitCommandShould" tests="1" skipped="0" failures="0" errors="0" timestamp="2017-11-17T08:02:20" hostname="richiesmac" time="0.0">
-  <properties/>
-  <testcase name="stop_the_application" classname="com.github.richardjwild.blather.command.QuitCommandShould" time="0.0"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

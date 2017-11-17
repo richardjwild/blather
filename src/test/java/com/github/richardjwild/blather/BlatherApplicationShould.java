@@ -40,7 +40,7 @@ public class BlatherApplicationShould {
         MessageRepository messageRepository = new MessageRepository();
         Clock clock = new Clock();
         TimestampFormatter timestampFormatter = new TimestampFormatter(clock);
-        CommandFactory commandFactory = new CommandFactory(controller, messageRepository, clock, timestampFormatter, output);
+        CommandFactory commandFactory = new CommandFactory(controller, messageRepository, userRepository, clock, timestampFormatter, output);
         CommandReader commandReader = new CommandReader(input, inputParser, commandFactory);
         EventLoop eventLoop = new EventLoop(commandReader, controller);
         blather = new Blather(eventLoop, output);

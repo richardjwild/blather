@@ -3,6 +3,7 @@ package com.github.richardjwild.blather.command;
 import com.github.richardjwild.blather.datatransfer.Message;
 import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.User;
+import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.time.Clock;
 
 import java.time.Instant;
@@ -15,12 +16,14 @@ public class PostCommand implements Command {
     private final User recipient;
     private final String messageText;
     private final MessageRepository messageRepository;
+    private final UserRepository userRepository;
     private final Clock clock;
 
-    PostCommand(User recipient, String messageText, MessageRepository messageRepository, Clock clock) {
+    PostCommand(User recipient, String messageText, MessageRepository messageRepository, UserRepository userRepository, Clock clock) {
         this.recipient = recipient;
         this.messageText = messageText;
         this.messageRepository = messageRepository;
+        this.userRepository = userRepository;
         this.clock = clock;
     }
 
@@ -29,6 +32,7 @@ public class PostCommand implements Command {
         Instant timestamp = clock.now();
         Message message = buildMessage(timestamp);
         messageRepository.postMessage(message);
+        userRepository.save(recipient);
     }
 
     private Message buildMessage(Instant timestamp) {

@@ -5,20 +5,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static java.util.Optional.ofNullable;
-
 public class MessageRepository {
 
-    private Map<User, List<Message>> messages = new HashMap<>();
+    private Map<User, List<Message>> allMessages = new HashMap<>();
 
     public void postMessage(Message message) {
-        List<Message> messagesReceived = allMessagesPostedTo(message.recipient);
-        if (messagesReceived.isEmpty())
-            messages.put(message.recipient, messagesReceived);
-        messagesReceived.add(message);
+        List<Message> messagesForRecipient = getOrCreateMessageListFor(message.recipient);
+        messagesForRecipient.add(message);
+    }
+
+    private List<Message> getOrCreateMessageListFor(User recipient) {
+        if (allMessages.containsKey(recipient))
+            return allMessages.get(recipient);
+        return createMessageListFor(recipient);
+    }
+
+    private List<Message> createMessageListFor(User recipient) {
+        List<Message> emptyList = new ArrayList<>();
+        allMessages.put(recipient, emptyList);
+        return emptyList;
     }
 
     public List<Message> allMessagesPostedTo(User recipient) {
-        return ofNullable(messages.get(recipient)).orElse(new ArrayList<>());
+        List<Message> messagesForRecipient = getOrCreateMessageListFor(recipient);
+        return messagesForRecipient;
     }
 }

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.github.richardjwild.blather.datatransfer.MessageRepositoryShould" tests="1" skipped="0" failures="0" errors="0" timestamp="2017-11-17T08:02:20" hostname="richiesmac" time="0.006">
-  <properties/>
-  <testcase name="store_all_messages_posted_to_a_recipient" classname="com.github.richardjwild.blather.datatransfer.MessageRepositoryShould" time="0.006"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

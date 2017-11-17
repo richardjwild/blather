@@ -3,6 +3,7 @@ package com.github.richardjwild.blather.command;
 import com.github.richardjwild.blather.application.Controller;
 import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.User;
+import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Output;
 import com.github.richardjwild.blather.time.Clock;
 import com.github.richardjwild.blather.time.TimestampFormatter;
@@ -11,13 +12,15 @@ public class CommandFactory {
 
     private final Controller controller;
     private MessageRepository messageRepository;
+    private UserRepository userRepository;
     private Clock clock;
     private Output output;
     private TimestampFormatter timestampFormatter;
 
-    public CommandFactory(Controller controller, MessageRepository messageRepository, Clock clock, TimestampFormatter timestampFormatter, Output output) {
+    public CommandFactory(Controller controller, MessageRepository messageRepository, UserRepository userRepository, Clock clock, TimestampFormatter timestampFormatter, Output output) {
         this.controller = controller;
         this.messageRepository = messageRepository;
+        this.userRepository = userRepository;
         this.clock = clock;
         this.timestampFormatter = timestampFormatter;
         this.output = output;
@@ -28,7 +31,7 @@ public class CommandFactory {
     }
 
     public Command makePostCommand(User recipient, String message) {
-        return new PostCommand(recipient, message, messageRepository, clock);
+        return new PostCommand(recipient, message, messageRepository, userRepository, clock);
     }
 
     public Command makeReadCommand(User subject) {

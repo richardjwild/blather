@@ -22,7 +22,7 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class ReadCommandShould {
 
-    private static final User SUBJECT = new User();
+    private static final User SUBJECT = new User("subject");
     private static final String FORMATTED_TIMESTAMP = "message timestamp";
 
     @Mock

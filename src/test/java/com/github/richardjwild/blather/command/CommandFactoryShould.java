@@ -3,6 +3,7 @@ package com.github.richardjwild.blather.command;
 import com.github.richardjwild.blather.application.Controller;
 import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.User;
+import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Output;
 import com.github.richardjwild.blather.time.Clock;
 import com.github.richardjwild.blather.time.TimestampFormatter;
@@ -17,7 +18,9 @@ import static org.fest.assertions.Assertions.assertThat;
 @RunWith(MockitoJUnitRunner.class)
 public class CommandFactoryShould {
 
-    private static final User RECIPIENT = new User(), SUBJECT = new User(), FOLLOWER = new User();
+    private static final User RECIPIENT = new User("recipient");
+    private static final User SUBJECT = new User("subject");
+    private static final User FOLLOWER = new User("follower");
     private static final String MESSAGE = "a message";
 
     private CommandFactory commandFactory;
@@ -27,6 +30,9 @@ public class CommandFactoryShould {
 
     @Mock
     private MessageRepository messageRepository;
+
+    @Mock
+    private UserRepository userRepository;
 
     @Mock
     private Clock clock;
@@ -39,7 +45,7 @@ public class CommandFactoryShould {
 
     @Before
     public void initialize() {
-        commandFactory = new CommandFactory(controller, messageRepository, clock, timestampFormatter, output);
+        commandFactory = new CommandFactory(controller, messageRepository, userRepository, clock, timestampFormatter, output);
     }
 
     @Test
@@ -53,7 +59,7 @@ public class CommandFactoryShould {
 
     @Test
     public void make_a_post_command() {
-        PostCommand expectedCommand = new PostCommand(RECIPIENT, MESSAGE, messageRepository, clock);
+        PostCommand expectedCommand = new PostCommand(RECIPIENT, MESSAGE, messageRepository, userRepository, clock);
 
         Command command = commandFactory.makePostCommand(RECIPIENT, MESSAGE);
 
