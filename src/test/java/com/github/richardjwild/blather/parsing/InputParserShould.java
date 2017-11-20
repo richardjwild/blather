@@ -17,78 +17,78 @@ public class InputParserShould {
 
     @Test
     public void reads_a_read_command_verb() {
-        BlatherVerb verb = inputParser.verb("user");
+        ParsedInput parsedInput = inputParser.parse("user");
 
-        assertThat(verb).isEqualTo(BlatherVerb.READ);
+        assertThat(parsedInput.verb()).isEqualTo(BlatherVerb.READ);
     }
 
     @Test
     public void read_a_read_command_subject() {
-        String actualSubject = inputParser.readCommandSubject("user");
+        ParsedInput parsedInput = inputParser.parse("user");
 
-        assertThat(actualSubject).isEqualTo("user");
+        assertThat(parsedInput.readCommandSubject()).isEqualTo("user");
     }
 
     @Test
     public void read_a_follow_command_verb() {
-        BlatherVerb verb = inputParser.verb("user follows subject");
+        ParsedInput parsedInput = inputParser.parse("user follows subject");
 
-        assertThat(verb).isEqualTo(FOLLOW);
+        assertThat(parsedInput.verb()).isEqualTo(FOLLOW);
     }
 
     @Test
     public void read_a_follow_command_actor() {
-        String actualUser = inputParser.followCommandActor("user follows subject");
+        ParsedInput parsedInput = inputParser.parse("user follows subject");
 
-        assertThat(actualUser).isEqualTo("user");
+        assertThat(parsedInput.followCommandActor()).isEqualTo("user");
     }
 
     @Test
     public void read_a_follow_command_subject() {
-        String actualSubject = inputParser.followCommandSubject("user follows subject");
+        ParsedInput parsedInput = inputParser.parse("user follows subject");
 
-        assertThat(actualSubject).isEqualTo("subject");
+        assertThat(parsedInput.followCommandSubject()).isEqualTo("subject");
     }
 
     @Test
     public void read_a_post_command_verb() {
-        BlatherVerb verb = inputParser.verb("recipient -> message");
+        ParsedInput parsedInput = inputParser.parse("recipient -> message");
 
-        assertThat(verb).isEqualTo(POST);
+        assertThat(parsedInput.verb()).isEqualTo(POST);
     }
 
     @Test
     public void read_a_post_command_recipient() {
-        String actualRecipient = inputParser.postCommandRecipient("recipient -> a message");
+        ParsedInput parsedInput = inputParser.parse("recipient -> a message");
 
-        assertThat(actualRecipient).isEqualTo("recipient");
+        assertThat(parsedInput.postCommandRecipient()).isEqualTo("recipient");
     }
 
     @Test
     public void read_a_post_command_message() {
-        String actualMessage = inputParser.postCommandMessage("recipient -> a message");
+        ParsedInput parsedInput = inputParser.parse("recipient -> a message");
 
-        assertThat(actualMessage).isEqualTo("a message");
+        assertThat(parsedInput.postCommandMessage()).isEqualTo("a message");
     }
 
     @Test
     public void read_a_wall_command_verb() {
-        BlatherVerb verb = inputParser.verb("subject wall");
+        ParsedInput parsedInput = inputParser.parse("subject wall");
 
-        assertThat(verb).isEqualTo(WALL);
+        assertThat(parsedInput.verb()).isEqualTo(WALL);
     }
 
     @Test
     public void read_a_wall_command_subject() {
-        String actualSubject = inputParser.wallCommandSubject("subject wall");
+        ParsedInput parsedInput = inputParser.parse("subject wall");
 
-        assertThat(actualSubject).isEqualTo("subject");
+        assertThat(parsedInput.wallCommandSubject()).isEqualTo("subject");
     }
 
     @Test
     public void read_a_quit_command() {
-        BlatherVerb verb = inputParser.verb("quit");
+        ParsedInput parsedInput = inputParser.parse("quit");
 
-        assertThat(verb).isEqualTo(QUIT);
+        assertThat(parsedInput.verb()).isEqualTo(QUIT);
     }
 }

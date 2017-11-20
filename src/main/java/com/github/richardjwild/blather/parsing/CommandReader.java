@@ -18,43 +18,44 @@ public class CommandReader {
 
     public Command readNextCommand() {
         String inputLine = input.readLine();
-        return buildCommandFrom(inputLine);
+        ParsedInput parsedInput = inputParser.parse(inputLine);
+        return buildCommandFrom(parsedInput);
     }
 
-    private Command buildCommandFrom(String inputLine) {
-        switch (inputParser.verb(inputLine)) {
+    private Command buildCommandFrom(ParsedInput parsedInput) {
+        switch (parsedInput.verb()) {
             case POST:
-                return makePostCommand(inputLine);
+                return makePostCommand(parsedInput);
             case READ:
-                return makeReadCommand(inputLine);
+                return makeReadCommand(parsedInput);
             case FOLLOW:
-                return makeFollowCommand(inputLine);
+                return makeFollowCommand(parsedInput);
             case WALL:
-                return makeWallCommand(inputLine);
+                return makeWallCommand(parsedInput);
             default:
                 return commandFactory.makeQuitCommand();
         }
     }
 
-    private Command makePostCommand(String inputLine) {
-        String recipient = inputParser.postCommandRecipient(inputLine);
-        String message = inputParser.postCommandMessage(inputLine);
+    private Command makePostCommand(ParsedInput parsedInput) {
+        String recipient = parsedInput.postCommandRecipient();
+        String message = parsedInput.postCommandMessage();
         return commandFactory.makePostCommand(recipient, message);
     }
 
-    private Command makeReadCommand(String inputLine) {
-        String subject = inputParser.readCommandSubject(inputLine);
+    private Command makeReadCommand(ParsedInput parsedInput) {
+        String subject = parsedInput.readCommandSubject();
         return commandFactory.makeReadCommand(subject);
     }
 
-    private Command makeFollowCommand(String inputLine) {
-        String follower = inputParser.followCommandActor(inputLine);
-        String subject = inputParser.followCommandSubject(inputLine);
+    private Command makeFollowCommand(ParsedInput parsedInput) {
+        String follower = parsedInput.followCommandActor();
+        String subject = parsedInput.followCommandSubject();
         return commandFactory.makeFollowCommand(follower, subject);
     }
 
-    private Command makeWallCommand(String inputLine) {
-        String subject = inputParser.wallCommandSubject(inputLine);
+    private Command makeWallCommand(ParsedInput parsedInput) {
+        String subject = parsedInput.wallCommandSubject();
         return commandFactory.makeWallCommand(subject);
     }
 }

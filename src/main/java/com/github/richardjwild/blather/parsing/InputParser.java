@@ -1,40 +1,47 @@
 package com.github.richardjwild.blather.parsing;
 
+import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.joining;
+
 public class InputParser {
 
-    public InputParser() {
+    public ParsedInput parse(String line) {
+        String[] words = line.split(" ");
+        return new ParsedInput(
+                determineVerb(words),
+                determinePostRecipient(words),
+                determinePostMessage(words),
+                determineReadSubject(words),
+                determineFollowActor(words),
+                determineFollowSubject(words),
+                determineWallSubject(words));
     }
 
-    BlatherVerb verb(String line) {
-        String verbText = deconstruct(line).verb;
-        return BlatherVerb.fromText(verbText);
+    private String determineVerb(String[] words) {
+        return words.length == 1 ? words[0] : words[1];
     }
 
-    String postCommandRecipient(String line) {
-        return deconstruct(line).postRecipient;
+    private String determinePostRecipient(String[] words) {
+        return words[0];
     }
 
-    String postCommandMessage(String line) {
-        return deconstruct(line).postMessage;
+    private String determinePostMessage(String[] words) {
+        return stream(words).skip(2).collect(joining(" "));
     }
 
-    String readCommandSubject(String line) {
-        return deconstruct(line).readSubject;
+    private String determineReadSubject(String[] words) {
+        return words[0];
     }
 
-    String followCommandActor(String inputLine) {
-        return deconstruct(inputLine).followActor;
+    private String determineFollowActor(String[] words) {
+        return words[0];
     }
 
-    String followCommandSubject(String line) {
-        return deconstruct(line).followSubject;
+    private String determineFollowSubject(String[] words) {
+        return (words.length >= 3) ? words[2] : null;
     }
 
-    String wallCommandSubject(String line) {
-        return deconstruct(line).wallSubject;
-    }
-
-    private InputCommand deconstruct(String line) {
-        return new InputCommand(line);
+    private String determineWallSubject(String[] words) {
+        return words[0];
     }
 }

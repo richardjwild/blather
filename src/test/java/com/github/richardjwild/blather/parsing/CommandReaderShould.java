@@ -33,17 +33,21 @@ public class CommandReaderShould {
     @Mock
     private Command command;
 
+    @Mock
+    private ParsedInput parsedInput;
+
     private CommandReader commandReader;
 
     @Before
     public void initialize() {
         commandReader = new CommandReader(input, inputParser, commandFactory);
         when(input.readLine()).thenReturn(INPUT_LINE);
+        when(inputParser.parse(INPUT_LINE)).thenReturn(parsedInput);
     }
 
     @Test
     public void read_a_quit_command() {
-        when(inputParser.verb(INPUT_LINE)).thenReturn(BlatherVerb.QUIT);
+        when(parsedInput.verb()).thenReturn(BlatherVerb.QUIT);
         when(commandFactory.makeQuitCommand()).thenReturn(command);
 
         Command actualCommand = commandReader.readNextCommand();
@@ -53,9 +57,9 @@ public class CommandReaderShould {
 
     @Test
     public void read_a_post_command() {
-        when(inputParser.verb(INPUT_LINE)).thenReturn(BlatherVerb.POST);
-        when(inputParser.postCommandRecipient(INPUT_LINE)).thenReturn(RECIPIENT);
-        when(inputParser.postCommandMessage(INPUT_LINE)).thenReturn(MESSAGE);
+        when(parsedInput.verb()).thenReturn(BlatherVerb.POST);
+        when(parsedInput.postCommandRecipient()).thenReturn(RECIPIENT);
+        when(parsedInput.postCommandMessage()).thenReturn(MESSAGE);
         when(commandFactory.makePostCommand(RECIPIENT, MESSAGE)).thenReturn(command);
 
         Command actualCommand = commandReader.readNextCommand();
@@ -65,8 +69,8 @@ public class CommandReaderShould {
 
     @Test
     public void read_a_read_command() {
-        when(inputParser.verb(INPUT_LINE)).thenReturn(BlatherVerb.READ);
-        when(inputParser.readCommandSubject(INPUT_LINE)).thenReturn(SUBJECT);
+        when(parsedInput.verb()).thenReturn(BlatherVerb.READ);
+        when(parsedInput.readCommandSubject()).thenReturn(SUBJECT);
         when(commandFactory.makeReadCommand(SUBJECT)).thenReturn(command);
 
         Command actualCommand = commandReader.readNextCommand();
@@ -76,9 +80,9 @@ public class CommandReaderShould {
 
     @Test
     public void read_a_follow_command() {
-        when(inputParser.verb(INPUT_LINE)).thenReturn(BlatherVerb.FOLLOW);
-        when(inputParser.followCommandActor(INPUT_LINE)).thenReturn(FOLLOWER);
-        when(inputParser.followCommandSubject(INPUT_LINE)).thenReturn(SUBJECT);
+        when(parsedInput.verb()).thenReturn(BlatherVerb.FOLLOW);
+        when(parsedInput.followCommandActor()).thenReturn(FOLLOWER);
+        when(parsedInput.followCommandSubject()).thenReturn(SUBJECT);
         when(commandFactory.makeFollowCommand(FOLLOWER, SUBJECT)).thenReturn(command);
 
         Command actualCommand = commandReader.readNextCommand();
@@ -88,8 +92,8 @@ public class CommandReaderShould {
 
     @Test
     public void read_a_wall_command() {
-        when(inputParser.verb(INPUT_LINE)).thenReturn(BlatherVerb.WALL);
-        when(inputParser.wallCommandSubject(INPUT_LINE)).thenReturn(SUBJECT);
+        when(parsedInput.verb()).thenReturn(BlatherVerb.WALL);
+        when(parsedInput.wallCommandSubject()).thenReturn(SUBJECT);
         when(commandFactory.makeWallCommand(SUBJECT)).thenReturn(command);
 
         Command actualCommand = commandReader.readNextCommand();
