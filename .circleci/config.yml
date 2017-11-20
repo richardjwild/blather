@@ -4,7 +4,7 @@ jobs:
     docker:
       - image: circleci/openjdk:8-jdk
       
-    working_directory: ~/datatransfer
+    working_directory: ~/blather
 
     environment:
       JVM_OPTS: -Xmx3200m
@@ -32,4 +32,4 @@ jobs:
               echo Building executable...
               gradle build
               echo Running end-to-end test...
-              src/test/resources/test-end-to-end.sh ~/datatransfer
+              src/test/resources/test-end-to-end.sh ~/blather
