@@ -27,9 +27,9 @@ jobs:
         
       - run: gradle test
 
-      - run: gradle build
-
       - run:
           command: |
-              echo Running end-to-end test
+              echo Building executable...
+              gradle build
+              echo Running end-to-end test...
               src/test/resources/test-end-to-end.sh
