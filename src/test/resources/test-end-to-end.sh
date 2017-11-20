@@ -1,14 +1,19 @@
 #!/bin/bash
 
-WORKING_DIRECTORY=$1
-BLATHER_EXECUTABLE=${WORKING_DIRECTORY}/build/libs/blather.jar
+if [ "$1" == "" ]; then
+    WORKING_DIRECTORY=.
+else
+    WORKING_DIRECTORY=$1
+fi
 
-echo "Checking for Blather executable at: ${BLATHER_EXECUTABLE}"
-ls -la ${WORKING_DIRECTORY}/build/libs
+BLATHER_EXECUTABLE=${WORKING_DIRECTORY}/build/libs/blather.jar
+echo "Checking for Blather executable at: ${BLATHER_EXECUTABLE}..."
 if [ ! -f ${WORKING_DIRECTORY}/build/libs/blather.jar ]; then
     echo "Test failed! Blather executable was not found"
     exit 1
 fi
+
+echo "Testing Blather..."
 
 EXPECTED="Welcome to Blather
 Bye!"

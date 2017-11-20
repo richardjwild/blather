@@ -18,16 +18,21 @@ jobs:
           - v1-dependencies-{{ checksum "build.gradle" }}
           - v1-dependencies-
 
-      - run: gradle dependencies
+      - run:
+          name: Gradle dependencies
+          command: gradle dependencies
 
       - save_cache:
           paths:
             - ~/.m2
           key: v1-dependencies-{{ checksum "build.gradle" }}
         
-      - run: gradle test
+      - run:
+          name: Unit tests
+          command: gradle test
 
       - run:
+          name: End-to-end tests
           command: |
               echo Building executable...
               gradle build
