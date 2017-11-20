@@ -4,6 +4,7 @@ WORKING_DIRECTORY=$1
 BLATHER_EXECUTABLE=${WORKING_DIRECTORY}/build/libs/blather.jar
 
 echo "Checking for Blather executable at: ${BLATHER_EXECUTABLE}"
+ls -la ${WORKING_DIRECTORY}
 if [ ! -f ${WORKING_DIRECTORY}/build/libs/blather.jar ]; then
     echo "Test failed! Blather executable was not found"
     exit 1
