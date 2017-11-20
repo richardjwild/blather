@@ -1,9 +1,12 @@
 package com.github.richardjwild.blather.time;
 
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.time.Instant;
@@ -11,8 +14,9 @@ import java.time.Instant;
 import static java.time.Instant.now;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(JUnitParamsRunner.class)
 public class TimestampFormatterShould {
 
     @Mock
@@ -22,36 +26,22 @@ public class TimestampFormatterShould {
 
     @Before
     public void initialize() {
+        initMocks(this);
         timestampFormatter = new TimestampFormatter(clock);
     }
 
     @Test
-    public void format_a_timestamp_from_just_now_as_0_seconds_ago() {
+    @Parameters({
+            "0 | (0 seconds ago)",
+            "1 | (1 second ago)",
+            "2 | (2 seconds ago)"
+    })
+    public void format_a_timestamp_from_an_interval(int secondsAgo, String expectedFormattedValue) {
         Instant timestamp = now();
-        when(clock.now()).thenReturn(timestamp);
+        when(clock.now()).thenReturn(timestamp.plusSeconds(secondsAgo));
 
         String formattedTimestamp = timestampFormatter.format(timestamp);
 
-        assertThat(formattedTimestamp).isEqualTo("(0 seconds ago)");
-    }
-
-    @Test
-    public void format_a_timestamp_from_1_second_ago_as_1_second_ago() {
-        Instant timestamp = now();
-        when(clock.now()).thenReturn(timestamp.plusSeconds(1));
-
-        String formattedTimestamp = timestampFormatter.format(timestamp);
-
-        assertThat(formattedTimestamp).isEqualTo("(1 second ago)");
-    }
-
-    @Test
-    public void format_a_timestamp_from_2_seconds_ago_as_2_second_ago() {
-        Instant timestamp = now();
-        when(clock.now()).thenReturn(timestamp.plusSeconds(2));
-
-        String formattedTimestamp = timestampFormatter.format(timestamp);
-
-        assertThat(formattedTimestamp).isEqualTo("(2 seconds ago)");
+        assertThat(formattedTimestamp).isEqualTo(expectedFormattedValue);
     }
 }
