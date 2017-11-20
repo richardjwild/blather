@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ ! -f build/libs/blather.jar ]; then
+    echo "Test failed! Blather executable was not found"
+    exit 1
+fi
+
 EXPECTED="Welcome to Blather
 Bye!"
 
