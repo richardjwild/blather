@@ -2,16 +2,16 @@ package com.github.richardjwild.blather.parsing;
 
 class ParsedInput {
 
-    final String verb;
-    final String postRecipient;
-    final String postMessage;
-    final String readSubject;
-    final String followActor;
-    final String followSubject;
-    final String wallSubject;
+    private final String verb;
+    private final String postRecipient;
+    private final String postMessage;
+    private final String readSubject;
+    private final String followActor;
+    private final String followSubject;
+    private final String wallSubject;
 
-    public ParsedInput(String verb, String postRecipient, String postMessage, String readSubject,
-                       String followActor, String followSubject, String wallSubject) {
+    ParsedInput(String verb, String postRecipient, String postMessage, String readSubject,
+                String followActor, String followSubject, String wallSubject) {
         this.verb = verb;
         this.postRecipient = postRecipient;
         this.postMessage = postMessage;
@@ -21,31 +21,31 @@ class ParsedInput {
         this.wallSubject = wallSubject;
     }
 
-    public BlatherVerb verb() {
+    BlatherVerb verb() {
         return BlatherVerb.fromText(verb);
     }
 
-    public String postCommandRecipient() {
+    String postCommandRecipient() {
         return postRecipient;
     }
 
-    public String postCommandMessage() {
+    String postCommandMessage() {
         return postMessage;
     }
 
-    public String readCommandSubject() {
+    String readCommandSubject() {
         return readSubject;
     }
 
-    public String followCommandActor() {
+    String followCommandActor() {
         return followActor;
     }
 
-    public String followCommandSubject() {
+    String followCommandSubject() {
         return followSubject;
     }
 
-    public String wallCommandSubject() {
+    String wallCommandSubject() {
         return wallSubject;
     }
 }
