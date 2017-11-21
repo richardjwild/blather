@@ -42,6 +42,6 @@ public class CommandFactory {
     }
 
     public Command makeWallCommand(String subject) {
-        return new WallCommand(subject);
+        return new WallCommand(subject, userRepository, messageRepository, timestampFormatter, output);
     }
 }

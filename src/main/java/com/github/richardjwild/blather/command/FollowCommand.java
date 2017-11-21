@@ -20,11 +20,20 @@ public class FollowCommand implements Command {
 
     @Override
     public void execute() {
-        userRepository.find(this.follower).ifPresent(this::followSubject);
+        User follower = getOrCreateFollower();
+        followSubject(follower);
+    }
+
+    private User getOrCreateFollower() {
+        return userRepository.find(follower).orElseGet(this::createFollower);
+    }
+
+    private User createFollower() {
+        return new User(follower);
     }
 
     private void followSubject(User follower) {
-        userRepository.find(this.following).ifPresent(following -> addRelationship(follower, following));
+        userRepository.find(following).ifPresent(following -> addRelationship(follower, following));
     }
 
     private void addRelationship(User follower, User following) {

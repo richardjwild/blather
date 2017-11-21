@@ -4,6 +4,7 @@ import com.github.richardjwild.blather.application.Controller;
 import com.github.richardjwild.blather.application.EventLoop;
 import com.github.richardjwild.blather.command.CommandFactory;
 import com.github.richardjwild.blather.datatransfer.MessageRepository;
+import com.github.richardjwild.blather.io.ConsoleOutput;
 import com.github.richardjwild.blather.parsing.CommandReader;
 import com.github.richardjwild.blather.io.Input;
 import com.github.richardjwild.blather.parsing.InputParser;
@@ -83,4 +84,35 @@ public class BlatherApplicationShould {
         inOrder.verify(output).writeLine("I wanna party :) (1 second ago)");
         inOrder.verify(output).writeLine("Bye!");
     }
+
+    @Test
+    public void allow_a_user_to_follow_other_users() {
+        when(input.readLine())
+                .thenReturn("Alice -> My first message")
+                .thenReturn("Bob -> Hello world!")
+                .thenReturn("Alice -> Sup everyone?")
+                .thenReturn("Bob -> I wanna party :)")
+                .thenReturn("Emma follows Bob")
+                .thenReturn("Emma follows Alice")
+                .thenReturn("Emma wall")
+                .thenReturn("quit");
+        Instant now = Instant.now();
+        when(clock.now())
+                .thenReturn(now.minusSeconds(TWO_MINUTES))
+                .thenReturn(now.minusSeconds(ONE_MINUTE))
+                .thenReturn(now.minusSeconds(FIFTEEN_SECONDS))
+                .thenReturn(now.minusSeconds(ONE_SECOND))
+                .thenReturn(now);
+
+        blather.runApplication();
+
+        InOrder inOrder = inOrder(output);
+        inOrder.verify(output).writeLine("Welcome to Blather");
+        inOrder.verify(output).writeLine("Alice - My first message (2 minutes ago)");
+        inOrder.verify(output).writeLine("Bob - Hello world! (1 minute ago)");
+        inOrder.verify(output).writeLine("Alice - Sup everyone? (15 seconds ago)");
+        inOrder.verify(output).writeLine("Bob - I wanna party :) (1 second ago)");
+        inOrder.verify(output).writeLine("Bye!");
+    }
+
 }

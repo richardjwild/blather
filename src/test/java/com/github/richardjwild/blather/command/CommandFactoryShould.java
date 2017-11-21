@@ -85,7 +85,7 @@ public class CommandFactoryShould {
 
     @Test
     public void make_a_wall_command() {
-        WallCommand expectedCommand = new WallCommand(SUBJECT);
+        WallCommand expectedCommand = new WallCommand(SUBJECT, userRepository, messageRepository, timestampFormatter, output);
 
         Command command = commandFactory.makeWallCommand(SUBJECT);
 
