@@ -38,7 +38,7 @@ public class CommandFactory {
     }
 
     public Command makeFollowCommand(String follower, String subject) {
-        return new FollowCommand(follower, subject);
+        return new FollowCommand(follower, subject, userRepository);
     }
 
     public Command makeWallCommand(String subject) {

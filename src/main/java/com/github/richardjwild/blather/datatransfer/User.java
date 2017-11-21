@@ -1,8 +1,12 @@
 package com.github.richardjwild.blather.datatransfer;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class User {
 
     private final String name;
+    private Set<User> usersFollowing = new HashSet<>();
 
     public User(String name) {
         this.name = name;
@@ -11,6 +15,14 @@ public class User {
     @Override
     public String toString() {
         return name;
+    }
+
+    public Set<User> following() {
+        return usersFollowing;
+    }
+
+    public void follow(User following) {
+        usersFollowing.add(following);
     }
 
     @Override

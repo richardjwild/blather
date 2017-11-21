@@ -2,7 +2,6 @@ package com.github.richardjwild.blather.command;
 
 import com.github.richardjwild.blather.application.Controller;
 import com.github.richardjwild.blather.datatransfer.MessageRepository;
-import com.github.richardjwild.blather.datatransfer.User;
 import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Output;
 import com.github.richardjwild.blather.time.Clock;
@@ -77,7 +76,7 @@ public class CommandFactoryShould {
 
     @Test
     public void make_a_follow_command() {
-        FollowCommand expectedCommand = new FollowCommand(FOLLOWER, SUBJECT);
+        FollowCommand expectedCommand = new FollowCommand(FOLLOWER, SUBJECT, userRepository);
 
         Command command = commandFactory.makeFollowCommand(FOLLOWER, SUBJECT);
 
