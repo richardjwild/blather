@@ -9,11 +9,9 @@ import com.github.richardjwild.blather.time.TimestampFormatter;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Stream;
+import java.util.StringJoiner;
 
 import static java.util.Comparator.comparing;
-import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
 
@@ -25,7 +23,7 @@ public class WallCommand implements Command {
     private final TimestampFormatter timestampFormatter;
     private final Output output;
 
-    public WallCommand(String follower, UserRepository userRepository, MessageRepository messageRepository, TimestampFormatter timestampFormatter, Output output) {
+    WallCommand(String follower, UserRepository userRepository, MessageRepository messageRepository, TimestampFormatter timestampFormatter, Output output) {
         this.follower = follower;
         this.userRepository = userRepository;
         this.messageRepository = messageRepository;
@@ -43,11 +41,19 @@ public class WallCommand implements Command {
                 .map(this::allMessagesPostedTo)
                 .flatMap(Collection::stream)
                 .sorted(comparing(message -> message.timestamp))
-                .forEach(this::printMessage);
+                .map(this::formatWithNameAndTimestamp)
+                .forEach(output::writeLine);
     }
 
-    private void printMessage(Message message) {
-        output.writeLine(String.format("%s - %s %s", message.recipient, message.text, timestampFormatter.format(message.timestamp)));
+    private String formatWithNameAndTimestamp(Message message) {
+        return new StringJoiner(" ")
+                .add(formatNameAndMessageText(message))
+                .add(timestampFormatter.format(message.timestamp))
+                .toString();
+    }
+
+    private String formatNameAndMessageText(Message message) {
+        return String.format("%s - %s", message.recipient, message.text);
     }
 
     private List<Message> allMessagesPostedTo(User recipient) {
