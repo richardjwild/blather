@@ -15,10 +15,15 @@ fi
 
 echo "Testing Blather..."
 
+INPUT="Bob -> Hello world!
+Bob
+quit"
+
 EXPECTED="Welcome to Blather
+Hello world! (0 seconds ago)
 Bye!"
 
-ACTUAL=`echo quit | java -cp ${WORKING_DIRECTORY}/build/libs/blather.jar com.github.richardjwild.blather.Blather`
+ACTUAL=`echo "${INPUT}" | java -cp ${WORKING_DIRECTORY}/build/libs/blather.jar com.github.richardjwild.blather.Blather`
 
 if [ $? -ne 0 ]; then
     echo "Test failed! Error running Blather executable"

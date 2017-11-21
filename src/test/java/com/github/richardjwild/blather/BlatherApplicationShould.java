@@ -18,17 +18,27 @@ import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.time.Instant;
+
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BlatherApplicationShould {
 
+    private static final long TWO_MINUTES = 120;
+    private static final long ONE_MINUTE = 60;
+    private static final long FIFTEEN_SECONDS = 15;
+    private static final long ONE_SECOND = 1;
+
     @Mock
     private Input input;
 
     @Mock
     private Output output;
+
+    @Mock
+    private Clock clock;
 
     private Blather blather;
 
@@ -38,7 +48,6 @@ public class BlatherApplicationShould {
         InputParser inputParser = new InputParser();
         Controller controller = new Controller();
         MessageRepository messageRepository = new MessageRepository();
-        Clock clock = new Clock();
         TimestampFormatter timestampFormatter = new TimestampFormatter(clock);
         CommandFactory commandFactory = new CommandFactory(controller, messageRepository, userRepository, clock, timestampFormatter, output);
         CommandReader commandReader = new CommandReader(input, inputParser, commandFactory);
@@ -50,14 +59,28 @@ public class BlatherApplicationShould {
     public void display_a_users_posted_messages() {
         when(input.readLine())
                 .thenReturn("Alice -> My first message")
+                .thenReturn("Bob -> Hello world!")
+                .thenReturn("Alice -> Sup everyone?")
+                .thenReturn("Bob -> I wanna party :)")
                 .thenReturn("Alice")
+                .thenReturn("Bob")
                 .thenReturn("quit");
+        Instant now = Instant.now();
+        when(clock.now())
+                .thenReturn(now.minusSeconds(TWO_MINUTES))
+                .thenReturn(now.minusSeconds(ONE_MINUTE))
+                .thenReturn(now.minusSeconds(FIFTEEN_SECONDS))
+                .thenReturn(now.minusSeconds(ONE_SECOND))
+                .thenReturn(now);
 
         blather.runApplication();
 
         InOrder inOrder = inOrder(output);
         inOrder.verify(output).writeLine("Welcome to Blather");
-        inOrder.verify(output).writeLine("My first message (0 seconds ago)");
+        inOrder.verify(output).writeLine("My first message (2 minutes ago)");
+        inOrder.verify(output).writeLine("Sup everyone? (15 seconds ago)");
+        inOrder.verify(output).writeLine("Hello world! (1 minute ago)");
+        inOrder.verify(output).writeLine("I wanna party :) (1 second ago)");
         inOrder.verify(output).writeLine("Bye!");
     }
 }

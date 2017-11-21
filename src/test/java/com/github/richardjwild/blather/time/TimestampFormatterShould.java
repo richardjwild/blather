@@ -34,7 +34,10 @@ public class TimestampFormatterShould {
     @Parameters({
             "0 | (0 seconds ago)",
             "1 | (1 second ago)",
-            "2 | (2 seconds ago)"
+            "59 | (59 seconds ago)",
+            "60 | (1 minute ago)",
+            "119 | (1 minute ago)",
+            "120 | (2 minutes ago)"
     })
     public void format_a_timestamp_from_an_interval(int secondsAgo, String expectedFormattedValue) {
         Instant timestamp = now();

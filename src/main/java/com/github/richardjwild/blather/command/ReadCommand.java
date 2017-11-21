@@ -8,6 +8,7 @@ import com.github.richardjwild.blather.io.Output;
 import com.github.richardjwild.blather.time.TimestampFormatter;
 
 import java.util.StringJoiner;
+import java.util.function.Consumer;
 
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
