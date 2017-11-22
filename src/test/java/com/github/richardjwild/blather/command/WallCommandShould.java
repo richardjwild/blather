@@ -5,7 +5,8 @@ import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.User;
 import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Output;
-import com.github.richardjwild.blather.time.TimestampFormatter;
+import com.github.richardjwild.blather.messageformatting.MessageFormatter;
+import com.github.richardjwild.blather.messageformatting.TimestampFormatter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
@@ -32,43 +33,48 @@ public class WallCommandShould {
     private MessageRepository messageRepository;
 
     @Mock
-    private TimestampFormatter timestampFormatter;
+    private MessageFormatter wallMessageFormatter;
 
     @Test
     public void print_all_messages_posted_to_one_followed_user() {
-        Instant now = Instant.now();
         User bob = new User("Bob");
         User alice = new User("Alice");
         bob.follow(alice);
         when(userRepository.find("Bob")).thenReturn(of(bob));
-        when(messageRepository.allMessagesPostedTo(alice)).thenReturn(singletonList(new Message(alice, "First post!", now)));
-        when(timestampFormatter.format(now)).thenReturn("(TIMESTAMP)");
+        Message firstPost = new Message(alice, null, null);
+        when(messageRepository.allMessagesPostedTo(alice)).thenReturn(singletonList(firstPost));
+        when(wallMessageFormatter.format(firstPost)).thenReturn("alice first post message");
 
-        WallCommand wallCommand = new WallCommand("Bob", userRepository, messageRepository, timestampFormatter, output);
+        WallCommand wallCommand = new WallCommand("Bob", userRepository, messageRepository,
+                wallMessageFormatter, output);
         wallCommand.execute();
 
-        verify(output).writeLine("Alice - First post! (TIMESTAMP)");
+        verify(output).writeLine("alice first post message");
     }
 
     @Test
     public void print_all_messages_posted_to_multiple_followed_users() {
-        Instant now = Instant.now();
+        Instant timestamp = Instant.now();
         User bob = new User("Bob");
         User alice = new User("Alice");
         User jill = new User("Jill");
         bob.follow(alice);
         bob.follow(jill);
         when(userRepository.find("Bob")).thenReturn(of(bob));
-        when(messageRepository.allMessagesPostedTo(alice)).thenReturn(singletonList(new Message(alice, "First post!", now)));
-        when(messageRepository.allMessagesPostedTo(jill)).thenReturn(singletonList(new Message(jill, "Hello world!", now)));
-        when(timestampFormatter.format(now)).thenReturn("(TIMESTAMP)");
+        Message aliceFirstPost = new Message(alice, null, timestamp);
+        when(messageRepository.allMessagesPostedTo(alice)).thenReturn(singletonList(aliceFirstPost));
+        Message jillHelloWorld = new Message(jill, null, timestamp);
+        when(messageRepository.allMessagesPostedTo(jill)).thenReturn(singletonList(jillHelloWorld));
+        when(wallMessageFormatter.format(aliceFirstPost)).thenReturn("alice first post message");
+        when(wallMessageFormatter.format(jillHelloWorld)).thenReturn("jill hello world message");
 
-        WallCommand wallCommand = new WallCommand("Bob", userRepository, messageRepository, timestampFormatter, output);
+        WallCommand wallCommand = new WallCommand("Bob", userRepository, messageRepository,
+                wallMessageFormatter, output);
         wallCommand.execute();
 
         InOrder inOrder = inOrder(output);
-        inOrder.verify(output).writeLine("Alice - First post! (TIMESTAMP)");
-        inOrder.verify(output).writeLine("Jill - Hello world! (TIMESTAMP)");
+        inOrder.verify(output).writeLine("alice first post message");
+        inOrder.verify(output).writeLine("jill hello world message");
     }
 
     @Test
@@ -85,23 +91,24 @@ public class WallCommandShould {
         bob.follow(jill);
 
         when(userRepository.find("Bob")).thenReturn(of(bob));
-        when(messageRepository.allMessagesPostedTo(alice)).thenReturn(asList(
-                new Message(alice, "First post!", twoSecondsAgo),
-                new Message(alice, "This is my second post", now)));
-        when(messageRepository.allMessagesPostedTo(jill)).thenReturn(singletonList(
-                new Message(jill, "Hello world!", oneSecondAgo)));
+        Message aliceTwoSecondsAgo = new Message(alice, "First post!", twoSecondsAgo);
+        Message aliceRightNow = new Message(alice, "This is my second post", now);
+        when(messageRepository.allMessagesPostedTo(alice)).thenReturn(asList(aliceTwoSecondsAgo, aliceRightNow));
+        Message jillOneSecondAgo = new Message(jill, "Hello world!", oneSecondAgo);
+        when(messageRepository.allMessagesPostedTo(jill)).thenReturn(singletonList(jillOneSecondAgo));
 
-        when(timestampFormatter.format(twoSecondsAgo)).thenReturn("(TWO_SECONDS_AGO)");
-        when(timestampFormatter.format(oneSecondAgo)).thenReturn("(ONE_SECOND_AGO)");
-        when(timestampFormatter.format(now)).thenReturn("(NOW)");
+        when(wallMessageFormatter.format(aliceTwoSecondsAgo)).thenReturn("alice two seconds ago");
+        when(wallMessageFormatter.format(jillOneSecondAgo)).thenReturn("jill one second ago");
+        when(wallMessageFormatter.format(aliceRightNow)).thenReturn("alice right now");
 
-        WallCommand wallCommand = new WallCommand("Bob", userRepository, messageRepository, timestampFormatter, output);
+        WallCommand wallCommand = new WallCommand("Bob", userRepository, messageRepository,
+                wallMessageFormatter, output);
         wallCommand.execute();
 
         InOrder inOrder = inOrder(output);
-        inOrder.verify(output).writeLine("Alice - First post! (TWO_SECONDS_AGO)");
-        inOrder.verify(output).writeLine("Jill - Hello world! (ONE_SECOND_AGO)");
-        inOrder.verify(output).writeLine("Alice - This is my second post (NOW)");
+        inOrder.verify(output).writeLine("alice two seconds ago");
+        inOrder.verify(output).writeLine("jill one second ago");
+        inOrder.verify(output).writeLine("alice right now");
     }
 
 }

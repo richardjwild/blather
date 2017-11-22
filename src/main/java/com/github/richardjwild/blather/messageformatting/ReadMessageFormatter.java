@@ -1,0 +1,22 @@
+package com.github.richardjwild.blather.messageformatting;
+
+import com.github.richardjwild.blather.datatransfer.Message;
+
+import java.util.StringJoiner;
+
+public class ReadMessageFormatter implements MessageFormatter {
+
+    private final TimestampFormatter timestampFormatter;
+
+    public ReadMessageFormatter(TimestampFormatter timestampFormatter) {
+        this.timestampFormatter = timestampFormatter;
+    }
+
+    @Override
+    public String format(Message message) {
+        return new StringJoiner(" ")
+                .add(message.text)
+                .add(timestampFormatter.format(message.timestamp))
+                .toString();
+    }
+}

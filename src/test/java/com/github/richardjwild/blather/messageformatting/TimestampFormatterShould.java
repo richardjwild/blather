@@ -1,13 +1,12 @@
-package com.github.richardjwild.blather.time;
+package com.github.richardjwild.blather.messageformatting;
 
+import com.github.richardjwild.blather.time.Clock;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import java.time.Instant;
 

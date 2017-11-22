@@ -5,11 +5,10 @@ import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.User;
 import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Output;
-import com.github.richardjwild.blather.time.TimestampFormatter;
+import com.github.richardjwild.blather.messageformatting.MessageFormatter;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.StringJoiner;
 
 import static java.util.Comparator.comparing;
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
@@ -20,14 +19,14 @@ public class WallCommand implements Command {
     private final String follower;
     private final UserRepository userRepository;
     private final MessageRepository messageRepository;
-    private final TimestampFormatter timestampFormatter;
+    private final MessageFormatter messageFormatter;
     private final Output output;
 
-    WallCommand(String follower, UserRepository userRepository, MessageRepository messageRepository, TimestampFormatter timestampFormatter, Output output) {
+    WallCommand(String follower, UserRepository userRepository, MessageRepository messageRepository, MessageFormatter messageFormatter, Output output) {
         this.follower = follower;
         this.userRepository = userRepository;
         this.messageRepository = messageRepository;
-        this.timestampFormatter = timestampFormatter;
+        this.messageFormatter = messageFormatter;
         this.output = output;
     }
 
@@ -38,29 +37,11 @@ public class WallCommand implements Command {
 
     private void printAllMessagesPostedToFollowees(User follower) {
         follower.following().stream()
-                .map(this::allMessagesPostedTo)
+                .map(messageRepository::allMessagesPostedTo)
                 .flatMap(Collection::stream)
                 .sorted(comparing(message -> message.timestamp))
-                .map(this::formatWithNameAndTimestamp)
+                .map(messageFormatter::format)
                 .forEach(output::writeLine);
-    }
-
-    private String formatWithNameAndTimestamp(Message message) {
-        return new StringJoiner(" - ")
-                .add(message.recipient.toString())
-                .add(formatWithTimestamp(message))
-                .toString();
-    }
-
-    private String formatWithTimestamp(Message message) {
-        return new StringJoiner(" ")
-                .add(message.text)
-                .add(timestampFormatter.format(message.timestamp))
-                .toString();
-    }
-
-    private List<Message> allMessagesPostedTo(User recipient) {
-        return messageRepository.allMessagesPostedTo(recipient);
     }
 
     @Override

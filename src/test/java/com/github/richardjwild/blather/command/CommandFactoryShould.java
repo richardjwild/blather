@@ -4,8 +4,9 @@ import com.github.richardjwild.blather.application.Controller;
 import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Output;
+import com.github.richardjwild.blather.messageformatting.MessageFormatter;
 import com.github.richardjwild.blather.time.Clock;
-import com.github.richardjwild.blather.time.TimestampFormatter;
+import com.github.richardjwild.blather.messageformatting.TimestampFormatter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,14 +38,18 @@ public class CommandFactoryShould {
     private Clock clock;
 
     @Mock
-    private TimestampFormatter timestampFormatter;
+    private Output output;
 
     @Mock
-    private Output output;
+    private MessageFormatter readMessageFormatter;
+
+    @Mock
+    private MessageFormatter wallMessageFormatter;
 
     @Before
     public void initialize() {
-        commandFactory = new CommandFactory(controller, messageRepository, userRepository, clock, timestampFormatter, output);
+        commandFactory = new CommandFactory(controller, messageRepository, userRepository, clock,
+                readMessageFormatter, wallMessageFormatter, output);
     }
 
     @Test
@@ -58,7 +63,8 @@ public class CommandFactoryShould {
 
     @Test
     public void make_a_post_command() {
-        PostCommand expectedCommand = new PostCommand(RECIPIENT, MESSAGE, messageRepository, userRepository, clock);
+        PostCommand expectedCommand = new PostCommand(RECIPIENT, MESSAGE, messageRepository, userRepository,
+                clock);
 
         Command command = commandFactory.makePostCommand(RECIPIENT, MESSAGE);
 
@@ -67,7 +73,8 @@ public class CommandFactoryShould {
 
     @Test
     public void make_a_read_command() {
-        ReadCommand expectedCommand = new ReadCommand(SUBJECT, messageRepository, userRepository, timestampFormatter, output);
+        ReadCommand expectedCommand = new ReadCommand(SUBJECT, messageRepository, userRepository,
+                readMessageFormatter, output);
 
         Command command = commandFactory.makeReadCommand(SUBJECT);
 
@@ -85,7 +92,8 @@ public class CommandFactoryShould {
 
     @Test
     public void make_a_wall_command() {
-        WallCommand expectedCommand = new WallCommand(SUBJECT, userRepository, messageRepository, timestampFormatter, output);
+        WallCommand expectedCommand = new WallCommand(SUBJECT, userRepository, messageRepository,
+                wallMessageFormatter, output);
 
         Command command = commandFactory.makeWallCommand(SUBJECT);
 

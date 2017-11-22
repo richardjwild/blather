@@ -9,10 +9,13 @@ import com.github.richardjwild.blather.io.ConsoleInput;
 import com.github.richardjwild.blather.io.ConsoleOutput;
 import com.github.richardjwild.blather.io.Input;
 import com.github.richardjwild.blather.io.Output;
+import com.github.richardjwild.blather.messageformatting.MessageFormatter;
+import com.github.richardjwild.blather.messageformatting.ReadMessageFormatter;
+import com.github.richardjwild.blather.messageformatting.WallMessageFormatter;
 import com.github.richardjwild.blather.parsing.CommandReader;
 import com.github.richardjwild.blather.parsing.InputParser;
 import com.github.richardjwild.blather.time.Clock;
-import com.github.richardjwild.blather.time.TimestampFormatter;
+import com.github.richardjwild.blather.messageformatting.TimestampFormatter;
 
 public class ApplicationBuilder {
 
@@ -25,7 +28,10 @@ public class ApplicationBuilder {
         Input input = new ConsoleInput();
         Output output = new ConsoleOutput();
         TimestampFormatter timestampFormatter = new TimestampFormatter(clock);
-        CommandFactory commandFactory = new CommandFactory(controller, messageRepository, userRepository, clock, timestampFormatter, output);
+        MessageFormatter readMessageFormatter = new ReadMessageFormatter(timestampFormatter);
+        MessageFormatter wallMessageFormatter = new WallMessageFormatter(readMessageFormatter);
+        CommandFactory commandFactory = new CommandFactory(controller, messageRepository, userRepository, clock,
+                readMessageFormatter, wallMessageFormatter, output);
         CommandReader commandReader = new CommandReader(input, inputParser, commandFactory);
         EventLoop eventLoop = new EventLoop(commandReader, controller);
         return new Blather(eventLoop, output);

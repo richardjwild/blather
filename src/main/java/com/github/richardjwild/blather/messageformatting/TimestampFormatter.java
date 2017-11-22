@@ -1,4 +1,6 @@
-package com.github.richardjwild.blather.time;
+package com.github.richardjwild.blather.messageformatting;
+
+import com.github.richardjwild.blather.time.Clock;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
