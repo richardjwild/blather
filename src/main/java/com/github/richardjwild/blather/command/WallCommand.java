@@ -46,14 +46,17 @@ public class WallCommand implements Command {
     }
 
     private String formatWithNameAndTimestamp(Message message) {
-        return new StringJoiner(" ")
-                .add(formatNameAndMessageText(message))
-                .add(timestampFormatter.format(message.timestamp))
+        return new StringJoiner(" - ")
+                .add(message.recipient.toString())
+                .add(formatWithTimestamp(message))
                 .toString();
     }
 
-    private String formatNameAndMessageText(Message message) {
-        return String.format("%s - %s", message.recipient, message.text);
+    private String formatWithTimestamp(Message message) {
+        return new StringJoiner(" ")
+                .add(message.text)
+                .add(timestampFormatter.format(message.timestamp))
+                .toString();
     }
 
     private List<Message> allMessagesPostedTo(User recipient) {
