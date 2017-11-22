@@ -12,3 +12,8 @@ dependencies {
     testCompile group: 'pl.pragmatists', name: 'JUnitParams', version: '1.1.0'
 }
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.github.richardjwild.blather.Blather'
+    }
+}
