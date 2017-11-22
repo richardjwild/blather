@@ -4,7 +4,7 @@ import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.User;
 import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Output;
-import com.github.richardjwild.blather.messageformatting.MessageFormatter;
+import com.github.richardjwild.blather.messageformatting.ReadMessageFormatter;
 
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
@@ -14,14 +14,11 @@ public class ReadCommand implements Command {
     private final String subject;
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
-    private final MessageFormatter messageFormatter;
+    private final ReadMessageFormatter messageFormatter;
     private final Output output;
 
-    ReadCommand(String subject,
-                MessageRepository messageRepository,
-                UserRepository userRepository,
-                MessageFormatter messageFormatter,
-                Output output) {
+    ReadCommand(String subject, MessageRepository messageRepository, UserRepository userRepository,
+                ReadMessageFormatter messageFormatter, Output output) {
         this.subject = subject;
         this.messageRepository = messageRepository;
         this.userRepository = userRepository;

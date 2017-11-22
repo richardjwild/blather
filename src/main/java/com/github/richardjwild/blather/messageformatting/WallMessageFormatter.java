@@ -4,15 +4,14 @@ import com.github.richardjwild.blather.datatransfer.Message;
 
 import java.util.StringJoiner;
 
-public class WallMessageFormatter implements MessageFormatter {
+public class WallMessageFormatter {
 
-    private final MessageFormatter readMessageFormatter;
+    private final ReadMessageFormatter readMessageFormatter;
 
-    public WallMessageFormatter(MessageFormatter readMessageFormatter) {
+    public WallMessageFormatter(ReadMessageFormatter readMessageFormatter) {
         this.readMessageFormatter = readMessageFormatter;
     }
 
-    @Override
     public String format(Message message) {
         return new StringJoiner(" - ")
                 .add(message.recipient.toString())

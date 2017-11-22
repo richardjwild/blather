@@ -4,7 +4,7 @@ import com.github.richardjwild.blather.datatransfer.Message;
 
 import java.util.StringJoiner;
 
-public class ReadMessageFormatter implements MessageFormatter {
+public class ReadMessageFormatter {
 
     private final TimestampFormatter timestampFormatter;
 
@@ -12,7 +12,6 @@ public class ReadMessageFormatter implements MessageFormatter {
         this.timestampFormatter = timestampFormatter;
     }
 
-    @Override
     public String format(Message message) {
         return new StringJoiner(" ")
                 .add(message.text)

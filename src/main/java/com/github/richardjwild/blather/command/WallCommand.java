@@ -1,14 +1,12 @@
 package com.github.richardjwild.blather.command;
 
-import com.github.richardjwild.blather.datatransfer.Message;
 import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.User;
 import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Output;
-import com.github.richardjwild.blather.messageformatting.MessageFormatter;
+import com.github.richardjwild.blather.messageformatting.WallMessageFormatter;
 
 import java.util.Collection;
-import java.util.List;
 
 import static java.util.Comparator.comparing;
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
@@ -19,10 +17,11 @@ public class WallCommand implements Command {
     private final String follower;
     private final UserRepository userRepository;
     private final MessageRepository messageRepository;
-    private final MessageFormatter messageFormatter;
+    private final WallMessageFormatter messageFormatter;
     private final Output output;
 
-    WallCommand(String follower, UserRepository userRepository, MessageRepository messageRepository, MessageFormatter messageFormatter, Output output) {
+    WallCommand(String follower, UserRepository userRepository, MessageRepository messageRepository,
+                WallMessageFormatter messageFormatter, Output output) {
         this.follower = follower;
         this.userRepository = userRepository;
         this.messageRepository = messageRepository;

@@ -4,9 +4,9 @@ import com.github.richardjwild.blather.application.Controller;
 import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Output;
-import com.github.richardjwild.blather.messageformatting.MessageFormatter;
+import com.github.richardjwild.blather.messageformatting.ReadMessageFormatter;
+import com.github.richardjwild.blather.messageformatting.WallMessageFormatter;
 import com.github.richardjwild.blather.time.Clock;
-import com.github.richardjwild.blather.messageformatting.TimestampFormatter;
 
 public class CommandFactory {
 
@@ -15,12 +15,12 @@ public class CommandFactory {
     private final UserRepository userRepository;
     private final Clock clock;
     private final Output output;
-    private final MessageFormatter readMessageFormatter;
-    private final MessageFormatter wallMessageFormatter;
+    private final ReadMessageFormatter readMessageFormatter;
+    private final WallMessageFormatter wallMessageFormatter;
 
     public CommandFactory(Controller controller, MessageRepository messageRepository,
-                          UserRepository userRepository, Clock clock, MessageFormatter readMessageFormatter,
-                          MessageFormatter wallMessageFormatter, Output output) {
+                          UserRepository userRepository, Clock clock, ReadMessageFormatter readMessageFormatter,
+                          WallMessageFormatter wallMessageFormatter, Output output) {
         this.controller = controller;
         this.messageRepository = messageRepository;
         this.userRepository = userRepository;

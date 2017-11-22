@@ -5,8 +5,7 @@ import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.User;
 import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Output;
-import com.github.richardjwild.blather.messageformatting.MessageFormatter;
-import com.github.richardjwild.blather.messageformatting.TimestampFormatter;
+import com.github.richardjwild.blather.messageformatting.WallMessageFormatter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
@@ -33,7 +32,7 @@ public class WallCommandShould {
     private MessageRepository messageRepository;
 
     @Mock
-    private MessageFormatter wallMessageFormatter;
+    private WallMessageFormatter wallMessageFormatter;
 
     @Test
     public void print_all_messages_posted_to_one_followed_user() {

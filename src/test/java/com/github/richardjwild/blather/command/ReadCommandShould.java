@@ -5,7 +5,7 @@ import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.User;
 import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Output;
-import com.github.richardjwild.blather.messageformatting.MessageFormatter;
+import com.github.richardjwild.blather.messageformatting.ReadMessageFormatter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
@@ -14,7 +14,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.time.Instant;
 
-import static java.time.Instant.now;
 import static java.util.Arrays.asList;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
@@ -33,7 +32,7 @@ public class ReadCommandShould {
     private MessageRepository messageRepository;
 
     @Mock
-    private MessageFormatter messageFormatter;
+    private ReadMessageFormatter messageFormatter;
 
     @Mock
     private UserRepository userRepository;

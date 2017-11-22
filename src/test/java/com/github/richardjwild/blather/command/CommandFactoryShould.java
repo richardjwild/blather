@@ -4,9 +4,9 @@ import com.github.richardjwild.blather.application.Controller;
 import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Output;
-import com.github.richardjwild.blather.messageformatting.MessageFormatter;
+import com.github.richardjwild.blather.messageformatting.ReadMessageFormatter;
+import com.github.richardjwild.blather.messageformatting.WallMessageFormatter;
 import com.github.richardjwild.blather.time.Clock;
-import com.github.richardjwild.blather.messageformatting.TimestampFormatter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,10 +41,10 @@ public class CommandFactoryShould {
     private Output output;
 
     @Mock
-    private MessageFormatter readMessageFormatter;
+    private ReadMessageFormatter readMessageFormatter;
 
     @Mock
-    private MessageFormatter wallMessageFormatter;
+    private WallMessageFormatter wallMessageFormatter;
 
     @Before
     public void initialize() {
