@@ -8,13 +8,13 @@ import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCod
 
 public class FollowCommand implements Command {
 
-    private final String follower;
-    private final String following;
+    private final String followerUserName;
+    private final String followingUserName  ;
     private final UserRepository userRepository;
 
-    FollowCommand(String follower, String following, UserRepository userRepository) {
-        this.follower = follower;
-        this.following = following;
+    FollowCommand(String followerUserName, String followingUserName, UserRepository userRepository) {
+        this.followerUserName = followerUserName;
+        this.followingUserName = followingUserName;
         this.userRepository = userRepository;
     }
 
@@ -25,15 +25,15 @@ public class FollowCommand implements Command {
     }
 
     private User getOrCreateFollower() {
-        return userRepository.find(follower).orElseGet(this::createFollower);
+        return userRepository.find(followerUserName).orElseGet(this::createFollower);
     }
 
     private User createFollower() {
-        return new User(follower);
+        return new User(followerUserName);
     }
 
     private void followSubject(User follower) {
-        userRepository.find(following).ifPresent(following -> addRelationship(follower, following));
+        userRepository.find(followingUserName).ifPresent(following -> addRelationship(follower, following));
     }
 
     private void addRelationship(User follower, User following) {

@@ -11,15 +11,15 @@ import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCod
 
 public class ReadCommand implements Command {
 
-    private final String subject;
+    private final String recipientUserName;
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
     private final ReadMessageFormatter messageFormatter;
     private final Output output;
 
-    ReadCommand(String subject, MessageRepository messageRepository, UserRepository userRepository,
+    ReadCommand(String recipientUserName, MessageRepository messageRepository, UserRepository userRepository,
                 ReadMessageFormatter messageFormatter, Output output) {
-        this.subject = subject;
+        this.recipientUserName = recipientUserName;
         this.messageRepository = messageRepository;
         this.userRepository = userRepository;
         this.messageFormatter = messageFormatter;
@@ -28,11 +28,11 @@ public class ReadCommand implements Command {
 
     @Override
     public void execute() {
-        userRepository.find(subject).ifPresent(this::printAllMessagesPostedToUser);
+        userRepository.find(recipientUserName).ifPresent(this::printAllMessagesPostedToRecipient);
     }
 
-    private void printAllMessagesPostedToUser(User user) {
-        messageRepository.allMessagesPostedTo(user).stream()
+    private void printAllMessagesPostedToRecipient(User recipient) {
+        messageRepository.allMessagesPostedTo(recipient).stream()
                 .map(messageFormatter::format)
                 .forEach(output::writeLine);
     }

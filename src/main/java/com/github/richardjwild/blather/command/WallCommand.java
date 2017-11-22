@@ -14,15 +14,15 @@ import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCod
 
 public class WallCommand implements Command {
 
-    private final String follower;
+    private final String followerUserName;
     private final UserRepository userRepository;
     private final MessageRepository messageRepository;
     private final WallMessageFormatter messageFormatter;
     private final Output output;
 
-    WallCommand(String follower, UserRepository userRepository, MessageRepository messageRepository,
+    WallCommand(String followerUserName, UserRepository userRepository, MessageRepository messageRepository,
                 WallMessageFormatter messageFormatter, Output output) {
-        this.follower = follower;
+        this.followerUserName = followerUserName;
         this.userRepository = userRepository;
         this.messageRepository = messageRepository;
         this.messageFormatter = messageFormatter;
@@ -31,7 +31,7 @@ public class WallCommand implements Command {
 
     @Override
     public void execute() {
-        userRepository.find(follower).ifPresent(this::printAllMessagesPostedToFollowees);
+        userRepository.find(followerUserName).ifPresent(this::printAllMessagesPostedToFollowees);
     }
 
     private void printAllMessagesPostedToFollowees(User follower) {
