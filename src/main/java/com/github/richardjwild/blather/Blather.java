@@ -16,7 +16,7 @@ public class Blather {
     private final EventLoop eventLoop;
     private Output output;
 
-    public Blather(EventLoop eventLoop, Output output) {
+    Blather(EventLoop eventLoop, Output output) {
         this.eventLoop = eventLoop;
         this.output = output;
     }

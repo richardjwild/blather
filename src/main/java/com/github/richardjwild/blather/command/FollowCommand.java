@@ -9,7 +9,7 @@ import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCod
 public class FollowCommand implements Command {
 
     private final String followerUserName;
-    private final String followingUserName  ;
+    private final String followingUserName;
     private final UserRepository userRepository;
 
     FollowCommand(String followerUserName, String followingUserName, UserRepository userRepository) {

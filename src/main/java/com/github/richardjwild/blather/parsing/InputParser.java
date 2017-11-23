@@ -5,7 +5,7 @@ import static java.util.stream.Collectors.joining;
 
 public class InputParser {
 
-    public ParsedInput parse(String line) {
+    ParsedInput parse(String line) {
         String[] words = line.split(" ");
         return new ParsedInput(
                 determineVerb(words),

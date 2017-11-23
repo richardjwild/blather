@@ -27,7 +27,6 @@ public class MessageRepository {
     }
 
     public List<Message> allMessagesPostedTo(User recipient) {
-        List<Message> messagesForRecipient = getOrCreateMessageListFor(recipient);
-        return messagesForRecipient;
+        return getOrCreateMessageListFor(recipient);
     }
 }
