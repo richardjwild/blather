@@ -6,15 +6,6 @@ else
     WORKING_DIRECTORY=$1
 fi
 
-BLATHER_EXECUTABLE=${WORKING_DIRECTORY}/build/libs/blather.jar
-echo "Checking for Blather executable at: ${BLATHER_EXECUTABLE}..."
-if [ ! -f ${WORKING_DIRECTORY}/build/libs/blather.jar ]; then
-    echo "Test failed! Blather executable was not found"
-    exit 1
-fi
-
-echo "Testing Blather..."
-
 INPUT="Bob -> Hello world!
 Bob
 quit"
@@ -23,7 +14,16 @@ EXPECTED="Welcome to Blather
 Hello world! (0 seconds ago)
 Bye!"
 
-ACTUAL=`echo "${INPUT}" | java -jar ${WORKING_DIRECTORY}/build/libs/blather.jar`
+BLATHER_EXECUTABLE=${WORKING_DIRECTORY}/build/libs/blather.jar
+echo "Checking for Blather executable at: ${BLATHER_EXECUTABLE}..."
+if [ ! -f ${BLATHER_EXECUTABLE} ]; then
+    echo "Test failed! Blather executable was not found"
+    exit 1
+fi
+
+echo "Testing Blather..."
+
+ACTUAL=`echo "${INPUT}" | java -jar ${BLATHER_EXECUTABLE}`
 
 if [ $? -ne 0 ]; then
     echo "Test failed! Error running Blather executable"

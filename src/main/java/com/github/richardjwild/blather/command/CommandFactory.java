@@ -6,6 +6,7 @@ import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Output;
 import com.github.richardjwild.blather.messageformatting.ReadMessageFormatter;
 import com.github.richardjwild.blather.messageformatting.WallMessageFormatter;
+import com.github.richardjwild.blather.parsing.ParsedInput;
 import com.github.richardjwild.blather.time.Clock;
 
 public class CommandFactory {
@@ -30,23 +31,41 @@ public class CommandFactory {
         this.output = output;
     }
 
-    public Command makeQuitCommand() {
+    public Command makeCommandFor(ParsedInput input) {
+        switch (input.verb()) {
+            case POST:
+                return postCommand(input.postCommandRecipient(), input.postCommandMessage());
+            case READ:
+                return readCommand(input.readCommandSubject());
+            case FOLLOW:
+                return followCommand(input.followCommandActor(), input.followCommandSubject());
+            case WALL:
+                return wallCommand(input.wallCommandSubject());
+            default:
+                return quitCommand();
+        }
+    }
+
+    private Command postCommand(String postCommandRecipient, String postCommandMessage) {
+        return new PostCommand(postCommandRecipient, postCommandMessage,
+                messageRepository, userRepository, clock);
+    }
+
+    private Command readCommand(String readCommandSubject) {
+        return new ReadCommand(readCommandSubject, messageRepository, userRepository,
+                readMessageFormatter, output);
+    }
+
+    private Command followCommand(String followCommandActor, String followCommandSubject) {
+        return new FollowCommand(followCommandActor, followCommandSubject, userRepository);
+    }
+
+    private Command wallCommand(String wallCommandSubject) {
+        return new WallCommand(wallCommandSubject,
+                userRepository, messageRepository, wallMessageFormatter, output);
+    }
+
+    private QuitCommand quitCommand() {
         return new QuitCommand(controller);
-    }
-
-    public Command makePostCommand(String recipient, String message) {
-        return new PostCommand(recipient, message, messageRepository, userRepository, clock);
-    }
-
-    public Command makeReadCommand(String subject) {
-        return new ReadCommand(subject, messageRepository, userRepository, readMessageFormatter, output);
-    }
-
-    public Command makeFollowCommand(String follower, String subject) {
-        return new FollowCommand(follower, subject, userRepository);
-    }
-
-    public Command makeWallCommand(String subject) {
-        return new WallCommand(subject, userRepository, messageRepository, wallMessageFormatter, output);
     }
 }

@@ -16,10 +16,6 @@ import static org.mockito.Mockito.when;
 public class CommandReaderShould {
 
     private static final String INPUT_LINE = "input line of text";
-    private static final String MESSAGE = "message";
-    private static final String RECIPIENT = "recipient";
-    private static final String SUBJECT = "subject";
-    private static final String FOLLOWER = "follower";
 
     @Mock
     private CommandFactory commandFactory;
@@ -31,74 +27,20 @@ public class CommandReaderShould {
     private InputParser inputParser;
 
     @Mock
-    private Command command;
+    private Command expectedCommand;
 
     @Mock
     private ParsedInput parsedInput;
 
-    private CommandReader commandReader;
-
-    @Before
-    public void initialize() {
-        commandReader = new CommandReader(input, inputParser, commandFactory);
+    @Test
+    public void read_a_command() {
+        CommandReader commandReader = new CommandReader(input, inputParser, commandFactory);
         when(input.readLine()).thenReturn(INPUT_LINE);
         when(inputParser.parse(INPUT_LINE)).thenReturn(parsedInput);
-    }
-
-    @Test
-    public void read_a_quit_command() {
-        when(parsedInput.verb()).thenReturn(BlatherVerb.QUIT);
-        when(commandFactory.makeQuitCommand()).thenReturn(command);
+        when(commandFactory.makeCommandFor(parsedInput)).thenReturn(expectedCommand);
 
         Command actualCommand = commandReader.readNextCommand();
 
-        assertThat(actualCommand).isSameAs(command);
+        assertThat(actualCommand).isSameAs(expectedCommand);
     }
-
-    @Test
-    public void read_a_post_command() {
-        when(parsedInput.verb()).thenReturn(BlatherVerb.POST);
-        when(parsedInput.postCommandRecipient()).thenReturn(RECIPIENT);
-        when(parsedInput.postCommandMessage()).thenReturn(MESSAGE);
-        when(commandFactory.makePostCommand(RECIPIENT, MESSAGE)).thenReturn(command);
-
-        Command actualCommand = commandReader.readNextCommand();
-
-        assertThat(actualCommand).isSameAs(command);
-    }
-
-    @Test
-    public void read_a_read_command() {
-        when(parsedInput.verb()).thenReturn(BlatherVerb.READ);
-        when(parsedInput.readCommandSubject()).thenReturn(SUBJECT);
-        when(commandFactory.makeReadCommand(SUBJECT)).thenReturn(command);
-
-        Command actualCommand = commandReader.readNextCommand();
-
-        assertThat(actualCommand).isSameAs(command);
-    }
-
-    @Test
-    public void read_a_follow_command() {
-        when(parsedInput.verb()).thenReturn(BlatherVerb.FOLLOW);
-        when(parsedInput.followCommandActor()).thenReturn(FOLLOWER);
-        when(parsedInput.followCommandSubject()).thenReturn(SUBJECT);
-        when(commandFactory.makeFollowCommand(FOLLOWER, SUBJECT)).thenReturn(command);
-
-        Command actualCommand = commandReader.readNextCommand();
-
-        assertThat(actualCommand).isSameAs(command);
-    }
-
-    @Test
-    public void read_a_wall_command() {
-        when(parsedInput.verb()).thenReturn(BlatherVerb.WALL);
-        when(parsedInput.wallCommandSubject()).thenReturn(SUBJECT);
-        when(commandFactory.makeWallCommand(SUBJECT)).thenReturn(command);
-
-        Command actualCommand = commandReader.readNextCommand();
-
-        assertThat(actualCommand).isSameAs(command);
-    }
-
 }
