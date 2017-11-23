@@ -1,18 +1,16 @@
-package com.github.richardjwild.blather;
+package com.github.richardjwild.blather.application;
 
-import com.github.richardjwild.blather.application.Controller;
-import com.github.richardjwild.blather.application.EventLoop;
 import com.github.richardjwild.blather.command.CommandFactory;
 import com.github.richardjwild.blather.datatransfer.MessageRepository;
+import com.github.richardjwild.blather.datatransfer.UserRepository;
+import com.github.richardjwild.blather.io.Input;
+import com.github.richardjwild.blather.io.Output;
 import com.github.richardjwild.blather.messageformatting.ReadMessageFormatter;
+import com.github.richardjwild.blather.messageformatting.TimestampFormatter;
 import com.github.richardjwild.blather.messageformatting.WallMessageFormatter;
 import com.github.richardjwild.blather.parsing.CommandReader;
-import com.github.richardjwild.blather.io.Input;
 import com.github.richardjwild.blather.parsing.InputParser;
-import com.github.richardjwild.blather.io.Output;
-import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.time.Clock;
-import com.github.richardjwild.blather.messageformatting.TimestampFormatter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +24,7 @@ import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class BlatherApplicationShould {
+public class ApplicationShould {
 
     private static final long TWO_MINUTES = 120;
     private static final long ONE_MINUTE = 60;
@@ -42,7 +40,7 @@ public class BlatherApplicationShould {
     @Mock
     private Clock clock;
 
-    private Blather blather;
+    private Application application;
 
     @Before
     public void initialize() {
@@ -57,7 +55,7 @@ public class BlatherApplicationShould {
                 readMessageFormatter, wallMessageFormatter, output);
         CommandReader commandReader = new CommandReader(input, inputParser, commandFactory);
         EventLoop eventLoop = new EventLoop(commandReader, controller);
-        blather = new Blather(eventLoop, output);
+        application = new Application(eventLoop, output);
     }
 
     @Test
@@ -78,7 +76,7 @@ public class BlatherApplicationShould {
                 .thenReturn(now.minusSeconds(ONE_SECOND))
                 .thenReturn(now);
 
-        blather.runApplication();
+        application.run();
 
         InOrder inOrder = inOrder(output);
         inOrder.verify(output).writeLine("Welcome to Blather");
@@ -108,7 +106,7 @@ public class BlatherApplicationShould {
                 .thenReturn(now.minusSeconds(ONE_SECOND))
                 .thenReturn(now);
 
-        blather.runApplication();
+        application.run();
 
         InOrder inOrder = inOrder(output);
         inOrder.verify(output).writeLine("Welcome to Blather");

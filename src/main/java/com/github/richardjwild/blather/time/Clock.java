@@ -2,9 +2,7 @@ package com.github.richardjwild.blather.time;
 
 import java.time.Instant;
 
-public class Clock {
+public interface Clock {
 
-    public Instant now() {
-        return Instant.now();
-    }
+    Instant now();
 }

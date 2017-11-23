@@ -1,6 +1,6 @@
 package com.github.richardjwild.blather;
 
-import com.github.richardjwild.blather.Blather;
+import com.github.richardjwild.blather.application.Application;
 import com.github.richardjwild.blather.application.EventLoop;
 import com.github.richardjwild.blather.io.Output;
 import org.junit.Before;
@@ -21,16 +21,16 @@ public class BlatherShould {
     @Mock
     private EventLoop eventLoop;
 
-    private Blather blather;
+    private Application application;
 
     @Before
     public void initialize() {
-        blather = new Blather(eventLoop, output);
+        application = new Application(eventLoop, output);
     }
 
     @Test
     public void print_a_welcome_message_then_start_the_application_then_print_an_exit_message() {
-        blather.runApplication();
+        application.run();
 
         InOrder inOrder = inOrder(output, eventLoop);
         inOrder.verify(output).writeLine("Welcome to Blather");
