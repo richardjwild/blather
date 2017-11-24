@@ -1,23 +1,26 @@
 package com.github.richardjwild.blather.datatransfer;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static java.util.Optional.ofNullable;
 
 public class MessageRepository {
 
     private Map<User, List<Message>> allMessages = new HashMap<>();
 
     public void postMessage(Message message) {
-        List<Message> messagesForRecipient = getOrCreateMessageListFor(message.recipient);
-        messagesForRecipient.add(message);
+        User recipient = message.recipient;
+        List<Message> receivedMessages = getOrCreateMessageListFor(recipient);
+        receivedMessages.add(message);
     }
 
     private List<Message> getOrCreateMessageListFor(User recipient) {
-        if (allMessages.containsKey(recipient))
-            return allMessages.get(recipient);
-        return createMessageListFor(recipient);
+        return messageListFor(recipient).orElseGet(() -> createMessageListFor(recipient));
+    }
+
+    private Optional<List<Message>> messageListFor(User recipient) {
+        List<Message> messageList = allMessages.get(recipient);
+        return ofNullable(messageList);
     }
 
     private List<Message> createMessageListFor(User recipient) {
@@ -27,6 +30,6 @@ public class MessageRepository {
     }
 
     public List<Message> allMessagesPostedTo(User recipient) {
-        return getOrCreateMessageListFor(recipient);
+        return messageListFor(recipient).orElseGet(Collections::emptyList);
     }
 }
