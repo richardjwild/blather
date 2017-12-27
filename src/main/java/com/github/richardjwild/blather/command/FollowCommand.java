@@ -3,25 +3,30 @@ package com.github.richardjwild.blather.command;
 import com.github.richardjwild.blather.datatransfer.User;
 import com.github.richardjwild.blather.datatransfer.UserRepository;
 
+import java.util.Optional;
+
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
 
 public class FollowCommand implements Command {
 
     private final String followerUserName;
-    private final String followingUserName;
+    private final String toFollowUserName;
     private final UserRepository userRepository;
 
-    FollowCommand(String followerUserName, String followingUserName, UserRepository userRepository) {
+    FollowCommand(String followerUserName, String toFollowUserName, UserRepository userRepository) {
         this.followerUserName = followerUserName;
-        this.followingUserName = followingUserName;
+        this.toFollowUserName = toFollowUserName;
         this.userRepository = userRepository;
     }
 
     @Override
     public void execute() {
-        User follower = getOrCreateFollower();
-        followSubject(follower);
+        getUserToFollow().ifPresent(userToFollow -> {
+            User follower = getOrCreateFollower();
+            follower.follow(userToFollow);
+            save(follower);
+        });
     }
 
     private User getOrCreateFollower() {
@@ -32,13 +37,12 @@ public class FollowCommand implements Command {
         return new User(followerUserName);
     }
 
-    private void followSubject(User follower) {
-        userRepository.find(followingUserName).ifPresent(following -> addRelationship(follower, following));
+    private void save(User follower) {
+        userRepository.save(follower);
     }
 
-    private void addRelationship(User follower, User following) {
-        follower.follow(following);
-        userRepository.save(follower);
+    private Optional<User> getUserToFollow() {
+        return userRepository.find(toFollowUserName);
     }
 
     @Override
