@@ -16,7 +16,7 @@ public class InputParserShould {
     }
 
     @Test
-    public void reads_a_read_command_verb() {
+    public void read_a_read_command_verb() {
         ParsedInput parsedInput = inputParser.parse("user");
 
         assertThat(parsedInput.verb()).isEqualTo(BlatherVerb.READ);
