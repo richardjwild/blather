@@ -14,7 +14,7 @@ public class WallMessageFormatter {
 
     public String format(Message message) {
         return new StringJoiner(" - ")
-                .add(message.recipient.toString())
+                .add(message.recipientName())
                 .add(readMessageFormatter.format(message))
                 .toString();
     }

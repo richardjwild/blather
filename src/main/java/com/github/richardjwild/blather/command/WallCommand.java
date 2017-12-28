@@ -38,7 +38,7 @@ public class WallCommand implements Command {
         follower.following().stream()
                 .map(messageRepository::allMessagesPostedTo)
                 .flatMap(Collection::stream)
-                .sorted(comparing(message -> message.timestamp))
+                .sorted(comparing(message -> message.timestamp()))
                 .map(messageFormatter::format)
                 .forEach(output::writeLine);
     }

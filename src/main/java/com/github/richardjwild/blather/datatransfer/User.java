@@ -6,14 +6,13 @@ import java.util.Set;
 public class User {
 
     private final String name;
-    private Set<User> usersFollowing = new HashSet<>();
+    private final Set<User> usersFollowing = new HashSet<>();
 
     public User(String name) {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
+    String name() {
         return name;
     }
 

@@ -7,14 +7,30 @@ import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCod
 
 public class Message {
 
-    public final User recipient;
-    public final String text;
-    public final Instant timestamp;
+    private final User recipient;
+    private final String text;
+    private final Instant timestamp;
 
     public Message(User recipient, String text, Instant timestamp) {
         this.recipient = recipient;
         this.text = text;
         this.timestamp = timestamp;
+    }
+
+    User recipient() {
+        return recipient;
+    }
+
+    public String recipientName() {
+        return recipient.name();
+    }
+
+    public String text() {
+        return text;
+    }
+
+    public Instant timestamp() {
+        return timestamp;
     }
 
     @Override
