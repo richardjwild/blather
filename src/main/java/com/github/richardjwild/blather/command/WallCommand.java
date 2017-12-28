@@ -1,12 +1,11 @@
 package com.github.richardjwild.blather.command;
 
+import com.github.richardjwild.blather.datatransfer.Message;
 import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.User;
 import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Output;
 import com.github.richardjwild.blather.messageformatting.WallMessageFormatter;
-
-import java.util.Collection;
 
 import static java.util.Comparator.comparing;
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
@@ -35,10 +34,9 @@ public class WallCommand implements Command {
     }
 
     private void printAllMessagesPostedToFollowees(User follower) {
-        follower.following().stream()
-                .map(messageRepository::allMessagesPostedTo)
-                .flatMap(Collection::stream)
-                .sorted(comparing(message -> message.timestamp()))
+        follower.following()
+                .flatMap(messageRepository::allMessagesPostedTo)
+                .sorted(comparing(Message::timestamp))
                 .map(messageFormatter::format)
                 .forEach(output::writeLine);
     }

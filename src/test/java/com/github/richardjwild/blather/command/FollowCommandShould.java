@@ -11,6 +11,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Optional;
 
+import static java.util.stream.Collectors.toList;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -35,7 +36,7 @@ public class FollowCommandShould {
         followCommand.execute();
 
         verify(userRepository).save(follower);
-        assertThat(follower.following()).containsOnly(following);
+        assertThat(follower.following().collect(toList())).containsOnly(following);
     }
 
     @Test

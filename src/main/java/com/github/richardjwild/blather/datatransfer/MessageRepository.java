@@ -1,6 +1,7 @@
 package com.github.richardjwild.blather.datatransfer;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 import static java.util.Optional.ofNullable;
 
@@ -29,7 +30,9 @@ public class MessageRepository {
         return emptyList;
     }
 
-    public List<Message> allMessagesPostedTo(User recipient) {
-        return messageListFor(recipient).orElseGet(Collections::emptyList);
+    public Stream<Message> allMessagesPostedTo(User recipient) {
+        return messageListFor(recipient)
+                .map(Collection::stream)
+                .orElseGet(Stream::empty);
     }
 }

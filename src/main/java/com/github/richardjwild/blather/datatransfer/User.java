@@ -2,6 +2,7 @@ package com.github.richardjwild.blather.datatransfer;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
 public class User {
 
@@ -16,8 +17,8 @@ public class User {
         return name;
     }
 
-    public Set<User> following() {
-        return usersFollowing;
+    public Stream<User> following() {
+        return usersFollowing.stream();
     }
 
     public void follow(User following) {

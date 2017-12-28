@@ -13,8 +13,8 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.time.Instant;
+import java.util.stream.Stream;
 
-import static java.util.Arrays.asList;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static org.mockito.Matchers.startsWith;
@@ -43,7 +43,7 @@ public class ReadCommandShould {
         Message message1 = new Message(USER, null, timestamp);
         Message message2 = new Message(USER, null, timestamp.plusSeconds(1));
         when(userRepository.find("user")).thenReturn(of(USER));
-        when(messageRepository.allMessagesPostedTo(USER)).thenReturn(asList(message1, message2));
+        when(messageRepository.allMessagesPostedTo(USER)).thenReturn(Stream.of(message1, message2));
         when(messageFormatter.format(message1)).thenReturn("message one");
         when(messageFormatter.format(message2)).thenReturn("message two");
         ReadCommand command = new ReadCommand("user", messageRepository, userRepository, messageFormatter, output);

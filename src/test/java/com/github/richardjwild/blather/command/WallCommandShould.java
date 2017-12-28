@@ -13,10 +13,10 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.time.Instant;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.stream.Stream;
 
-import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
-import static java.util.Optional.of;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -39,9 +39,9 @@ public class WallCommandShould {
         User bob = new User("Bob");
         User alice = new User("Alice");
         bob.follow(alice);
-        when(userRepository.find("Bob")).thenReturn(of(bob));
+        when(userRepository.find("Bob")).thenReturn(Optional.of(bob));
         Message firstPost = new Message(alice, null, null);
-        when(messageRepository.allMessagesPostedTo(alice)).thenReturn(singletonList(firstPost));
+        when(messageRepository.allMessagesPostedTo(alice)).thenReturn(stream(firstPost));
         when(wallMessageFormatter.format(firstPost)).thenReturn("alice first post message");
 
         WallCommand wallCommand = new WallCommand("Bob", userRepository, messageRepository,
@@ -59,11 +59,11 @@ public class WallCommandShould {
         User jill = new User("Jill");
         bob.follow(alice);
         bob.follow(jill);
-        when(userRepository.find("Bob")).thenReturn(of(bob));
+        when(userRepository.find("Bob")).thenReturn(Optional.of(bob));
         Message aliceFirstPost = new Message(alice, null, timestamp);
-        when(messageRepository.allMessagesPostedTo(alice)).thenReturn(singletonList(aliceFirstPost));
+        when(messageRepository.allMessagesPostedTo(alice)).thenReturn(stream(aliceFirstPost));
         Message jillHelloWorld = new Message(jill, null, timestamp);
-        when(messageRepository.allMessagesPostedTo(jill)).thenReturn(singletonList(jillHelloWorld));
+        when(messageRepository.allMessagesPostedTo(jill)).thenReturn(stream(jillHelloWorld));
         when(wallMessageFormatter.format(aliceFirstPost)).thenReturn("alice first post message");
         when(wallMessageFormatter.format(jillHelloWorld)).thenReturn("jill hello world message");
 
@@ -89,12 +89,12 @@ public class WallCommandShould {
         bob.follow(alice);
         bob.follow(jill);
 
-        when(userRepository.find("Bob")).thenReturn(of(bob));
+        when(userRepository.find("Bob")).thenReturn(Optional.of(bob));
         Message aliceTwoSecondsAgo = new Message(alice, "First post!", twoSecondsAgo);
         Message aliceRightNow = new Message(alice, "This is my second post", now);
-        when(messageRepository.allMessagesPostedTo(alice)).thenReturn(asList(aliceTwoSecondsAgo, aliceRightNow));
+        when(messageRepository.allMessagesPostedTo(alice)).thenReturn(stream(aliceTwoSecondsAgo, aliceRightNow));
         Message jillOneSecondAgo = new Message(jill, "Hello world!", oneSecondAgo);
-        when(messageRepository.allMessagesPostedTo(jill)).thenReturn(singletonList(jillOneSecondAgo));
+        when(messageRepository.allMessagesPostedTo(jill)).thenReturn(stream(jillOneSecondAgo));
 
         when(wallMessageFormatter.format(aliceTwoSecondsAgo)).thenReturn("alice two seconds ago");
         when(wallMessageFormatter.format(jillOneSecondAgo)).thenReturn("jill one second ago");
@@ -108,6 +108,10 @@ public class WallCommandShould {
         inOrder.verify(output).writeLine("alice two seconds ago");
         inOrder.verify(output).writeLine("jill one second ago");
         inOrder.verify(output).writeLine("alice right now");
+    }
+
+    private Stream<Message> stream(Message... messages) {
+        return Arrays.stream(messages);
     }
 
 }

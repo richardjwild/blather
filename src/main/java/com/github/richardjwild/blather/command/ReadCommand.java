@@ -32,7 +32,7 @@ public class ReadCommand implements Command {
     }
 
     private void printAllMessagesPostedToRecipient(User recipient) {
-        messageRepository.allMessagesPostedTo(recipient).stream()
+        messageRepository.allMessagesPostedTo(recipient)
                 .map(messageFormatter::format)
                 .forEach(output::writeLine);
     }

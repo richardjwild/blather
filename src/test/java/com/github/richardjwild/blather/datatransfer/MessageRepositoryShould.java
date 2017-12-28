@@ -4,7 +4,9 @@ import org.junit.Test;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.toList;
 import static org.fest.assertions.Assertions.assertThat;
 
 public class MessageRepositoryShould {
@@ -28,9 +30,9 @@ public class MessageRepositoryShould {
         messageRepository.postMessage(MESSAGE_1_FOR_RECIPIENT_1);
         messageRepository.postMessage(MESSAGE_2_FOR_RECEIPIENT_1);
 
-        List<Message> actualMessages = messageRepository.allMessagesPostedTo(RECIPIENT_1);
+        Stream<Message> actualMessages = messageRepository.allMessagesPostedTo(RECIPIENT_1);
 
-        assertThat(actualMessages).containsExactly(MESSAGE_1_FOR_RECIPIENT_1, MESSAGE_2_FOR_RECEIPIENT_1);
+        assertThat(list(actualMessages)).containsExactly(MESSAGE_1_FOR_RECIPIENT_1, MESSAGE_2_FOR_RECEIPIENT_1);
     }
 
     @Test
@@ -38,17 +40,21 @@ public class MessageRepositoryShould {
         messageRepository.postMessage(MESSAGE_1_FOR_RECIPIENT_1);
         messageRepository.postMessage(MESSAGE_1_FOR_RECIPIENT_2);
 
-        List<Message> messagesForRecipient1 = messageRepository.allMessagesPostedTo(RECIPIENT_1);
-        List<Message> messagesForRecipient2 = messageRepository.allMessagesPostedTo(RECIPIENT_2);
+        Stream<Message> messagesForRecipient1 = messageRepository.allMessagesPostedTo(RECIPIENT_1);
+        Stream<Message> messagesForRecipient2 = messageRepository.allMessagesPostedTo(RECIPIENT_2);
 
-        assertThat(messagesForRecipient1).containsExactly(MESSAGE_1_FOR_RECIPIENT_1);
-        assertThat(messagesForRecipient2).containsExactly(MESSAGE_1_FOR_RECIPIENT_2);
+        assertThat(list(messagesForRecipient1)).containsExactly(MESSAGE_1_FOR_RECIPIENT_1);
+        assertThat(list(messagesForRecipient2)).containsExactly(MESSAGE_1_FOR_RECIPIENT_2);
     }
 
     @Test
     public void return_empty_collection_when_no_messages_posted_to_recipient() {
-        List<Message> actualMessages = messageRepository.allMessagesPostedTo(RECIPIENT_1);
+        Stream<Message> actualMessages = messageRepository.allMessagesPostedTo(RECIPIENT_1);
 
-        assertThat(actualMessages).isEmpty();
+        assertThat(list(actualMessages)).isEmpty();
+    }
+
+    private List<Message> list(Stream<Message> messageStream) {
+        return messageStream.collect(toList());
     }
 }
