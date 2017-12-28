@@ -15,7 +15,7 @@ public class ReadMessageFormatter {
     public String format(Message message) {
         return new StringJoiner(" ")
                 .add(message.text)
-                .add(timestampFormatter.format(message.timestamp))
+                .add(timestampFormatter.formatTimestamp(message.timestamp))
                 .toString();
     }
 }

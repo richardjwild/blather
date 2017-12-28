@@ -23,7 +23,7 @@ public class ReadMessageFormatterShould {
         Instant timestamp = Instant.now();
         User recipient = new User("recipient");
         Message message = new Message(recipient, "message text", timestamp);
-        when(timestampFormatter.format(timestamp)).thenReturn("(TIMESTAMP)");
+        when(timestampFormatter.formatTimestamp(timestamp)).thenReturn("(TIMESTAMP)");
         ReadMessageFormatter readMessageFormatter = new ReadMessageFormatter(timestampFormatter);
 
         String formattedMessage = readMessageFormatter.format(message);

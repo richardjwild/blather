@@ -42,7 +42,7 @@ public class TimestampFormatterShould {
         Instant timestamp = now();
         when(clock.now()).thenReturn(timestamp.plusSeconds(secondsAgo));
 
-        String formattedTimestamp = timestampFormatter.format(timestamp);
+        String formattedTimestamp = timestampFormatter.formatTimestamp(timestamp);
 
         assertThat(formattedTimestamp).isEqualTo(expectedFormattedValue);
     }
