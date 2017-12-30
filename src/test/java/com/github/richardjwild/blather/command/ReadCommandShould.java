@@ -17,7 +17,6 @@ import java.util.stream.Stream;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
-import static org.mockito.Matchers.startsWith;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -51,8 +50,8 @@ public class ReadCommandShould {
         command.execute();
 
         InOrder inOrder = inOrder(output);
-        inOrder.verify(output).writeLine(startsWith("message one"));
-        inOrder.verify(output).writeLine(startsWith("message two"));
+        inOrder.verify(output).writeLine("message one");
+        inOrder.verify(output).writeLine("message two");
     }
 
     @Test
