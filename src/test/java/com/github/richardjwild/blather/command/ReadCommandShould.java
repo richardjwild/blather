@@ -23,7 +23,6 @@ public class ReadCommandShould {
 
     private static final String TEXT = "this test does not depend on this text";
     private static final Instant AN_INSTANT_IN_TIME = Instant.now();
-    private static final Instant ANOTHER_INSTANT_IN_TIME = AN_INSTANT_IN_TIME.plusSeconds(1);
 
     @Mock
     private Output output;
@@ -40,20 +39,20 @@ public class ReadCommandShould {
     @Test
     public void print_all_messages_posted_to_a_specified_user_in_date_order() {
         User user = new User("user");
-        Message message1 = new Message(user, TEXT, AN_INSTANT_IN_TIME),
-                message2 = new Message(user, TEXT, ANOTHER_INSTANT_IN_TIME);
+        Message earlierMessage = new Message(user, TEXT, AN_INSTANT_IN_TIME),
+                laterMessage = new Message(user, TEXT, AN_INSTANT_IN_TIME.plusSeconds(1));
 
         when(userRepository.find("user")).thenReturn(Optional.of(user));
-        when(messageRepository.allMessagesPostedTo(user)).thenReturn(Stream.of(message1, message2));
-        when(messageFormatter.format(message1)).thenReturn("message 1 formatted");
-        when(messageFormatter.format(message2)).thenReturn("message 2 formatted");
+        when(messageRepository.allMessagesPostedTo(user)).thenReturn(Stream.of(laterMessage, earlierMessage));
+        when(messageFormatter.format(earlierMessage)).thenReturn("earlier message formatted");
+        when(messageFormatter.format(laterMessage)).thenReturn("later message formatted");
 
         ReadCommand command = readCommandForUserName("user");
         command.execute();
 
         InOrder inOrder = inOrder(output);
-        inOrder.verify(output).writeLine("message 1 formatted");
-        inOrder.verify(output).writeLine("message 2 formatted");
+        inOrder.verify(output).writeLine("earlier message formatted");
+        inOrder.verify(output).writeLine("later message formatted");
     }
 
     @Test

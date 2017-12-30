@@ -1,11 +1,13 @@
 package com.github.richardjwild.blather.command;
 
+import com.github.richardjwild.blather.datatransfer.Message;
 import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.User;
 import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Output;
 import com.github.richardjwild.blather.messageformatting.ReadMessageFormatter;
 
+import static java.util.Comparator.comparing;
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
 
@@ -33,6 +35,7 @@ public class ReadCommand implements Command {
 
     private void printAllMessagesPostedToRecipient(User recipient) {
         messageRepository.allMessagesPostedTo(recipient)
+                .sorted(comparing(Message::timestamp))
                 .map(messageFormatter::format)
                 .forEach(output::writeLine);
     }
