@@ -7,66 +7,45 @@ import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Output;
 import com.github.richardjwild.blather.messageformatting.ReadMessageFormatter;
 import com.github.richardjwild.blather.messageformatting.WallMessageFormatter;
+import com.github.richardjwild.blather.parsing.Verb;
 import com.github.richardjwild.blather.parsing.ParsedInput;
 import com.github.richardjwild.blather.time.Clock;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
+
+import static com.github.richardjwild.blather.parsing.Verb.*;
+
 public class CommandFactory {
 
-    private final Controller controller;
-    private final MessageRepository messageRepository;
-    private final UserRepository userRepository;
-    private final Clock clock;
-    private final Output output;
-    private final ReadMessageFormatter readMessageFormatter;
-    private final WallMessageFormatter wallMessageFormatter;
+    private Map<Verb, Function<ParsedInput, Command>> builders = new HashMap<>();
 
     public CommandFactory(Controller controller, MessageRepository messageRepository,
                           UserRepository userRepository, Clock clock, ReadMessageFormatter readMessageFormatter,
                           WallMessageFormatter wallMessageFormatter, Output output) {
-        this.controller = controller;
-        this.messageRepository = messageRepository;
-        this.userRepository = userRepository;
-        this.clock = clock;
-        this.readMessageFormatter = readMessageFormatter;
-        this.wallMessageFormatter = wallMessageFormatter;
-        this.output = output;
+
+        builders.put(POST, input -> new PostCommand(input.postCommandRecipient(), input.postCommandMessage(),
+                messageRepository, userRepository, clock));
+
+        builders.put(READ, input -> new ReadCommand(input.readCommandSubject(),
+                messageRepository, userRepository, readMessageFormatter, output));
+
+        builders.put(FOLLOW, input -> new FollowCommand(input.followCommandActor(), input.followCommandSubject(),
+                userRepository));
+
+        builders.put(WALL, input -> new WallCommand(input.wallCommandSubject(),
+                userRepository, messageRepository, wallMessageFormatter, output));
+
+        builders.put(QUIT, input -> new QuitCommand(controller));
     }
 
     public Command makeCommandFor(ParsedInput input) {
-        switch (input.verb()) {
-            case POST:
-                return postCommand(input.postCommandRecipient(), input.postCommandMessage());
-            case READ:
-                return readCommand(input.readCommandSubject());
-            case FOLLOW:
-                return followCommand(input.followCommandActor(), input.followCommandSubject());
-            case WALL:
-                return wallCommand(input.wallCommandSubject());
-            default:
-                return quitCommand();
-        }
+        Verb verb = input.verb();
+        return commandBuilderFor(verb).apply(input);
     }
 
-    private Command postCommand(String postCommandRecipient, String postCommandMessage) {
-        return new PostCommand(postCommandRecipient, postCommandMessage,
-                messageRepository, userRepository, clock);
-    }
-
-    private Command readCommand(String readCommandSubject) {
-        return new ReadCommand(readCommandSubject, messageRepository, userRepository,
-                readMessageFormatter, output);
-    }
-
-    private Command followCommand(String followCommandActor, String followCommandSubject) {
-        return new FollowCommand(followCommandActor, followCommandSubject, userRepository);
-    }
-
-    private Command wallCommand(String wallCommandSubject) {
-        return new WallCommand(wallCommandSubject,
-                userRepository, messageRepository, wallMessageFormatter, output);
-    }
-
-    private QuitCommand quitCommand() {
-        return new QuitCommand(controller);
+    private Function<ParsedInput, Command> commandBuilderFor(Verb verb) {
+        return builders.get(verb);
     }
 }

@@ -2,7 +2,7 @@ package com.github.richardjwild.blather.parsing;
 
 import static java.util.Arrays.stream;
 
-public enum BlatherVerb {
+public enum Verb {
 
     POST("->"),
     READ(""),
@@ -12,11 +12,11 @@ public enum BlatherVerb {
 
     private final String verbText;
 
-    BlatherVerb(String verbText) {
+    Verb(String verbText) {
         this.verbText = verbText;
     }
 
-    public static BlatherVerb fromText(String text) {
+    public static Verb fromText(String text) {
         return stream(values())
                 .filter(verb -> verb.verbText.equals(text))
                 .findFirst()

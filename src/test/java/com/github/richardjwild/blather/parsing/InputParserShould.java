@@ -3,7 +3,7 @@ package com.github.richardjwild.blather.parsing;
 import org.junit.Before;
 import org.junit.Test;
 
-import static com.github.richardjwild.blather.parsing.BlatherVerb.*;
+import static com.github.richardjwild.blather.parsing.Verb.*;
 import static org.fest.assertions.Assertions.assertThat;
 
 public class InputParserShould {
@@ -19,7 +19,7 @@ public class InputParserShould {
     public void read_a_read_command_verb() {
         ParsedInput parsedInput = inputParser.parse("user");
 
-        assertThat(parsedInput.verb()).isEqualTo(BlatherVerb.READ);
+        assertThat(parsedInput.verb()).isEqualTo(READ);
     }
 
     @Test

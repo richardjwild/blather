@@ -7,7 +7,6 @@ import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Output;
 import com.github.richardjwild.blather.messageformatting.ReadMessageFormatter;
 import com.github.richardjwild.blather.messageformatting.WallMessageFormatter;
-import com.github.richardjwild.blather.parsing.BlatherVerb;
 import com.github.richardjwild.blather.parsing.ParsedInput;
 import com.github.richardjwild.blather.time.Clock;
 import org.junit.Before;
@@ -16,7 +15,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static com.github.richardjwild.blather.parsing.BlatherVerb.QUIT;
+import static com.github.richardjwild.blather.parsing.Verb.*;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -72,7 +71,7 @@ public class CommandFactoryShould {
 
     @Test
     public void make_a_post_command() {
-        when(parsedInput.verb()).thenReturn(BlatherVerb.POST);
+        when(parsedInput.verb()).thenReturn(POST);
         when(parsedInput.postCommandRecipient()).thenReturn(RECIPIENT);
         when(parsedInput.postCommandMessage()).thenReturn(MESSAGE);
 
@@ -85,7 +84,7 @@ public class CommandFactoryShould {
 
     @Test
     public void make_a_read_command() {
-        when(parsedInput.verb()).thenReturn(BlatherVerb.READ);
+        when(parsedInput.verb()).thenReturn(READ);
         when(parsedInput.readCommandSubject()).thenReturn(SUBJECT);
 
         Command command = commandFactory.makeCommandFor(parsedInput);
@@ -97,7 +96,7 @@ public class CommandFactoryShould {
 
     @Test
     public void make_a_follow_command() {
-        when(parsedInput.verb()).thenReturn(BlatherVerb.FOLLOW);
+        when(parsedInput.verb()).thenReturn(FOLLOW);
         when(parsedInput.followCommandActor()).thenReturn(FOLLOWER);
         when(parsedInput.followCommandSubject()).thenReturn(SUBJECT);
 
@@ -109,7 +108,7 @@ public class CommandFactoryShould {
 
     @Test
     public void make_a_wall_command() {
-        when(parsedInput.verb()).thenReturn(BlatherVerb.WALL);
+        when(parsedInput.verb()).thenReturn(WALL);
         when(parsedInput.wallCommandSubject()).thenReturn(SUBJECT);
 
         Command command = commandFactory.makeCommandFor(parsedInput);

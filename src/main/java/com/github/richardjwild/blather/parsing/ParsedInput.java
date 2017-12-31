@@ -21,8 +21,8 @@ public class ParsedInput {
         this.wallSubject = wallSubject;
     }
 
-    public BlatherVerb verb() {
-        return BlatherVerb.fromText(verb);
+    public Verb verb() {
+        return Verb.fromText(verb);
     }
 
     public String postCommandRecipient() {
