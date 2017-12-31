@@ -10,7 +10,7 @@ public class ParsedInput {
     private final String followSubject;
     private final String wallSubject;
 
-    public ParsedInput(String verb, String postRecipient, String postMessage, String readSubject,
+    ParsedInput(String verb, String postRecipient, String postMessage, String readSubject,
                 String followActor, String followSubject, String wallSubject) {
         this.verb = verb;
         this.postRecipient = postRecipient;
