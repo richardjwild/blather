@@ -3,7 +3,7 @@ package com.github.richardjwild.blather;
 import com.github.richardjwild.blather.application.Application;
 import com.github.richardjwild.blather.application.Controller;
 import com.github.richardjwild.blather.application.EventLoop;
-import com.github.richardjwild.blather.command.CommandFactory;
+import com.github.richardjwild.blather.command.factory.CommandFactory;
 import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Input;

@@ -19,7 +19,7 @@ public class PostCommand implements Command {
     private final UserRepository userRepository;
     private final Clock clock;
 
-    PostCommand(String recipientUserName, String messageText, MessageRepository messageRepository, UserRepository userRepository, Clock clock) {
+    public PostCommand(String recipientUserName, String messageText, MessageRepository messageRepository, UserRepository userRepository, Clock clock) {
         this.recipientUserName = recipientUserName;
         this.messageText = messageText;
         this.messageRepository = messageRepository;

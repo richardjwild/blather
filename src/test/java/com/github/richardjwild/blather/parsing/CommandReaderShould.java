@@ -1,9 +1,8 @@
 package com.github.richardjwild.blather.parsing;
 
 import com.github.richardjwild.blather.command.Command;
-import com.github.richardjwild.blather.command.CommandFactory;
+import com.github.richardjwild.blather.command.factory.CommandFactory;
 import com.github.richardjwild.blather.io.Input;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;

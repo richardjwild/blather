@@ -14,7 +14,7 @@ public class FollowCommand implements Command {
     private final String toFollowUserName;
     private final UserRepository userRepository;
 
-    FollowCommand(String followerUserName, String toFollowUserName, UserRepository userRepository) {
+    public FollowCommand(String followerUserName, String toFollowUserName, UserRepository userRepository) {
         this.followerUserName = followerUserName;
         this.toFollowUserName = toFollowUserName;
         this.userRepository = userRepository;

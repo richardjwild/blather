@@ -1,6 +1,7 @@
-package com.github.richardjwild.blather.command;
+package com.github.richardjwild.blather.command.factory;
 
 import com.github.richardjwild.blather.application.Controller;
+import com.github.richardjwild.blather.command.*;
 import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Output;

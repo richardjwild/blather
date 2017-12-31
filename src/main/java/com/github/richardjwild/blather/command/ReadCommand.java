@@ -19,8 +19,8 @@ public class ReadCommand implements Command {
     private final ReadMessageFormatter messageFormatter;
     private final Output output;
 
-    ReadCommand(String recipientUserName, MessageRepository messageRepository, UserRepository userRepository,
-                ReadMessageFormatter messageFormatter, Output output) {
+    public ReadCommand(String recipientUserName, MessageRepository messageRepository, UserRepository userRepository,
+                       ReadMessageFormatter messageFormatter, Output output) {
         this.recipientUserName = recipientUserName;
         this.messageRepository = messageRepository;
         this.userRepository = userRepository;

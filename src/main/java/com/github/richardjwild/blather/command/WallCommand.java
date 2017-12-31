@@ -19,8 +19,8 @@ public class WallCommand implements Command {
     private final WallMessageFormatter messageFormatter;
     private final Output output;
 
-    WallCommand(String followerUserName, UserRepository userRepository, MessageRepository messageRepository,
-                WallMessageFormatter messageFormatter, Output output) {
+    public WallCommand(String followerUserName, UserRepository userRepository, MessageRepository messageRepository,
+                       WallMessageFormatter messageFormatter, Output output) {
         this.followerUserName = followerUserName;
         this.userRepository = userRepository;
         this.messageRepository = messageRepository;
