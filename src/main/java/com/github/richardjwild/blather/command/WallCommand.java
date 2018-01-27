@@ -7,6 +7,8 @@ import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Output;
 import com.github.richardjwild.blather.messageformatting.WallMessageFormatter;
 
+import java.util.Optional;
+
 import static java.util.Comparator.comparing;
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
@@ -19,8 +21,12 @@ public class WallCommand implements Command {
     private final WallMessageFormatter messageFormatter;
     private final Output output;
 
-    public WallCommand(String followerUserName, UserRepository userRepository, MessageRepository messageRepository,
-                       WallMessageFormatter messageFormatter, Output output) {
+    public WallCommand(
+            String followerUserName,
+            UserRepository userRepository,
+            MessageRepository messageRepository,
+            WallMessageFormatter messageFormatter,
+            Output output) {
         this.followerUserName = followerUserName;
         this.userRepository = userRepository;
         this.messageRepository = messageRepository;
@@ -30,10 +36,14 @@ public class WallCommand implements Command {
 
     @Override
     public void execute() {
-        userRepository.find(followerUserName).ifPresent(this::printAllMessagesPostedToFollowees);
+        findFollower().ifPresent(this::printWallMessages);
     }
 
-    private void printAllMessagesPostedToFollowees(User follower) {
+    private Optional<User> findFollower() {
+        return userRepository.find(followerUserName);
+    }
+
+    private void printWallMessages(User follower) {
         follower.following()
                 .flatMap(messageRepository::allMessagesPostedTo)
                 .sorted(comparing(Message::timestamp))

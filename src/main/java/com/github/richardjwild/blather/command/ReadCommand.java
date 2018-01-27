@@ -7,6 +7,8 @@ import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Output;
 import com.github.richardjwild.blather.messageformatting.ReadMessageFormatter;
 
+import java.util.Optional;
+
 import static java.util.Comparator.comparing;
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
@@ -19,8 +21,12 @@ public class ReadCommand implements Command {
     private final ReadMessageFormatter messageFormatter;
     private final Output output;
 
-    public ReadCommand(String recipientUserName, MessageRepository messageRepository, UserRepository userRepository,
-                       ReadMessageFormatter messageFormatter, Output output) {
+    public ReadCommand(
+            String recipientUserName,
+            MessageRepository messageRepository,
+            UserRepository userRepository,
+            ReadMessageFormatter messageFormatter,
+            Output output) {
         this.recipientUserName = recipientUserName;
         this.messageRepository = messageRepository;
         this.userRepository = userRepository;
@@ -30,7 +36,11 @@ public class ReadCommand implements Command {
 
     @Override
     public void execute() {
-        userRepository.find(recipientUserName).ifPresent(this::printAllMessagesPostedToRecipient);
+        findRecipient().ifPresent(this::printAllMessagesPostedToRecipient);
+    }
+
+    private Optional<User> findRecipient() {
+        return userRepository.find(recipientUserName);
     }
 
     private void printAllMessagesPostedToRecipient(User recipient) {

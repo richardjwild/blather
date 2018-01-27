@@ -7,6 +7,7 @@ import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.time.Clock;
 
 import java.time.Instant;
+import java.util.Optional;
 
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
@@ -34,13 +35,17 @@ public class PostCommand implements Command {
     }
 
     private Message buildMessage() {
-        User recipient = getOrCreateRecipient();
+        User recipient = findOrCreateRecipient();
         Instant timestamp = clock.now();
         return new Message(recipient, messageText, timestamp);
     }
 
-    private User getOrCreateRecipient() {
-        return userRepository.find(recipientUserName).orElseGet(this::createRecipient);
+    private User findOrCreateRecipient() {
+        return findRecipient().orElseGet(this::createRecipient);
+    }
+
+    private Optional<User> findRecipient() {
+        return userRepository.find(recipientUserName);
     }
 
     private User createRecipient() {

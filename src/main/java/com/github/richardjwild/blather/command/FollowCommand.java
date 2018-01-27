@@ -22,27 +22,29 @@ public class FollowCommand implements Command {
 
     @Override
     public void execute() {
-        getUserToFollow().ifPresent(userToFollow -> {
-            User follower = getOrCreateFollower();
-            follower.follow(userToFollow);
-            save(follower);
-        });
+        findUserToFollow().ifPresent(this::addFollower);
     }
 
-    private User getOrCreateFollower() {
-        return userRepository.find(followerUserName).orElseGet(this::createFollower);
+    private Optional<User> findUserToFollow() {
+        return userRepository.find(toFollowUserName);
+    }
+
+    private void addFollower(User toFollow) {
+        User follower = findOrCreateFollower();
+        follower.follow(toFollow);
+        userRepository.save(follower);
+    }
+
+    private User findOrCreateFollower() {
+        return findFollower().orElseGet(this::createFollower);
+    }
+
+    private Optional<User> findFollower() {
+        return userRepository.find(followerUserName);
     }
 
     private User createFollower() {
         return new User(followerUserName);
-    }
-
-    private void save(User follower) {
-        userRepository.save(follower);
-    }
-
-    private Optional<User> getUserToFollow() {
-        return userRepository.find(toFollowUserName);
     }
 
     @Override
