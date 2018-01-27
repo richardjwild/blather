@@ -19,21 +19,21 @@ public class TimestampFormatter {
     }
 
     String formatTimestamp(Instant timestamp) {
-        long minutesElapsed = howLongAgo(timestamp, MINUTES);
-        if (minutesElapsed > 0) {
-            return formatWithUnit(minutesElapsed, MINUTES);
+        long elapsedMinutes = elapsedTimeSince(timestamp, MINUTES);
+        if (elapsedMinutes > 0) {
+            return formatWithUnit(elapsedMinutes, MINUTES);
         }
-        long secondsElapsed = howLongAgo(timestamp, SECONDS);
-        return formatWithUnit(secondsElapsed, SECONDS);
+        long elapsedSeconds = elapsedTimeSince(timestamp, SECONDS);
+        return formatWithUnit(elapsedSeconds, SECONDS);
     }
 
-    private long howLongAgo(Instant then, ChronoUnit chronoUnit) {
-        return chronoUnit.between(then, clock.now());
+    private long elapsedTimeSince(Instant then, ChronoUnit unit) {
+        return unit.between(then, clock.now());
     }
 
-    private String formatWithUnit(long timeDifference, ChronoUnit chronoUnit) {
-        String formattedUnit = formatUnit(chronoUnit, timeDifference);
-        return format("(%d %s ago)", timeDifference, formattedUnit);
+    private String formatWithUnit(long elapsedTime, ChronoUnit unit) {
+        String formattedUnit = formatUnit(unit, elapsedTime);
+        return format("(%d %s ago)", elapsedTime, formattedUnit);
     }
 
     private String formatUnit(ChronoUnit unit, long howMany) {
