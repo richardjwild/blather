@@ -1,18 +1,9 @@
 package com.github.richardjwild.blather;
 
 import com.github.richardjwild.blather.application.Application;
-import com.github.richardjwild.blather.application.Controller;
-import com.github.richardjwild.blather.application.EventLoop;
-import com.github.richardjwild.blather.command.factory.CommandFactory;
-import com.github.richardjwild.blather.datatransfer.MessageRepository;
-import com.github.richardjwild.blather.datatransfer.UserRepository;
+import com.github.richardjwild.blather.application.ApplicationBuilder;
 import com.github.richardjwild.blather.io.Input;
 import com.github.richardjwild.blather.io.Output;
-import com.github.richardjwild.blather.messageformatting.ReadMessageFormatter;
-import com.github.richardjwild.blather.messageformatting.TimestampFormatter;
-import com.github.richardjwild.blather.messageformatting.WallMessageFormatter;
-import com.github.richardjwild.blather.parsing.CommandReader;
-import com.github.richardjwild.blather.parsing.InputParser;
 import com.github.richardjwild.blather.time.Clock;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,18 +38,7 @@ public class BlatherShould {
 
     @Before
     public void initialize() {
-        UserRepository userRepository = new UserRepository();
-        InputParser inputParser = new InputParser();
-        Controller controller = new Controller();
-        MessageRepository messageRepository = new MessageRepository();
-        TimestampFormatter timestampFormatter = new TimestampFormatter(clock);
-        ReadMessageFormatter readMessageFormatter = new ReadMessageFormatter(timestampFormatter);
-        WallMessageFormatter wallMessageFormatter = new WallMessageFormatter(readMessageFormatter);
-        CommandFactory commandFactory = new CommandFactory(controller, messageRepository, userRepository, clock,
-                readMessageFormatter, wallMessageFormatter, output);
-        CommandReader commandReader = new CommandReader(input, inputParser, commandFactory);
-        EventLoop eventLoop = new EventLoop(commandReader, controller);
-        application = new Application(eventLoop, output);
+        application = ApplicationBuilder.build(input, output, clock);
     }
 
     @Test

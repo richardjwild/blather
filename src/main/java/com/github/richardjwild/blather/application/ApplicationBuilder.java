@@ -1,6 +1,6 @@
 package com.github.richardjwild.blather.application;
 
-import com.github.richardjwild.blather.command.factory.CommandFactory;
+import com.github.richardjwild.blather.command.factory.*;
 import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Input;
@@ -16,15 +16,21 @@ public class ApplicationBuilder {
 
     public static Application build(Input input, Output output, Clock clock) {
         UserRepository userRepository = new UserRepository();
+        MessageRepository messageRepository = new MessageRepository();
         InputParser inputParser = new InputParser();
         Controller controller = new Controller();
-        MessageRepository messageRepository = new MessageRepository();
         TimestampFormatter timestampFormatter = new TimestampFormatter(clock);
         ReadMessageFormatter readMessageFormatter = new ReadMessageFormatter(timestampFormatter);
         WallMessageFormatter wallMessageFormatter = new WallMessageFormatter(readMessageFormatter);
-        CommandFactory commandFactory = new CommandFactory(controller, messageRepository, userRepository, clock,
-                readMessageFormatter, wallMessageFormatter, output);
-        CommandReader commandReader = new CommandReader(input, inputParser, commandFactory);
+        CommandFactories commandFactories = new CommandFactories(
+                new FollowCommandFactory(userRepository),
+                new PostCommandFactory(messageRepository, userRepository, clock),
+                new QuitCommandFactory(controller),
+                new ReadCommandFactory(
+                        messageRepository, userRepository, readMessageFormatter, output),
+                new WallCommandFactory(
+                        userRepository, messageRepository, wallMessageFormatter, output));
+        CommandReader commandReader = new CommandReader(input, inputParser, commandFactories);
         EventLoop eventLoop = new EventLoop(commandReader, controller);
         return new Application(eventLoop, output);
     }
