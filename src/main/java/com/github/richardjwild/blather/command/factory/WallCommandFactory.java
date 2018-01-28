@@ -19,7 +19,8 @@ public class WallCommandFactory implements CommandFactory {
             UserRepository userRepository,
             MessageRepository messageRepository,
             WallMessageFormatter wallMessageFormatter,
-            Output output) {
+            Output output)
+    {
         this.userRepository = userRepository;
         this.messageRepository = messageRepository;
         this.wallMessageFormatter = wallMessageFormatter;

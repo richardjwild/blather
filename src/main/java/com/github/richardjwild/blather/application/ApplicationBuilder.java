@@ -14,7 +14,11 @@ import com.github.richardjwild.blather.messageformatting.TimestampFormatter;
 
 public class ApplicationBuilder {
 
-    public static Application build(Input input, Output output, Clock clock) {
+    public static Application build(
+            Input input,
+            Output output,
+            Clock clock)
+    {
         UserRepository userRepository = new UserRepository();
         MessageRepository messageRepository = new MessageRepository();
         InputParser inputParser = new InputParser();

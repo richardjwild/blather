@@ -13,7 +13,11 @@ public class PostCommandFactory implements CommandFactory {
     private final UserRepository userRepository;
     private final Clock clock;
 
-    public PostCommandFactory(MessageRepository messageRepository, UserRepository userRepository, Clock clock) {
+    public PostCommandFactory(
+            MessageRepository messageRepository,
+            UserRepository userRepository,
+            Clock clock)
+    {
         this.messageRepository = messageRepository;
         this.userRepository = userRepository;
         this.clock = clock;

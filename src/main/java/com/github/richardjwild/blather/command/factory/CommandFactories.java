@@ -16,7 +16,8 @@ public class CommandFactories {
             PostCommandFactory postCommandFactory,
             QuitCommandFactory quitCommandFactory,
             ReadCommandFactory readCommandFactory,
-            WallCommandFactory wallCommandFactory) {
+            WallCommandFactory wallCommandFactory)
+    {
         factories.put(FOLLOW, followCommandFactory);
         factories.put(POST, postCommandFactory);
         factories.put(QUIT, quitCommandFactory);

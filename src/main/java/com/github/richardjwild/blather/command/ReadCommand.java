@@ -26,7 +26,8 @@ public class ReadCommand implements Command {
             MessageRepository messageRepository,
             UserRepository userRepository,
             ReadMessageFormatter messageFormatter,
-            Output output) {
+            Output output)
+    {
         this.recipientUserName = recipientUserName;
         this.messageRepository = messageRepository;
         this.userRepository = userRepository;

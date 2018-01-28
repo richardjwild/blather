@@ -19,7 +19,8 @@ public class ReadCommandFactory implements CommandFactory {
             MessageRepository messageRepository,
             UserRepository userRepository,
             ReadMessageFormatter readMessageFormatter,
-            Output output) {
+            Output output)
+    {
         this.messageRepository = messageRepository;
         this.userRepository = userRepository;
         this.readMessageFormatter = readMessageFormatter;
