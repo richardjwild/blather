@@ -14,27 +14,40 @@ import com.github.richardjwild.blather.messageformatting.TimestampFormatter;
 
 public class ApplicationBuilder {
 
-    public static Application build(
-            Input input,
-            Output output,
-            Clock clock)
-    {
+    public static Application build(Input input, Output output, Clock clock) {
+
         UserRepository userRepository = new UserRepository();
         MessageRepository messageRepository = new MessageRepository();
+
         InputParser inputParser = new InputParser();
         Controller controller = new Controller();
+
         TimestampFormatter timestampFormatter = new TimestampFormatter(clock);
-        ReadMessageFormatter readMessageFormatter = new ReadMessageFormatter(timestampFormatter);
-        WallMessageFormatter wallMessageFormatter = new WallMessageFormatter(readMessageFormatter);
+        ReadMessageFormatter readMessageFormatter = new ReadMessageFormatter(
+                timestampFormatter);
+        WallMessageFormatter wallMessageFormatter = new WallMessageFormatter(
+                readMessageFormatter);
+
         CommandFactories commandFactories = new CommandFactories(
                 new FollowCommandFactory(userRepository),
                 new PostCommandFactory(messageRepository, userRepository, clock),
                 new QuitCommandFactory(controller),
                 new ReadCommandFactory(
-                        messageRepository, userRepository, readMessageFormatter, output),
+                        messageRepository,
+                        userRepository,
+                        readMessageFormatter,
+                        output),
                 new WallCommandFactory(
-                        userRepository, messageRepository, wallMessageFormatter, output));
-        CommandReader commandReader = new CommandReader(input, inputParser, commandFactories);
+                        userRepository,
+                        messageRepository,
+                        wallMessageFormatter,
+                        output));
+
+        CommandReader commandReader = new CommandReader(
+                input,
+                inputParser,
+                commandFactories);
+
         EventLoop eventLoop = new EventLoop(commandReader, controller);
         return new Application(eventLoop, output);
     }
