@@ -1,11 +1,14 @@
 package com.github.richardjwild.blather.command;
 
+import com.github.richardjwild.blather.command.factory.FollowCommandFactory;
+import com.github.richardjwild.blather.parsing.ParsedInput;
 import com.github.richardjwild.blather.user.User;
 import com.github.richardjwild.blather.user.UserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -23,8 +26,14 @@ public class FollowCommandShould {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private ParsedInput parsedInput;
+
     @Captor
     private ArgumentCaptor<User> userCaptor;
+
+    @InjectMocks
+    private FollowCommandFactory factory;
 
     @Test
     public void add_a_user_to_the_subjects_follow_list() {
@@ -32,7 +41,7 @@ public class FollowCommandShould {
         User following = new User("following");
         when(userRepository.find("follower")).thenReturn(Optional.of(follower));
         when(userRepository.find("following")).thenReturn(Optional.of(following));
-        FollowCommand followCommand = new FollowCommand("follower", "following", userRepository);
+        Command followCommand = makeFollowCommand("follower", "following");
 
         followCommand.execute();
 
@@ -48,7 +57,7 @@ public class FollowCommandShould {
         User following = new User("following");
         when(userRepository.find("follower")).thenReturn(Optional.empty());
         when(userRepository.find("following")).thenReturn(Optional.of(following));
-        FollowCommand followCommand = new FollowCommand("follower", "following", userRepository);
+        Command followCommand = makeFollowCommand("follower", "following");
 
         followCommand.execute();
 
@@ -58,4 +67,9 @@ public class FollowCommandShould {
         assertThat(actualUser).isNotSameAs(follower);
     }
 
+    private Command makeFollowCommand(String follower, String following) {
+        when(parsedInput.followCommandActor()).thenReturn(follower);
+        when(parsedInput.followCommandSubject()).thenReturn(following);
+        return factory.makeCommandFor(parsedInput);
+    }
 }
