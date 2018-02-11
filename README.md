@@ -11,10 +11,16 @@ gradle build
 src/test/resources/test-end-to-end.sh
 ```
 
-To run Blather, execute:
+To run Blather, build the 'fat jar' which includes all necessary dependencies:
 
 ```bash
-java -jar build/libs/blather.jar
+gradle fatJar
+```
+
+then execute:
+
+```bash
+java -jar build/libs/blather-all.jar
 ```
 
 To post a message to a user, execute:
