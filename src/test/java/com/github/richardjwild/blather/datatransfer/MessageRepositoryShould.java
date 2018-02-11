@@ -20,25 +20,25 @@ public class MessageRepositoryShould {
     private static final Instant TIMESTAMP_2 = TIMESTAMP_1.plusMillis(1);
     private static final Instant TIMESTAMP_3 = TIMESTAMP_2.plusMillis(1);
     private static final Message MESSAGE_1_FOR_RECIPIENT_1 = new Message(RECIPIENT_1, TEXT_1, TIMESTAMP_1);
-    private static final Message MESSAGE_2_FOR_RECEIPIENT_1 = new Message(RECIPIENT_1, TEXT_2, TIMESTAMP_2);
+    private static final Message MESSAGE_2_FOR_RECIPIENT_1 = new Message(RECIPIENT_1, TEXT_2, TIMESTAMP_2);
     private static final Message MESSAGE_1_FOR_RECIPIENT_2 = new Message(RECIPIENT_2, TEXT_3, TIMESTAMP_3);
 
     private final MessageRepository messageRepository = new MessageRepository();
 
     @Test
     public void store_all_messages_posted_to_a_recipient() {
-        messageRepository.postMessage(MESSAGE_1_FOR_RECIPIENT_1);
-        messageRepository.postMessage(MESSAGE_2_FOR_RECEIPIENT_1);
+        messageRepository.postMessage(RECIPIENT_1, MESSAGE_1_FOR_RECIPIENT_1);
+        messageRepository.postMessage(RECIPIENT_1, MESSAGE_2_FOR_RECIPIENT_1);
 
         Stream<Message> actualMessages = messageRepository.allMessagesPostedTo(RECIPIENT_1);
 
-        assertThat(list(actualMessages)).containsExactly(MESSAGE_1_FOR_RECIPIENT_1, MESSAGE_2_FOR_RECEIPIENT_1);
+        assertThat(list(actualMessages)).containsExactly(MESSAGE_1_FOR_RECIPIENT_1, MESSAGE_2_FOR_RECIPIENT_1);
     }
 
     @Test
     public void retrieve_messages_posted_to_a_recipient() {
-        messageRepository.postMessage(MESSAGE_1_FOR_RECIPIENT_1);
-        messageRepository.postMessage(MESSAGE_1_FOR_RECIPIENT_2);
+        messageRepository.postMessage(RECIPIENT_1, MESSAGE_1_FOR_RECIPIENT_1);
+        messageRepository.postMessage(RECIPIENT_2, MESSAGE_1_FOR_RECIPIENT_2);
 
         Stream<Message> messagesForRecipient1 = messageRepository.allMessagesPostedTo(RECIPIENT_1);
         Stream<Message> messagesForRecipient2 = messageRepository.allMessagesPostedTo(RECIPIENT_2);

@@ -9,8 +9,7 @@ public class MessageRepository {
 
     private Map<User, List<Message>> allMessages = new HashMap<>();
 
-    public void postMessage(Message message) {
-        User recipient = message.recipient();
+    public void postMessage(User recipient, Message message) {
         List<Message> receivedMessages = getOrCreateMessageListFor(recipient);
         receivedMessages.add(message);
     }

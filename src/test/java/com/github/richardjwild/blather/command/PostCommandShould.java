@@ -52,7 +52,7 @@ public class PostCommandShould {
         postCommand.execute();
 
         Message expectedMessage = new Message(RECIPIENT, MESSAGE_TEXT, TIMESTAMP);
-        verify(messageRepository).postMessage(expectedMessage);
+        verify(messageRepository).postMessage(RECIPIENT, expectedMessage);
         verify(userRepository, never()).save(RECIPIENT);
     }
 
@@ -64,7 +64,7 @@ public class PostCommandShould {
 
         User expectedNewUser = new User(RECIPIENT_NAME);
         Message expectedMessage = new Message(expectedNewUser, MESSAGE_TEXT, TIMESTAMP);
-        verify(messageRepository).postMessage(expectedMessage);
+        verify(messageRepository).postMessage(expectedNewUser, expectedMessage);
         verify(userRepository).save(expectedNewUser);
     }
 

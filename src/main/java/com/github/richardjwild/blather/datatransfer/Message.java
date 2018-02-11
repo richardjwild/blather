@@ -17,10 +17,6 @@ public class Message {
         this.timestamp = timestamp;
     }
 
-    User recipient() {
-        return recipient;
-    }
-
     public String recipientName() {
         return recipient.name();
     }

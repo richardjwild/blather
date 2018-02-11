@@ -6,7 +6,6 @@ import com.github.richardjwild.blather.datatransfer.User;
 import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.time.Clock;
 
-import java.time.Instant;
 import java.util.Optional;
 
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
@@ -36,14 +35,9 @@ public class PostCommand implements Command {
 
     @Override
     public void execute() {
-        Message message = buildMessage();
-        messageRepository.postMessage(message);
-    }
-
-    private Message buildMessage() {
         User recipient = findOrCreateRecipient();
-        Instant timestamp = clock.now();
-        return new Message(recipient, messageText, timestamp);
+        Message message = new Message(recipient, messageText, clock.now());
+        messageRepository.postMessage(recipient, message);
     }
 
     private User findOrCreateRecipient() {
