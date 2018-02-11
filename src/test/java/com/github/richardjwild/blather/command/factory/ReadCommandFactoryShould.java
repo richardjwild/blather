@@ -5,7 +5,7 @@ import com.github.richardjwild.blather.command.ReadCommand;
 import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Output;
-import com.github.richardjwild.blather.messageformatting.TimestampFormatter;
+import com.github.richardjwild.blather.time.TimestampFormatter;
 import com.github.richardjwild.blather.parsing.ParsedInput;
 import org.junit.Test;
 import org.junit.runner.RunWith;

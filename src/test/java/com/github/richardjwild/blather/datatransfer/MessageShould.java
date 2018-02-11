@@ -1,6 +1,6 @@
 package com.github.richardjwild.blather.datatransfer;
 
-import com.github.richardjwild.blather.messageformatting.TimestampFormatter;
+import com.github.richardjwild.blather.time.TimestampFormatter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +25,7 @@ public class MessageShould {
 
     @Before
     public void initialize() {
-        when(timestampFormatter.formatTimestamp(TIMESTAMP)).thenReturn("(AN_INSTANT_IN_TIME)");
+        when(timestampFormatter.format(TIMESTAMP)).thenReturn("(AN_INSTANT_IN_TIME)");
         message = new Message(RECIPIENT, "message text", TIMESTAMP);
     }
 

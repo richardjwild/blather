@@ -1,11 +1,8 @@
-package com.github.richardjwild.blather.messageformatting;
-
-import com.github.richardjwild.blather.time.Clock;
+package com.github.richardjwild.blather.time;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
-import static java.lang.String.format;
 import static java.time.temporal.ChronoUnit.MINUTES;
 import static java.time.temporal.ChronoUnit.SECONDS;
 import static org.apache.commons.lang3.StringUtils.chop;
@@ -18,7 +15,7 @@ public class TimestampFormatter {
         this.clock = clock;
     }
 
-    public String formatTimestamp(Instant timestamp) {
+    public String format(Instant timestamp) {
         long elapsedMinutes = elapsedTimeSince(timestamp, MINUTES);
         if (elapsedMinutes > 0) {
             return formatWithUnit(elapsedMinutes, MINUTES);
@@ -33,7 +30,7 @@ public class TimestampFormatter {
 
     private String formatWithUnit(long elapsedTime, ChronoUnit unit) {
         String formattedUnit = formatUnit(unit, elapsedTime);
-        return format("(%d %s ago)", elapsedTime, formattedUnit);
+        return String.format("(%d %s ago)", elapsedTime, formattedUnit);
     }
 
     private String formatUnit(ChronoUnit unit, long howMany) {

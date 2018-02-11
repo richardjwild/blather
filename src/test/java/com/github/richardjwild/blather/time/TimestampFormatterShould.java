@@ -1,6 +1,5 @@
-package com.github.richardjwild.blather.messageformatting;
+package com.github.richardjwild.blather.time;
 
-import com.github.richardjwild.blather.time.Clock;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Before;
@@ -42,7 +41,7 @@ public class TimestampFormatterShould {
         Instant timestamp = now();
         when(clock.now()).thenReturn(timestamp.plusSeconds(secondsAgo));
 
-        String formattedTimestamp = timestampFormatter.formatTimestamp(timestamp);
+        String formattedTimestamp = timestampFormatter.format(timestamp);
 
         assertThat(formattedTimestamp).isEqualTo(expectedFormattedValue);
     }

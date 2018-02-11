@@ -5,7 +5,7 @@ import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.User;
 import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Output;
-import com.github.richardjwild.blather.messageformatting.TimestampFormatter;
+import com.github.richardjwild.blather.time.TimestampFormatter;
 
 import java.util.Optional;
 

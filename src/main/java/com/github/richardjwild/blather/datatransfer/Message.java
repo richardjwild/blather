@@ -1,6 +1,6 @@
 package com.github.richardjwild.blather.datatransfer;
 
-import com.github.richardjwild.blather.messageformatting.TimestampFormatter;
+import com.github.richardjwild.blather.time.TimestampFormatter;
 
 import java.time.Instant;
 import java.util.StringJoiner;
@@ -27,7 +27,7 @@ public class Message {
     public String formatRead(TimestampFormatter timestampFormatter) {
         return new StringJoiner(" ")
                 .add(text)
-                .add(timestampFormatter.formatTimestamp(timestamp))
+                .add(timestampFormatter.format(timestamp))
                 .toString();
     }
 
