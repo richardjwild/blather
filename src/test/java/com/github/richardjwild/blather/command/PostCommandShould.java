@@ -1,13 +1,16 @@
 package com.github.richardjwild.blather.command;
 
+import com.github.richardjwild.blather.command.factory.PostCommandFactory;
 import com.github.richardjwild.blather.message.Message;
 import com.github.richardjwild.blather.message.MessageRepository;
+import com.github.richardjwild.blather.parsing.ParsedInput;
 import com.github.richardjwild.blather.user.User;
 import com.github.richardjwild.blather.user.UserRepository;
 import com.github.richardjwild.blather.time.Clock;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -37,11 +40,19 @@ public class PostCommandShould {
     @Mock
     private UserRepository userRepository;
 
-    private PostCommand postCommand;
+    @Mock
+    private ParsedInput parsedInput;
+
+    @InjectMocks
+    private PostCommandFactory factory;
+
+    private Command postCommand;
 
     @Before
     public void initialize() {
-        postCommand = new PostCommand(RECIPIENT_NAME, MESSAGE_TEXT, messageRepository, userRepository, clock);
+        when(parsedInput.postCommandRecipient()).thenReturn(RECIPIENT_NAME);
+        when(parsedInput.postCommandMessage()).thenReturn(MESSAGE_TEXT);
+        postCommand = factory.makeCommandFor(parsedInput);
         when(clock.now()).thenReturn(TIMESTAMP);
     }
 
@@ -67,5 +78,4 @@ public class PostCommandShould {
         verify(messageRepository).postMessage(expectedNewUser, expectedMessage);
         verify(userRepository).save(expectedNewUser);
     }
-
 }
