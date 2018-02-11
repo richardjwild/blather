@@ -2,7 +2,7 @@ package com.github.richardjwild.blather.command.factory;
 
 import com.github.richardjwild.blather.command.Command;
 import com.github.richardjwild.blather.command.PostCommand;
-import com.github.richardjwild.blather.datatransfer.MessageRepository;
+import com.github.richardjwild.blather.message.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.parsing.ParsedInput;
 import com.github.richardjwild.blather.time.Clock;

@@ -1,5 +1,6 @@
-package com.github.richardjwild.blather.datatransfer;
+package com.github.richardjwild.blather.message;
 
+import com.github.richardjwild.blather.datatransfer.User;
 import com.github.richardjwild.blather.time.TimestampFormatter;
 import org.junit.Before;
 import org.junit.Test;

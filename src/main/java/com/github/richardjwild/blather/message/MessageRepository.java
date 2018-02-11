@@ -1,4 +1,6 @@
-package com.github.richardjwild.blather.datatransfer;
+package com.github.richardjwild.blather.message;
+
+import com.github.richardjwild.blather.datatransfer.User;
 
 import java.util.*;
 import java.util.stream.Stream;

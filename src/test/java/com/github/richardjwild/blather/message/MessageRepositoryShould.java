@@ -1,5 +1,6 @@
-package com.github.richardjwild.blather.datatransfer;
+package com.github.richardjwild.blather.message;
 
+import com.github.richardjwild.blather.datatransfer.User;
 import org.junit.Test;
 
 import java.time.Instant;
