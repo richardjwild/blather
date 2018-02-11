@@ -1,7 +1,9 @@
 package com.github.richardjwild.blather.command;
 
+import com.github.richardjwild.blather.command.factory.WallCommandFactory;
 import com.github.richardjwild.blather.message.Message;
 import com.github.richardjwild.blather.message.MessageRepository;
+import com.github.richardjwild.blather.parsing.ParsedInput;
 import com.github.richardjwild.blather.user.User;
 import com.github.richardjwild.blather.user.UserRepository;
 import com.github.richardjwild.blather.io.Output;
@@ -9,6 +11,7 @@ import com.github.richardjwild.blather.time.TimestampFormatter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -38,6 +41,12 @@ public class WallCommandShould {
             aliceTwoSecondsAgo, aliceRightNow, jillOneSecondAgo,
             bobRightNow;
 
+    @Mock
+    private ParsedInput parsedInput;
+
+    @InjectMocks
+    private WallCommandFactory factory;
+
     @Test
     public void print_all_messages_posted_to_one_followed_user() {
         User bob = new User("Bob");
@@ -50,8 +59,7 @@ public class WallCommandShould {
         when(messageRepository.allMessagesPostedTo(alice)).thenReturn(stream(firstPost));
         when(firstPost.formatWall(timestampFormatter)).thenReturn("alice first post message");
 
-        WallCommand wallCommand = new WallCommand("Bob", userRepository, messageRepository,
-                timestampFormatter, output);
+        Command wallCommand = makeCommandForSubject("Bob");
         wallCommand.execute();
 
         verify(output).writeLine("alice first post message");
@@ -75,8 +83,7 @@ public class WallCommandShould {
 
         messageOrderIs(aliceFirstPost, jillHelloWorld);
 
-        WallCommand wallCommand = new WallCommand("Bob", userRepository, messageRepository,
-                timestampFormatter, output);
+        Command wallCommand = makeCommandForSubject("Bob");
         wallCommand.execute();
 
         InOrder inOrder = inOrder(output);
@@ -104,8 +111,7 @@ public class WallCommandShould {
 
         messageOrderIs(aliceTwoSecondsAgo, jillOneSecondAgo, aliceRightNow);
 
-        WallCommand wallCommand = new WallCommand("Bob", userRepository, messageRepository,
-                timestampFormatter, output);
+        Command wallCommand = makeCommandForSubject("Bob");
         wallCommand.execute();
 
         InOrder inOrder = inOrder(output);
@@ -129,13 +135,17 @@ public class WallCommandShould {
         when(bobRightNow.formatWall(timestampFormatter)).thenReturn("bob right now");
 
         messageOrderIs(aliceTwoSecondsAgo, bobRightNow);
-        WallCommand wallCommand = new WallCommand("Bob", userRepository, messageRepository,
-                timestampFormatter, output);
+        Command wallCommand = makeCommandForSubject("Bob");
         wallCommand.execute();
 
         InOrder inOrder = inOrder(output);
         inOrder.verify(output).writeLine("alice two seconds ago");
         inOrder.verify(output).writeLine("bob right now");
+    }
+
+    private Command makeCommandForSubject(String subjectName) {
+        when(parsedInput.wallCommandSubject()).thenReturn(subjectName);
+        return factory.makeCommandFor(parsedInput);
     }
 
     private Stream<Message> stream(Message... messages) {
