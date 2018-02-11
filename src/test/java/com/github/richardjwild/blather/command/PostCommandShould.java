@@ -2,8 +2,8 @@ package com.github.richardjwild.blather.command;
 
 import com.github.richardjwild.blather.message.Message;
 import com.github.richardjwild.blather.message.MessageRepository;
-import com.github.richardjwild.blather.datatransfer.User;
-import com.github.richardjwild.blather.datatransfer.UserRepository;
+import com.github.richardjwild.blather.user.User;
+import com.github.richardjwild.blather.user.UserRepository;
 import com.github.richardjwild.blather.time.Clock;
 import org.junit.Before;
 import org.junit.Test;

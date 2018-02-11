@@ -1,7 +1,7 @@
 package com.github.richardjwild.blather.command;
 
-import com.github.richardjwild.blather.datatransfer.User;
-import com.github.richardjwild.blather.datatransfer.UserRepository;
+import com.github.richardjwild.blather.user.User;
+import com.github.richardjwild.blather.user.UserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;

@@ -1,6 +1,6 @@
 package com.github.richardjwild.blather.message;
 
-import com.github.richardjwild.blather.datatransfer.User;
+import com.github.richardjwild.blather.user.User;
 import com.github.richardjwild.blather.time.TimestampFormatter;
 
 import java.time.Instant;

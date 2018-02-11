@@ -3,7 +3,7 @@ package com.github.richardjwild.blather.command.factory;
 import com.github.richardjwild.blather.command.Command;
 import com.github.richardjwild.blather.command.ReadCommand;
 import com.github.richardjwild.blather.message.MessageRepository;
-import com.github.richardjwild.blather.datatransfer.UserRepository;
+import com.github.richardjwild.blather.user.UserRepository;
 import com.github.richardjwild.blather.io.Output;
 import com.github.richardjwild.blather.time.TimestampFormatter;
 import com.github.richardjwild.blather.parsing.ParsedInput;

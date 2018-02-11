@@ -2,7 +2,7 @@ package com.github.richardjwild.blather.command.factory;
 
 import com.github.richardjwild.blather.command.Command;
 import com.github.richardjwild.blather.command.FollowCommand;
-import com.github.richardjwild.blather.datatransfer.UserRepository;
+import com.github.richardjwild.blather.user.UserRepository;
 import com.github.richardjwild.blather.parsing.ParsedInput;
 
 public class FollowCommandFactory implements CommandFactory {

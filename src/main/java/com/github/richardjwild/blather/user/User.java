@@ -1,4 +1,4 @@
-package com.github.richardjwild.blather.datatransfer;
+package com.github.richardjwild.blather.user;
 
 import java.util.HashSet;
 import java.util.Set;
