@@ -1,7 +1,9 @@
 package com.github.richardjwild.blather.command;
 
+import com.github.richardjwild.blather.command.factory.ReadCommandFactory;
 import com.github.richardjwild.blather.message.Message;
 import com.github.richardjwild.blather.message.MessageRepository;
+import com.github.richardjwild.blather.parsing.ParsedInput;
 import com.github.richardjwild.blather.user.User;
 import com.github.richardjwild.blather.user.UserRepository;
 import com.github.richardjwild.blather.io.Output;
@@ -10,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -36,6 +39,12 @@ public class ReadCommandShould {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private ParsedInput parsedInput;
+
+    @InjectMocks
+    private ReadCommandFactory factory;
+
     @Before
     public void initialize() {
         when(earlierMessage.compareTo(laterMessage)).thenReturn(-1);
@@ -50,7 +59,7 @@ public class ReadCommandShould {
         when(earlierMessage.formatRead(timestampFormatter)).thenReturn("earlier message formatted");
         when(laterMessage.formatRead(timestampFormatter)).thenReturn("later message formatted");
 
-        ReadCommand command = readCommandForUserName("user");
+        Command command = readCommandForUserName("user");
         command.execute();
 
         InOrder inOrder = inOrder(output);
@@ -61,19 +70,15 @@ public class ReadCommandShould {
     @Test
     public void print_nothing_if_user_not_found() {
         when(userRepository.find("user")).thenReturn(Optional.empty());
-        ReadCommand command = readCommandForUserName("user");
+        Command command = readCommandForUserName("user");
 
         command.execute();
 
         verify(output, never()).writeLine(anyString());
     }
 
-    private ReadCommand readCommandForUserName(String userName) {
-        return new ReadCommand(
-                userName,
-                messageRepository,
-                userRepository,
-                timestampFormatter,
-                output);
+    private Command readCommandForUserName(String userName) {
+        when(parsedInput.readCommandSubject()).thenReturn(userName);
+        return factory.makeCommandFor(parsedInput);
     }
 }
