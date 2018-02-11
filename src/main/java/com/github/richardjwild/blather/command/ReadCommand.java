@@ -5,7 +5,7 @@ import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.User;
 import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Output;
-import com.github.richardjwild.blather.messageformatting.ReadMessageFormatter;
+import com.github.richardjwild.blather.messageformatting.TimestampFormatter;
 
 import java.util.Optional;
 
@@ -15,23 +15,23 @@ import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCod
 
 public class ReadCommand implements Command {
 
-    private final String recipientUserName;
-    private final MessageRepository messageRepository;
-    private final UserRepository userRepository;
-    private final ReadMessageFormatter messageFormatter;
-    private final Output output;
+    private String recipientUserName;
+    private MessageRepository messageRepository;
+    private UserRepository userRepository;
+    private TimestampFormatter timestampFormatter;
+    private Output output;
 
     public ReadCommand(
             String recipientUserName,
             MessageRepository messageRepository,
             UserRepository userRepository,
-            ReadMessageFormatter messageFormatter,
+            TimestampFormatter timestampFormatter,
             Output output)
     {
         this.recipientUserName = recipientUserName;
         this.messageRepository = messageRepository;
         this.userRepository = userRepository;
-        this.messageFormatter = messageFormatter;
+        this.timestampFormatter = timestampFormatter;
         this.output = output;
     }
 
@@ -47,8 +47,12 @@ public class ReadCommand implements Command {
     private void printAllMessagesPostedToRecipient(User recipient) {
         messageRepository.allMessagesPostedTo(recipient)
                 .sorted(comparing(Message::timestamp))
-                .map(messageFormatter::format)
+                .map(this::format)
                 .forEach(output::writeLine);
+    }
+
+    private String format(Message message) {
+        return message.formatRead(timestampFormatter);
     }
 
     @Override

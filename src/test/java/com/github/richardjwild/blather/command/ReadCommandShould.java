@@ -5,7 +5,8 @@ import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.User;
 import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Output;
-import com.github.richardjwild.blather.messageformatting.ReadMessageFormatter;
+import com.github.richardjwild.blather.messageformatting.TimestampFormatter;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
@@ -21,7 +22,6 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class ReadCommandShould {
 
-    private static final String TEXT = "this test does not depend on this text";
     private static final Instant AN_INSTANT_IN_TIME = Instant.now();
 
     @Mock
@@ -31,21 +31,27 @@ public class ReadCommandShould {
     private MessageRepository messageRepository;
 
     @Mock
-    private ReadMessageFormatter messageFormatter;
+    private Message earlierMessage, laterMessage;
+
+    @Mock
+    private TimestampFormatter timestampFormatter;
 
     @Mock
     private UserRepository userRepository;
 
+    @Before
+    public void initialize() {
+        when(earlierMessage.timestamp()).thenReturn(AN_INSTANT_IN_TIME);
+        when(laterMessage.timestamp()).thenReturn(AN_INSTANT_IN_TIME.plusSeconds(1));
+    }
+
     @Test
     public void print_all_messages_posted_to_a_specified_user_in_date_order() {
         User user = new User("user");
-        Message earlierMessage = new Message(user, TEXT, AN_INSTANT_IN_TIME),
-                laterMessage = new Message(user, TEXT, AN_INSTANT_IN_TIME.plusSeconds(1));
-
         when(userRepository.find("user")).thenReturn(Optional.of(user));
         when(messageRepository.allMessagesPostedTo(user)).thenReturn(Stream.of(laterMessage, earlierMessage));
-        when(messageFormatter.format(earlierMessage)).thenReturn("earlier message formatted");
-        when(messageFormatter.format(laterMessage)).thenReturn("later message formatted");
+        when(earlierMessage.formatRead(timestampFormatter)).thenReturn("earlier message formatted");
+        when(laterMessage.formatRead(timestampFormatter)).thenReturn("later message formatted");
 
         ReadCommand command = readCommandForUserName("user");
         command.execute();
@@ -66,6 +72,6 @@ public class ReadCommandShould {
     }
 
     private ReadCommand readCommandForUserName(String userName) {
-        return new ReadCommand(userName, messageRepository, userRepository, messageFormatter, output);
+        return new ReadCommand(userName, messageRepository, userRepository, timestampFormatter, output);
     }
 }

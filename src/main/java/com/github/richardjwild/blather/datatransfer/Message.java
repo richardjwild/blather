@@ -1,6 +1,9 @@
 package com.github.richardjwild.blather.datatransfer;
 
+import com.github.richardjwild.blather.messageformatting.TimestampFormatter;
+
 import java.time.Instant;
+import java.util.StringJoiner;
 
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
@@ -17,16 +20,22 @@ public class Message {
         this.timestamp = timestamp;
     }
 
-    public String recipientName() {
-        return recipient.name();
-    }
-
-    public String text() {
-        return text;
-    }
-
     public Instant timestamp() {
         return timestamp;
+    }
+
+    public String formatRead(TimestampFormatter timestampFormatter) {
+        return new StringJoiner(" ")
+                .add(text)
+                .add(timestampFormatter.formatTimestamp(timestamp))
+                .toString();
+    }
+
+    public String formatWall(TimestampFormatter timestampFormatter) {
+        return new StringJoiner(" - ")
+                .add(recipient.name())
+                .add(formatRead(timestampFormatter))
+                .toString();
     }
 
     @Override

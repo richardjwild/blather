@@ -18,7 +18,7 @@ public class TimestampFormatter {
         this.clock = clock;
     }
 
-    String formatTimestamp(Instant timestamp) {
+    public String formatTimestamp(Instant timestamp) {
         long elapsedMinutes = elapsedTimeSince(timestamp, MINUTES);
         if (elapsedMinutes > 0) {
             return formatWithUnit(elapsedMinutes, MINUTES);

@@ -5,7 +5,7 @@ import com.github.richardjwild.blather.command.ReadCommand;
 import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Output;
-import com.github.richardjwild.blather.messageformatting.ReadMessageFormatter;
+import com.github.richardjwild.blather.messageformatting.TimestampFormatter;
 import com.github.richardjwild.blather.parsing.ParsedInput;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +31,7 @@ public class ReadCommandFactoryShould {
     private UserRepository userRepository;
 
     @Mock
-    private ReadMessageFormatter readMessageFormatter;
+    private TimestampFormatter timestampFormatter;
 
     @Mock
     private Output output;
@@ -39,14 +39,14 @@ public class ReadCommandFactoryShould {
     @Test
     public void make_a_read_command() {
         CommandFactory readCommandFactory = new ReadCommandFactory(
-                messageRepository, userRepository, readMessageFormatter, output);
+                messageRepository, userRepository, timestampFormatter, output);
         when(parsedInput.verb()).thenReturn(READ);
         when(parsedInput.readCommandSubject()).thenReturn(SUBJECT);
 
         Command command = readCommandFactory.makeCommandFor(parsedInput);
 
         ReadCommand expectedCommand = new ReadCommand(SUBJECT, messageRepository, userRepository,
-                readMessageFormatter, output);
+                timestampFormatter, output);
         assertThat(command).isEqualTo(expectedCommand);
     }
 }

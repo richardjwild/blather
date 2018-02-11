@@ -5,12 +5,10 @@ import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Input;
 import com.github.richardjwild.blather.io.Output;
-import com.github.richardjwild.blather.messageformatting.ReadMessageFormatter;
-import com.github.richardjwild.blather.messageformatting.WallMessageFormatter;
+import com.github.richardjwild.blather.messageformatting.TimestampFormatter;
 import com.github.richardjwild.blather.parsing.CommandReader;
 import com.github.richardjwild.blather.parsing.InputParser;
 import com.github.richardjwild.blather.time.Clock;
-import com.github.richardjwild.blather.messageformatting.TimestampFormatter;
 
 public class ApplicationBuilder {
 
@@ -23,10 +21,6 @@ public class ApplicationBuilder {
         Controller controller = new Controller();
 
         TimestampFormatter timestampFormatter = new TimestampFormatter(clock);
-        ReadMessageFormatter readMessageFormatter = new ReadMessageFormatter(
-                timestampFormatter);
-        WallMessageFormatter wallMessageFormatter = new WallMessageFormatter(
-                readMessageFormatter);
 
         CommandFactories commandFactories = new CommandFactories(
                 new FollowCommandFactory(userRepository),
@@ -35,12 +29,12 @@ public class ApplicationBuilder {
                 new ReadCommandFactory(
                         messageRepository,
                         userRepository,
-                        readMessageFormatter,
+                        timestampFormatter,
                         output),
                 new WallCommandFactory(
                         userRepository,
                         messageRepository,
-                        wallMessageFormatter,
+                        timestampFormatter,
                         output));
 
         CommandReader commandReader = new CommandReader(

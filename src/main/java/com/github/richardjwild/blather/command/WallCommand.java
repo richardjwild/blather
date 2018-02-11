@@ -5,7 +5,7 @@ import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.User;
 import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Output;
-import com.github.richardjwild.blather.messageformatting.WallMessageFormatter;
+import com.github.richardjwild.blather.messageformatting.TimestampFormatter;
 
 import java.util.Optional;
 
@@ -15,23 +15,23 @@ import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCod
 
 public class WallCommand implements Command {
 
-    private final String followerUserName;
-    private final UserRepository userRepository;
-    private final MessageRepository messageRepository;
-    private final WallMessageFormatter messageFormatter;
-    private final Output output;
+    private String followerUserName;
+    private UserRepository userRepository;
+    private MessageRepository messageRepository;
+    private TimestampFormatter timestampFormatter;
+    private Output output;
 
     public WallCommand(
             String followerUserName,
             UserRepository userRepository,
             MessageRepository messageRepository,
-            WallMessageFormatter messageFormatter,
+            TimestampFormatter timestampFormatter,
             Output output)
     {
         this.followerUserName = followerUserName;
         this.userRepository = userRepository;
         this.messageRepository = messageRepository;
-        this.messageFormatter = messageFormatter;
+        this.timestampFormatter = timestampFormatter;
         this.output = output;
     }
 
@@ -48,8 +48,12 @@ public class WallCommand implements Command {
         follower.following()
                 .flatMap(messageRepository::allMessagesPostedTo)
                 .sorted(comparing(Message::timestamp))
-                .map(messageFormatter::format)
+                .map(this::format)
                 .forEach(output::writeLine);
+    }
+
+    private String format(Message message) {
+        return message.formatWall(timestampFormatter);
     }
 
     @Override

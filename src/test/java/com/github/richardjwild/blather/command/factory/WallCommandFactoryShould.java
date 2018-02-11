@@ -5,7 +5,7 @@ import com.github.richardjwild.blather.command.WallCommand;
 import com.github.richardjwild.blather.datatransfer.MessageRepository;
 import com.github.richardjwild.blather.datatransfer.UserRepository;
 import com.github.richardjwild.blather.io.Output;
-import com.github.richardjwild.blather.messageformatting.WallMessageFormatter;
+import com.github.richardjwild.blather.messageformatting.TimestampFormatter;
 import com.github.richardjwild.blather.parsing.ParsedInput;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +31,7 @@ public class WallCommandFactoryShould {
     private MessageRepository messageRepository;
 
     @Mock
-    private WallMessageFormatter wallMessageFormatter;
+    private TimestampFormatter timestampFormatter;
 
     @Mock
     private Output output;
@@ -39,14 +39,14 @@ public class WallCommandFactoryShould {
     @Test
     public void make_a_wall_command() {
         CommandFactory commandFactories = new WallCommandFactory(
-                userRepository, messageRepository, wallMessageFormatter, output);
+                userRepository, messageRepository, timestampFormatter, output);
         when(parsedInput.verb()).thenReturn(WALL);
         when(parsedInput.wallCommandSubject()).thenReturn(SUBJECT);
 
         Command command = commandFactories.makeCommandFor(parsedInput);
 
         WallCommand expectedCommand = new WallCommand(SUBJECT, userRepository, messageRepository,
-                wallMessageFormatter, output);
+                timestampFormatter, output);
         assertThat(command).isEqualTo(expectedCommand);
     }
 }
