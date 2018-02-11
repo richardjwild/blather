@@ -8,7 +8,7 @@ import java.util.StringJoiner;
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
 
-public class Message {
+public class Message implements Comparable<Message> {
 
     private final User recipient;
     private final String text;
@@ -18,10 +18,6 @@ public class Message {
         this.recipient = recipient;
         this.text = text;
         this.timestamp = timestamp;
-    }
-
-    public Instant timestamp() {
-        return timestamp;
     }
 
     public String formatRead(TimestampFormatter timestampFormatter) {
@@ -36,6 +32,11 @@ public class Message {
                 .add(recipient.name())
                 .add(formatRead(timestampFormatter))
                 .toString();
+    }
+
+    @Override
+    public int compareTo(Message other) {
+        return timestamp.compareTo(other.timestamp);
     }
 
     @Override

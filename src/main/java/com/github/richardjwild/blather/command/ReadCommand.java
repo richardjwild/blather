@@ -9,17 +9,16 @@ import com.github.richardjwild.blather.time.TimestampFormatter;
 
 import java.util.Optional;
 
-import static java.util.Comparator.comparing;
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
 
 public class ReadCommand implements Command {
 
-    private String recipientUserName;
-    private MessageRepository messageRepository;
-    private UserRepository userRepository;
-    private TimestampFormatter timestampFormatter;
-    private Output output;
+    private final String recipientUserName;
+    private final MessageRepository messageRepository;
+    private final UserRepository userRepository;
+    private final TimestampFormatter timestampFormatter;
+    private final Output output;
 
     public ReadCommand(
             String recipientUserName,
@@ -46,7 +45,7 @@ public class ReadCommand implements Command {
 
     private void printAllMessagesPostedToRecipient(User recipient) {
         messageRepository.allMessagesPostedTo(recipient)
-                .sorted(comparing(Message::timestamp))
+                .sorted()
                 .map(this::format)
                 .forEach(output::writeLine);
     }

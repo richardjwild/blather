@@ -13,7 +13,6 @@ import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.time.Instant;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -21,8 +20,6 @@ import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ReadCommandShould {
-
-    private static final Instant AN_INSTANT_IN_TIME = Instant.now();
 
     @Mock
     private Output output;
@@ -41,8 +38,8 @@ public class ReadCommandShould {
 
     @Before
     public void initialize() {
-        when(earlierMessage.timestamp()).thenReturn(AN_INSTANT_IN_TIME);
-        when(laterMessage.timestamp()).thenReturn(AN_INSTANT_IN_TIME.plusSeconds(1));
+        when(earlierMessage.compareTo(laterMessage)).thenReturn(-1);
+        when(laterMessage.compareTo(earlierMessage)).thenReturn(1);
     }
 
     @Test
@@ -72,6 +69,11 @@ public class ReadCommandShould {
     }
 
     private ReadCommand readCommandForUserName(String userName) {
-        return new ReadCommand(userName, messageRepository, userRepository, timestampFormatter, output);
+        return new ReadCommand(
+                userName,
+                messageRepository,
+                userRepository,
+                timestampFormatter,
+                output);
     }
 }

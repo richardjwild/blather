@@ -42,4 +42,25 @@ public class MessageShould {
 
         assertThat(formattedMessage).isEqualTo("recipient - message text (AN_INSTANT_IN_TIME)");
     }
+
+    @Test
+    public void be_comparatively_greater_than_a_message_with_earlier_timestamp() {
+        Message earlier = new Message(RECIPIENT, "message text", TIMESTAMP.minusSeconds(1));
+
+        assertThat(message.compareTo(earlier)).isEqualTo(1);
+    }
+
+    @Test
+    public void be_comparatively_lesser_than_a_message_with_later_timestamp() {
+        Message later = new Message(RECIPIENT, "message text", TIMESTAMP.plusSeconds(1));
+
+        assertThat(message.compareTo(later)).isEqualTo(-1);
+    }
+
+    @Test
+    public void be_comparatively_equal_to_a_message_with_the_same_timestamp() {
+        Message simultaneous = new Message(RECIPIENT, "message text", TIMESTAMP);
+
+        assertThat(message.compareTo(simultaneous)).isEqualTo(0);
+    }
 }

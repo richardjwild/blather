@@ -9,17 +9,16 @@ import com.github.richardjwild.blather.time.TimestampFormatter;
 
 import java.util.Optional;
 
-import static java.util.Comparator.comparing;
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
 
 public class WallCommand implements Command {
 
-    private String followerUserName;
-    private UserRepository userRepository;
-    private MessageRepository messageRepository;
-    private TimestampFormatter timestampFormatter;
-    private Output output;
+    private final String followerUserName;
+    private final UserRepository userRepository;
+    private final MessageRepository messageRepository;
+    private final TimestampFormatter timestampFormatter;
+    private final Output output;
 
     public WallCommand(
             String followerUserName,
@@ -47,7 +46,7 @@ public class WallCommand implements Command {
     private void printWallMessages(User follower) {
         follower.following()
                 .flatMap(messageRepository::allMessagesPostedTo)
-                .sorted(comparing(Message::timestamp))
+                .sorted()
                 .map(this::format)
                 .forEach(output::writeLine);
     }
