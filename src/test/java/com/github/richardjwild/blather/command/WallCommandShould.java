@@ -35,7 +35,8 @@ public class WallCommandShould {
 
     @Mock
     private Message firstPost, aliceFirstPost, jillHelloWorld,
-            aliceTwoSecondsAgo, aliceRightNow, jillOneSecondAgo;
+            aliceTwoSecondsAgo, aliceRightNow, jillOneSecondAgo,
+            bobRightNow;
 
     @Test
     public void print_all_messages_posted_to_one_followed_user() {
@@ -45,6 +46,7 @@ public class WallCommandShould {
         bob.follow(alice);
 
         when(userRepository.find("Bob")).thenReturn(Optional.of(bob));
+        when(messageRepository.allMessagesPostedTo(bob)).thenReturn(Stream.empty());
         when(messageRepository.allMessagesPostedTo(alice)).thenReturn(stream(firstPost));
         when(firstPost.formatWall(timestampFormatter)).thenReturn("alice first post message");
 
@@ -65,6 +67,7 @@ public class WallCommandShould {
         bob.follow(jill);
 
         when(userRepository.find("Bob")).thenReturn(Optional.of(bob));
+        when(messageRepository.allMessagesPostedTo(bob)).thenReturn(Stream.empty());
         when(messageRepository.allMessagesPostedTo(alice)).thenReturn(stream(aliceFirstPost));
         when(messageRepository.allMessagesPostedTo(jill)).thenReturn(stream(jillHelloWorld));
         when(aliceFirstPost.formatWall(timestampFormatter)).thenReturn("alice first post message");
@@ -91,6 +94,7 @@ public class WallCommandShould {
         bob.follow(jill);
 
         when(userRepository.find("Bob")).thenReturn(Optional.of(bob));
+        when(messageRepository.allMessagesPostedTo(bob)).thenReturn(Stream.empty());
         when(messageRepository.allMessagesPostedTo(alice)).thenReturn(stream(aliceTwoSecondsAgo, aliceRightNow));
         when(messageRepository.allMessagesPostedTo(jill)).thenReturn(stream(jillOneSecondAgo));
 
@@ -108,6 +112,30 @@ public class WallCommandShould {
         inOrder.verify(output).writeLine("alice two seconds ago");
         inOrder.verify(output).writeLine("jill one second ago");
         inOrder.verify(output).writeLine("alice right now");
+    }
+
+    @Test
+    public void also_print_the_followers_own_messages() {
+        User bob = new User("Bob");
+        User alice = new User("Alice");
+
+        bob.follow(alice);
+
+        when(userRepository.find("Bob")).thenReturn(Optional.of(bob));
+        when(messageRepository.allMessagesPostedTo(alice)).thenReturn(stream(aliceTwoSecondsAgo));
+        when(messageRepository.allMessagesPostedTo(bob)).thenReturn(stream(bobRightNow));
+
+        when(aliceTwoSecondsAgo.formatWall(timestampFormatter)).thenReturn("alice two seconds ago");
+        when(bobRightNow.formatWall(timestampFormatter)).thenReturn("bob right now");
+
+        messageOrderIs(aliceTwoSecondsAgo, bobRightNow);
+        WallCommand wallCommand = new WallCommand("Bob", userRepository, messageRepository,
+                timestampFormatter, output);
+        wallCommand.execute();
+
+        InOrder inOrder = inOrder(output);
+        inOrder.verify(output).writeLine("alice two seconds ago");
+        inOrder.verify(output).writeLine("bob right now");
     }
 
     private Stream<Message> stream(Message... messages) {

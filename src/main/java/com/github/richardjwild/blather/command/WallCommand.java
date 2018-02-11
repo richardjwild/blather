@@ -1,11 +1,11 @@
 package com.github.richardjwild.blather.command;
 
+import com.github.richardjwild.blather.io.Output;
 import com.github.richardjwild.blather.message.Message;
 import com.github.richardjwild.blather.message.MessageRepository;
+import com.github.richardjwild.blather.time.TimestampFormatter;
 import com.github.richardjwild.blather.user.User;
 import com.github.richardjwild.blather.user.UserRepository;
-import com.github.richardjwild.blather.io.Output;
-import com.github.richardjwild.blather.time.TimestampFormatter;
 
 import java.util.Optional;
 
@@ -44,7 +44,7 @@ public class WallCommand implements Command {
     }
 
     private void printWallMessages(User follower) {
-        follower.following()
+        follower.wallUsers()
                 .flatMap(messageRepository::allMessagesPostedTo)
                 .sorted()
                 .map(this::format)

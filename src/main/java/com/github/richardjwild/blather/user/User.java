@@ -17,8 +17,8 @@ public class User {
         return name;
     }
 
-    public Stream<User> following() {
-        return usersFollowing.stream();
+    public Stream<User> wallUsers() {
+        return Stream.concat(usersFollowing.stream(), Stream.of(this));
     }
 
     public void follow(User following) {

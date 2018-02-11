@@ -9,6 +9,7 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.List;
 import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
@@ -36,7 +37,9 @@ public class FollowCommandShould {
         followCommand.execute();
 
         verify(userRepository).save(follower);
-        assertThat(follower.following().collect(toList())).containsOnly(following);
+        List<User> wallUsers = follower.wallUsers().collect(toList());
+        assertThat(wallUsers).hasSize(2);
+        assertThat(wallUsers).contains(following);
     }
 
     @Test
