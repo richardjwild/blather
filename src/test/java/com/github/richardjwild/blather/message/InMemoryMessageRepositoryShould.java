@@ -1,5 +1,6 @@
 package com.github.richardjwild.blather.message;
 
+import com.github.richardjwild.blather.persistence.InMemoryMessageRepository;
 import com.github.richardjwild.blather.user.User;
 import org.junit.Test;
 
@@ -10,7 +11,7 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 import static org.fest.assertions.Assertions.assertThat;
 
-public class MessageRepositoryShould {
+public class InMemoryMessageRepositoryShould {
 
     private static final User RECIPIENT_1 = new User("recipient1");
     private static final User RECIPIENT_2 = new User("recipient2");
@@ -24,7 +25,7 @@ public class MessageRepositoryShould {
     private static final Message MESSAGE_2_FOR_RECIPIENT_1 = new Message(RECIPIENT_1, TEXT_2, TIMESTAMP_2);
     private static final Message MESSAGE_1_FOR_RECIPIENT_2 = new Message(RECIPIENT_2, TEXT_3, TIMESTAMP_3);
 
-    private final MessageRepository messageRepository = new MessageRepository();
+    private final MessageRepository messageRepository = new InMemoryMessageRepository();
 
     @Test
     public void store_all_messages_posted_to_a_recipient() {

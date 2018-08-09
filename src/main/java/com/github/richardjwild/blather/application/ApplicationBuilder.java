@@ -2,6 +2,7 @@ package com.github.richardjwild.blather.application;
 
 import com.github.richardjwild.blather.command.factory.*;
 import com.github.richardjwild.blather.message.MessageRepository;
+import com.github.richardjwild.blather.persistence.InMemoryMessageRepository;
 import com.github.richardjwild.blather.user.UserRepository;
 import com.github.richardjwild.blather.io.Input;
 import com.github.richardjwild.blather.io.Output;
@@ -15,7 +16,7 @@ public class ApplicationBuilder {
     public static Application build(Input input, Output output, Clock clock) {
 
         UserRepository userRepository = new UserRepository();
-        MessageRepository messageRepository = new MessageRepository();
+        MessageRepository messageRepository = new InMemoryMessageRepository();
 
         InputParser inputParser = new InputParser();
         Controller controller = new Controller();
