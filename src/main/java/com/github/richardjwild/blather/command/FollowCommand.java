@@ -35,8 +35,10 @@ public class FollowCommand implements Command {
 
     private void addFollower(User toFollow) {
         User follower = findOrCreateFollower();
-        follower.follow(toFollow);
-        userRepository.save(follower);
+        if (!follower.equals(toFollow)) {
+            follower.follow(toFollow);
+            userRepository.save(follower);
+        }
     }
 
     private User findOrCreateFollower() {

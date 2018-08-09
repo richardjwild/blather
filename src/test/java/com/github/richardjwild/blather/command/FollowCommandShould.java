@@ -17,8 +17,8 @@ import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 import static org.fest.assertions.Assertions.assertThat;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FollowCommandShould {
@@ -65,6 +65,17 @@ public class FollowCommandShould {
         User actualUser = userCaptor.getValue();
         assertThat(actualUser).isEqualTo(follower);
         assertThat(actualUser).isNotSameAs(follower);
+    }
+    
+    @Test
+    public void not_allow_a_user_to_follow_themselves() {
+        User follower = mock(User.class);
+        when(userRepository.find("follower")).thenReturn(Optional.of(follower));
+        Command followCommand = makeFollowCommand("follower", "follower");
+
+        followCommand.execute();
+        verify(follower, never()).follow(follower);
+        verify(userRepository, never()).save(follower);
     }
 
     private Command makeFollowCommand(String follower, String following) {
