@@ -1,21 +1,22 @@
 package com.github.richardjwild.blather.application;
 
 import com.github.richardjwild.blather.command.factory.*;
-import com.github.richardjwild.blather.message.MessageRepository;
-import com.github.richardjwild.blather.persistence.InMemoryMessageRepository;
-import com.github.richardjwild.blather.user.UserRepository;
 import com.github.richardjwild.blather.io.Input;
 import com.github.richardjwild.blather.io.Output;
-import com.github.richardjwild.blather.time.TimestampFormatter;
+import com.github.richardjwild.blather.message.MessageRepository;
 import com.github.richardjwild.blather.parsing.CommandReader;
 import com.github.richardjwild.blather.parsing.InputParser;
+import com.github.richardjwild.blather.persistence.InMemoryMessageRepository;
+import com.github.richardjwild.blather.persistence.InMemoryUserRepository;
 import com.github.richardjwild.blather.time.Clock;
+import com.github.richardjwild.blather.time.TimestampFormatter;
+import com.github.richardjwild.blather.user.UserRepository;
 
 public class ApplicationBuilder {
 
     public static Application build(Input input, Output output, Clock clock) {
 
-        UserRepository userRepository = new UserRepository();
+        UserRepository userRepository = new InMemoryUserRepository();
         MessageRepository messageRepository = new InMemoryMessageRepository();
 
         InputParser inputParser = new InputParser();

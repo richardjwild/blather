@@ -1,14 +1,16 @@
-package com.github.richardjwild.blather.user;
+package com.github.richardjwild.blather.persistence;
 
+import com.github.richardjwild.blather.user.User;
+import com.github.richardjwild.blather.user.UserRepository;
 import org.junit.Test;
 
 import java.util.Optional;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class UserRepositoryShould {
+public class InMemoryUserRepositoryShould {
 
-    private UserRepository userRepository = new UserRepository();
+    private UserRepository userRepository = new InMemoryUserRepository();
 
     @Test
     public void return_empty_when_user_not_found() {
