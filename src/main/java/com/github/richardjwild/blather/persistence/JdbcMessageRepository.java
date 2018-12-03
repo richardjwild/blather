@@ -18,26 +18,34 @@ public class JdbcMessageRepository extends JdbcRepository implements MessageRepo
 
     @Override
     public void postMessage(User recipient, Message message) {
-        execute(String.format("INSERT INTO messages (user_name, text, \"timestamp\") " +
-                "VALUES ('%s','%s',SYSDATE)", recipient.name(), message.text()));
+        execute("INSERT INTO messages (user_name, text, \"timestamp\") VALUES (?,?,SYSDATE)",
+                recipient.name(), message.text());
     }
 
     @Override
     public Stream<Message> allMessagesPostedTo(User recipient) {
-        String sql = String.format("SELECT text, \"timestamp\" FROM messages " +
-                "WHERE user_name = '%s'", recipient.name());
-        List<Message> messages = new ArrayList<>();
-        try (
-                PreparedStatement pstmt = connection.prepareStatement(sql);
-                ResultSet rs = pstmt.executeQuery()
-        ) {
-            while (rs.next()) {
-                messages.add(new Message(recipient, rs.getString(1), rs.getTimestamp(2).toInstant()));
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            try {
+                pstmt = connection.prepareStatement(
+                        "SELECT text, \"timestamp\" FROM messages WHERE user_name = ?");
+                pstmt.setString(1, recipient.name());
+                rs = pstmt.executeQuery();
+                List<Message> messages = new ArrayList<>();
+                while (rs.next()) {
+                    messages.add(new Message(recipient, rs.getString(1), rs.getTimestamp(2).toInstant()));
+                }
+                return messages.stream();
+            } finally {
+                if (rs != null)
+                    rs.close();
+                if (pstmt != null)
+                    pstmt.close();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage(), e);
         }
-        return messages.stream();
     }
 
 }
