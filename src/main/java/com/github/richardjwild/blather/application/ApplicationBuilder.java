@@ -8,16 +8,25 @@ import com.github.richardjwild.blather.parsing.CommandReader;
 import com.github.richardjwild.blather.parsing.InputParser;
 import com.github.richardjwild.blather.persistence.InMemoryMessageRepository;
 import com.github.richardjwild.blather.persistence.InMemoryUserRepository;
+import com.github.richardjwild.blather.persistence.JdbcMessageRepository;
+import com.github.richardjwild.blather.persistence.JdbcUserRepository;
 import com.github.richardjwild.blather.time.Clock;
 import com.github.richardjwild.blather.time.TimestampFormatter;
 import com.github.richardjwild.blather.user.UserRepository;
+import oracle.jdbc.pool.OracleConnectionPoolDataSource;
+import oracle.jdbc.pool.OracleDataSource;
+
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class ApplicationBuilder {
 
     public static Application build(Input input, Output output, Clock clock) {
 
-        UserRepository userRepository = new InMemoryUserRepository();
-        MessageRepository messageRepository = new InMemoryMessageRepository();
+        Connection connection = connection();
+        UserRepository userRepository = new JdbcUserRepository(connection);
+        MessageRepository messageRepository = new JdbcMessageRepository(connection);
 
         InputParser inputParser = new InputParser();
         Controller controller = new Controller();
@@ -46,5 +55,15 @@ public class ApplicationBuilder {
 
         EventLoop eventLoop = new EventLoop(commandReader, controller);
         return new Application(eventLoop, output);
+    }
+
+    private static Connection connection() {
+        try {
+            OracleDataSource ds = new OracleDataSource();
+            ds.setURL("jdbc:oracle:thin:blather/blather@//localhost:1521/XE");
+            return ds.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
     }
 }

@@ -21,6 +21,10 @@ public class Message implements Comparable<Message> {
         this.timestamp = timestamp;
     }
 
+    public String text() {
+        return text;
+    }
+
     public String formatRead(TimestampFormatter timestampFormatter) {
         return new StringJoiner(" ")
                 .add(text)

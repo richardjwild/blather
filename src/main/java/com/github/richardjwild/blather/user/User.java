@@ -1,6 +1,7 @@
 package com.github.richardjwild.blather.user;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -23,6 +24,10 @@ public class User {
 
     public void follow(User following) {
         usersFollowing.add(following);
+    }
+
+    public Set<User> following() {
+        return usersFollowing;
     }
 
     @Override
