@@ -12,6 +12,7 @@ import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.io.IOException;
 import java.time.Instant;
 
 import static org.mockito.Mockito.inOrder;
@@ -37,7 +38,7 @@ public class BlatherShould {
     private Application application;
 
     @Before
-    public void initialize() {
+    public void initialize() throws IOException {
         application = ApplicationBuilder.build(input, output, clock);
     }
 
