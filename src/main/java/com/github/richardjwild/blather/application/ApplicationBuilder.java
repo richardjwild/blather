@@ -6,17 +6,13 @@ import com.github.richardjwild.blather.io.Output;
 import com.github.richardjwild.blather.message.MessageRepository;
 import com.github.richardjwild.blather.parsing.CommandReader;
 import com.github.richardjwild.blather.parsing.InputParser;
-import com.github.richardjwild.blather.persistence.InMemoryMessageRepository;
-import com.github.richardjwild.blather.persistence.InMemoryUserRepository;
 import com.github.richardjwild.blather.persistence.JdbcMessageRepository;
 import com.github.richardjwild.blather.persistence.JdbcUserRepository;
 import com.github.richardjwild.blather.time.Clock;
 import com.github.richardjwild.blather.time.TimestampFormatter;
 import com.github.richardjwild.blather.user.UserRepository;
-import oracle.jdbc.pool.OracleConnectionPoolDataSource;
 import oracle.jdbc.pool.OracleDataSource;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
