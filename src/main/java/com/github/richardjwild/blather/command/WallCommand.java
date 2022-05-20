@@ -8,9 +8,6 @@ import com.github.richardjwild.blather.user.UserRepository;
 
 import java.util.stream.Stream;
 
-import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
-import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
-
 public class WallCommand implements Command {
 
     private final Output output;
@@ -38,15 +35,5 @@ public class WallCommand implements Command {
     @Override
     public void execute() {
         formattedMessages.forEach(output::writeLine);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        return reflectionEquals(this, o);
-    }
-
-    @Override
-    public int hashCode() {
-        return reflectionHashCode(this);
     }
 }

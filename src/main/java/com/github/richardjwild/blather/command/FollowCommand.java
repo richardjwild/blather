@@ -5,9 +5,6 @@ import com.github.richardjwild.blather.user.UserRepository;
 
 import java.util.Optional;
 
-import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
-import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode;
-
 public class FollowCommand implements Command {
 
     private final String followerUserName;
@@ -51,15 +48,5 @@ public class FollowCommand implements Command {
 
     private User createFollower() {
         return new User(followerUserName);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        return reflectionEquals(this, o);
-    }
-
-    @Override
-    public int hashCode() {
-        return reflectionHashCode(this);
     }
 }
